@@ -25,14 +25,13 @@ Other assembler and scaffolder are available within the pipeline, to change, you
 Software used that would require local installation:
 LongQC
 MitoHifi
-Juicer
 
 Software that relies on locally downloaded files / databases :
 Busco
 Kraken
 
 
-## Running the pipeline with test data
+## Running the pipeline with test data (will work once the repo is public)
 
 To run this pipeline, you need nextflow, conda and singularity installed on your system.
 A set of test data are available in this repo to allow you to test the pipeline with just one command line
