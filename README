@@ -1,0 +1,16 @@
+## Creating test data with covid data
+wget https://downloads.pacbcloud.com/public/dataset/HiFiViral/Jan_2022/m64187e_211217_130958.hifi_reads.bam
+
+/gsc/software/linux-x86_64-centos7/samtools-1.10/bin/samtools view -b /projects/cbp/scratch/github/m64187e_211217_130958.hifi_reads.bam -s 123.001 > subset_covid_hifi.bam
+
+
+
+## Creating test data with non human data
+
+/gsc/software/linux-x86_64-centos7/samtools-1.10/bin/samtools view -b /projects/cbp/cbp_data/Arctic_surfclam_005/WMPJWW1/JON21871.20221017/CBP00078_137PM_CELL1/demultiplex.bc2032--bc2032.bam | head -500 > test_data_pacbio.bam
+
+
+
+
+
+/gsc/software/linux-x86_64-centos7/samtools-1.10/bin/samtools view -b /projects/cbp/cbp_data/Arctic_surfclam_005/WMPJWW1/JON21871.20221017/CBP00078_137PM_CELL1/demultiplex.bc2032--bc2032.bam -s 123.001 > test_data_pacbio.bam
