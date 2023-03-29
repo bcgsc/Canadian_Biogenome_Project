@@ -46,7 +46,7 @@ include { MERYL_UNIONSUM } from './modules/meryl/unionsum/main.nf'
 include { MERYL_HISTOGRAM } from './modules/meryl/histogram/main.nf'
 include { GENOMESCOPE2 } from './modules/genomescope2/main.nf'
 include { KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_PACBIO_BAM; KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_HIC_READS; KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_SR_READS; KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_ONT_READS } from './modules/kraken2/main.nf'
-include { COVERAGE_CALCULATION } from '/modules/coverage_calculation/main.nf'
+include { COVERAGE_CALCULATION } from './modules/coverage_calculation/main.nf'
 
 //Assembly
 //HifiASM
@@ -567,6 +567,7 @@ workflow {
 		BLOBTOOLS_VIEW_SNAIL(BLOBTOOLS_ADD.out.blobtools_folder)
 		BLOBTOOLS_VIEW_BLOB(BLOBTOOLS_ADD.out.blobtools_folder)
 		BLOBTOOLS_VIEW_CUMULATIVE(BLOBTOOLS_ADD.out.blobtools_folder)
+*/
 	} else {
 		quast_scaffold = file('quast_scaffold_dummy')
                 chrom_size = [
@@ -574,7 +575,7 @@ workflow {
                         [ file('chrom_size_dummy')]
                 ]
 	}
-*/
+
 
 //BUSCO is commented out as it requires local database
 /*
