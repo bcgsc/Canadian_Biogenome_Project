@@ -38,7 +38,7 @@ To run this pipeline, you need nextflow, conda and singularity installed on your
 A set of test data are available in this repo to allow you to test the pipeline with just one command line
 
 ```
-nextflow run bcgsc/cbp -latest -r dev
+nextflow run bcgsc/Canadian_Biogenome_Project -latest -r dev
 ```
 
 The output should not make any sense, the files are dummy files used to test the pipeline.
@@ -73,3 +73,9 @@ wget https://downloads.pacbcloud.com/public/dataset/HiFiViral/Jan_2022/m64187e_2
 samtools view -b m64187e_211217_130958.hifi_reads.bam -s 123.001 > subset_covid_hifi.bam
 ```
 
+The Hi-C data was downloaded from one of the nf-core test dataset
+
+```
+wget https://github.com/nf-core/test-datasets/blob/modules/data/genomics/sarscov2/illumina/fastq/test_1.fastq.gz?raw=true
+wget https://github.com/nf-core/test-datasets/blob/modules/data/genomics/sarscov2/illumina/fastq/test_2.fastq.gz?raw=true
+```
