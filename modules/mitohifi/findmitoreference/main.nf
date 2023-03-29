@@ -16,7 +16,7 @@ process FIND_MITO_REFERENCE {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"    
     """
-    /projects/cbp/scratch/singularity/MitoHiFi/findMitoReference.py \\
+    findMitoReference.py \\
     --species "$specie" \\
     --email $params.email \\
     --outfolder . \\

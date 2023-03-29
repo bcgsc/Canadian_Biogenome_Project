@@ -13,7 +13,7 @@ process BLOBTOOLS_VIEW_BLOB {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"    
     """
-    singularity exec -B /projects /projects/cbp/scratch/singularity/blobtoolkit-blobtools_latest.sif blobtools view \\
+    singularity exec -B /projects blobtoolkit-blobtools_latest.sif blobtools view \\
         --host http://localhost \\
 	--timeout 60 \\
 	--ports 8010-8099 \\

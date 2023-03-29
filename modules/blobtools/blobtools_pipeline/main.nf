@@ -22,8 +22,6 @@ process BLOBTOOLS_PIPELINE {
     # Load the Conda environment containing snakemake
     source activate blobtools
 
-    #cp -r /projects/cbp/scratch/Arctic_surfclam_005/hifiasm_purgedups_yahs/blobtoolkit-2.0.0 .
-
     # Run the snakemake pipeline
     #Directory is where the log files are going to be created
     snakemake -p \
@@ -32,7 +30,7 @@ process BLOBTOOLS_PIPELINE {
           --configfile $config \
           --latency-wait 60 \
           --stats blobtoolkit.stats \
-          -s /projects/cbp/scratch/blobtoolkit/insdc-pipeline/blobtoolkit.smk
+          -s blobtoolkit/insdc-pipeline/blobtoolkit.smk
 
     cp blastn/*.blastn.nt.out .
     cp diamond/*.diamond.reference_proteomes.out .

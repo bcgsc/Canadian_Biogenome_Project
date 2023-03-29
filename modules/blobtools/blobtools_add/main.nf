@@ -13,19 +13,18 @@ process BLOBTOOLS_ADD {
     tuple val(meta), path(blobtools_folder)
 
     output:
-//    tuple val(meta), path("${meta.id}/*.json"), emit: json
     tuple val(meta), path("${meta.id}"), emit: blobtools_folder
  
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"    
     """
-    singularity exec -B /projects /projects/cbp/scratch/singularity/blobtoolkit-blobtools_latest.sif blobtools add \
+    singularity exec -B /projects blobtoolkit-blobtools_latest.sif blobtools add \
     	--hits ${blast_out} \
 	--hits ${diamond_proteome_out} \
         --hits ${diamond_busco_out} \
 	--taxrule bestsumorder \
-	--taxdump /projects/CanSeq/BlobtoolkitDatabase/taxdump \
+	--taxdump BlobtoolkitDatabase/taxdump \
 	--cov ${assembly_minimap_bam} \
 	--cov ${hic_minimap_bam} \
 	--busco ${lineage1_full_table_tsv} \

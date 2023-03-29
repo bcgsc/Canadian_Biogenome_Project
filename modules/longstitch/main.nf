@@ -2,7 +2,7 @@ process LONGSTITCH {
     tag "$meta.id"
     label 'process_high'
 
-//    conda "bioconda::longstitch"
+    conda "bioconda::longstitch"
 //    container "https://depot.galaxyproject.org/singularity/longstitch%3A1.0.3--hdfd78af_0"
     container "docker://quay.io/biocontainers/longstitch:1.0.2--hdfd78af_0"
 

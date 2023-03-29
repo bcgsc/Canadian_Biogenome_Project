@@ -20,7 +20,7 @@ process BLOBTOOLS_CONFIG {
       level: scaffold
       prefix: ${meta.id}
     busco:
-      download_dir: /projects/cbp/scratch/busco_downloads/
+      download_dir: busco_downloads/
       lineages:
         - ${params.lineage}
         - ${params.lineage2}
@@ -42,7 +42,7 @@ process BLOBTOOLS_CONFIG {
       blast_max_chunks: 10
       blast_overlap: 0
       blast_min_length: 1000
-      taxdump: /projects/CanSeq/BlobtoolkitDatabase/taxdump 
+      taxdump: BlobtoolkitDatabase/taxdump 
       tmp: /tmp
     similarity:
       defaults:
@@ -52,14 +52,14 @@ process BLOBTOOLS_CONFIG {
         taxrule: bestdistorder
       diamond_blastx:
         name: reference_proteomes
-        path: /projects/CanSeq/BlobtoolkitDatabase/uniprot
+        path: BlobtoolkitDatabase/uniprot
       diamond_blastp:
         name: reference_proteomes
-        path: /projects/CanSeq/BlobtoolkitDatabase/uniprot
+        path: BlobtoolkitDatabase/uniprot
         import_max_target_seqs: 100000
       blastn:
         name: nt
-        path: /projects/CanSeq/BlobtoolkitDatabase/nt
+        path: BlobtoolkitDatabase/nt
     taxon:
       name: ${params.taxon_name}
       taxid: '${params.taxon_taxid}'
