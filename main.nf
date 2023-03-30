@@ -377,7 +377,7 @@ workflow {
 	}
 
 	//QC post assembly
-	if (params.assembly_method == 'hifiasm') {
+	if ((params.assembly_method == 'hifiasm')&& (params.ploidy != '1')) {
 	        QUAST1_DOUBLE (assembly_primary, assembly_alternate, quast_fasta, quast_gff, false, false )
 	        mqc_input = mqc_input.mix(QUAST1_DOUBLE.out.tsv)
 		quast_contig = QUAST1_DOUBLE.out.tsv
@@ -420,7 +420,7 @@ workflow {
         SAMTOOLS_FAIDX1 (PURGEDUPS_GETSEQS.out.purged)
 	purged_primary = PURGEDUPS_GETSEQS.out.purged
 
-        if ((params.assembly_method == 'hifiasm') & (params.ploidy > 1)) {
+        if ((params.assembly_method == 'hifiasm') && (params.ploidy != '1')) {
                 //Merge haplotig from purge_dups and alternate assembly from hifiasm
                 CAT (assembly_alternate, PURGEDUPS_GETSEQS.out.haplotigs)
                 PURGEDUPS_SPLITFA_ALT (CAT.out.alternate_contigs_full)
@@ -513,7 +513,7 @@ workflow {
 			scaffold_bin 		= YAHS.out.bin
         		scaffold_index		= SAMTOOLS_FAIDX2.out.fai
 
-		        if ((params.assembly_method == 'hifiasm') & (params.ploidy > 1)) {
+		        if ((params.assembly_method == 'hifiasm') && (params.ploidy != '1')) {
 				CHROMAP_INDEX_ALT(purged_alternate)
 				CHROMAP_CHROMAP_ALT(input_hic_R1_R2, purged_alternate, CHROMAP_INDEX_ALT.out.index, [],[],[],[])
                         	YAHS_ALT(purged_alternate, SAMTOOLS_FAIDX1_ALT.out.fai, CHROMAP_CHROMAP_ALT.out.bam)
@@ -529,7 +529,7 @@ workflow {
 		}
 
 		//Scaffold QC
-        	if ((params.assembly_method == 'hifiasm') & (params.ploidy > 1)) {
+        	if ((params.assembly_method == 'hifiasm') && (params.ploidy != '1')) {
                 	QUAST3_DOUBLE (scaffold, scaffold_alt, quast_fasta, quast_gff, false, false )
                 	mqc_input = mqc_input.mix(QUAST3_DOUBLE.out.tsv)
 			quast_scaffold = QUAST3_DOUBLE.out.tsv
@@ -583,19 +583,19 @@ workflow {
 	//Define which file to run Busco on
 	if (( params.hic_read1 ) && ( params.hic_read2 )) {
 		busco_assembly = scaffold
-		if ((params.assembly_method == 'hifiasm') & (params.ploidy > 1)) {
+		if ((params.assembly_method == 'hifiasm') && (params.ploidy != '1')) {
 			busco_assembly_alt = scaffold_alt
 		}
 	} else {
 		busco_assembly = purged_primary
-		if (( params.assembly_method == 'hifiasm' ) & (params.ploidy > 1)) {
+		if (( params.assembly_method == 'hifiasm' ) && (params.ploidy != '1')) {
 			busco_assembly_alt = purged_alternate
 		}
 	}
 
         BUSCO (busco_assembly, params.lineage, params.busco_lineages_path, [])
         mqc_input = mqc_input.mix(BUSCO.out.short_summaries_txt.collect{it[1]})
-        if ((params.assembly_method == 'hifiasm') & (params.ploidy > 1)) {
+        if ((params.assembly_method == 'hifiasm') && (params.ploidy != '1')) {
                 BUSCO_ALT (busco_assembly_alt, params.lineage, params.busco_lineages_path, [])
                 mqc_input = mqc_input.mix(BUSCO_ALT.out.short_summaries_txt.collect{it[1]})
         }
@@ -604,7 +604,7 @@ workflow {
                 BUSCO_lin2(busco_assembly, params.lineage2, params.busco_lineages_path, [])
                 mqc_input = mqc_input.mix(BUSCO_lin2.out.short_summaries_txt.collect{it[1]})
                 busco_lin2_json = BUSCO_lin2.out.short_summaries_json
-//		if ((params.assembly_method == 'hifiasm') & (params.ploidy > 1)) {
+//		if ((params.assembly_method == 'hifiasm') && (params.ploidy != '1')) {
 //                        BUSCO_lin2ALT (busco_assembly_alt, params.lineage2, params.busco_lineages_path, [])
 //                        mqc_input = mqc_input.mix(BUSCO_lin2ALT.out.short_summaries_txt.collect{it[1]})
 //                }
@@ -618,7 +618,7 @@ workflow {
                 BUSCO_lin3(busco_assembly, params.lineage3, params.busco_lineages_path, [])
                 mqc_input = mqc_input.mix(BUSCO_lin3.out.short_summaries_txt.collect{it[1]})
 		busco_lin3_json = BUSCO_lin3.out.short_summaries_json
-//                if ((params.assembly_method == 'hifiasm') & (params.ploidy > 1)) {
+//                if ((params.assembly_method == 'hifiasm') && (params.ploidy != '1')) {
 //                        BUSCO_lin3ALT (busco_assembly_alt, params.lineage3, params.busco_lineages_path, [])
 //                        mqc_input = mqc_input.mix(BUSCO_lin3ALT.out.short_summaries_txt.collect{it[1]})
 //                }
@@ -632,7 +632,7 @@ workflow {
                 BUSCO_lin4(busco_assembly, params.lineage4, params.busco_lineages_path, [])
                 mqc_input = mqc_input.mix(BUSCO_lin4.out.short_summaries_txt.collect{it[1]})
 		busco_lin4_json = BUSCO_lin4.out.short_summaries_json
-//                if ((params.assembly_method == 'hifiasm') & (params.ploidy > 1)) {
+//                if ((params.assembly_method == 'hifiasm') && (params.ploidy != '1')) {
 //                        BUSCO_lin4ALT (busco_assembly_alt, params.lineage4, params.busco_lineages_path, [])
 //                        mqc_input = mqc_input.mix(BUSCO_lin4ALT.out.short_summaries_txt.collect{it[1]})
 //                }

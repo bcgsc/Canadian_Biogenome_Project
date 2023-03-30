@@ -1,5 +1,4 @@
 ## Introduction
-
 This pipeline is used by the Canadian Biogenome project (http://earthbiogenome.ca) to generate genome assemblies from a variety of species.
 
 The pipeline is built using nextflow (https://www.nextflow.io/).
@@ -8,61 +7,94 @@ In short, each step of the pipeline is included in a module. Most of the modules
 
 A lot of the modules available in this pipeline were developed by members of the nf-core/genomeassembler group, if you want to participate, feel free to join the community.
 
+
+
 ## Input data 
 The pipeline was developped to take as input PacBio ccs files (bam) and Hi-C files (fastq.gz). The pipeline also support the inclusion of nanopore data and short-reads for polishing.
 
 The pipeline also require information related to the specie of interest such as genome size or ploidy. This information can be found on GoaT (https://goat.genomehubs.org).
 
+
+
 ## Output files
 The pipeline generates many files and intermediate files, most are self explanatory. 
 
+
+
 ## Process
-An overview of the pipeline is visible on this image. Some parts of the pipeline may have been commented out in this version as they relied on locaaly installed software. The code is still available in case you also want to locally install the software and try it out.
+An overview of the pipeline is visible on the following subway map. Some parts of the pipeline may have been commented out in this version as they relied on locaaly installed software. The code is still available in case you also want to locally install the software and try it out.
 
 By default, the pipeline will use hifiasm with PacBio data for the assembly, and if Hi-C data is available, YAHS is used for the scaffolding.
 Other assembler and scaffolder are available within the pipeline, to change, you need to edit the nextflow.config file.
 
 Software used that would require local installation:
-LongQC
-MitoHifi
-Juicer
+
+- LongQC
+
+- MitoHifi
+
+- Juicer
 
 Software that relies on locally downloaded files / databases :
-Busco
-Kraken
+
+- Busco
+
+- Kraken
+
+<p align="center">
+    <img title="The Canadian Biogenome Project Workflow" src="https://github.com/bcgsc/Canadian_Biogenome_Project/CBP_workflow.png" width=50%>
+</p>
+<p align="center">
+Figure : Overview of the Canadian Biogenome project assembly pipeline
+</p>
 
 
 ## Running the pipeline with test data (will work once the repo is public)
-
 To run this pipeline, you need nextflow, conda and singularity installed on your system.
-A set of test data are available in this repo to allow you to test the pipeline with just one command line
+
+A set of test data are available in this repo to allow you to test the pipeline with just one command line:
 
 ```
 nextflow run bcgsc/Canadian_Biogenome_Project -latest -r dev
 ```
 
-The output should not make any sense, the files are dummy files used to test the pipeline.
+The outputs are organized in several subfolder that are self-explenatory.
+
+
 
 ## Running the pipeline with your own data
-
-Clone the repository in your local environment
+Clone the repository in your local environment:
 
 ```
 git clone https://github.com/bcgsc/Canadian_Biogenome_Project.git
 cd Canadian_Biogenome_Project
 ```
 
-Modify the nextflow.config file
-	Indicate the location of the input file
-	Indicate the required information
+Modify the nextflow.config file:
+
+- Indicate the location of the input file
+
+- Indicate the required information
 	
+
 Launch the pipeline
 
 ```
-nextflow run main.nf
+nextflow run main.nf -profile singularity
 ```
 
-The pipeline was developed by members of the Jones lab (Canada's Michael Smith Genome Sciences Centre, Vancouver, Canada).
+
+
+## Credits
+
+The pipeline was originnally written by @scorreard with the help and input from :
+
+- Members of the Jones lab (Canada's Michael Smith Genome Sciences Centre, Vancouver, Canada).
+
+- Members of the Earth Biogenome Project and other affiliated projects.
+
+- Members of the nf-core / nextflow community.
+
 
 
 ## Details on the test dataset
