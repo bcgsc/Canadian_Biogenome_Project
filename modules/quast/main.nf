@@ -39,7 +39,7 @@ process QUAST {
         $args \\
         ${consensus.join(' ')}
 
-    mv ${prefix}/report.tsv ${consensus.baseName}_quast_report.tsv
+    mv ${prefix}/report.tsv report.tsv
     #ln -s ${prefix}/report.tsv
 
     cat <<-END_VERSIONS > versions.yml

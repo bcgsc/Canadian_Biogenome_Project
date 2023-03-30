@@ -41,7 +41,7 @@ process QUAST_DOUBLE {
         ${consensus.join(' ')} \\
 	$alternate
 
-    mv ${prefix}/report.tsv ${consensus.baseName}_quast_report.tsv
+    mv ${prefix}/report.tsv report.tsv
 
     #ln -s ${prefix}/report.tsv
 
