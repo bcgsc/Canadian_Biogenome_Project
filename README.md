@@ -25,6 +25,7 @@ Other assembler and scaffolder are available within the pipeline, to change, you
 Software used that would require local installation:
 LongQC
 MitoHifi
+Juicer
 
 Software that relies on locally downloaded files / databases :
 Busco
@@ -48,6 +49,7 @@ Clone the repository in your local environment
 
 ```
 git clone https://github.com/bcgsc/Canadian_Biogenome_Project.git
+cd Canadian_Biogenome_Project
 ```
 
 Modify the nextflow.config file
