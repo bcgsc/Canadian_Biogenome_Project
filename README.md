@@ -42,7 +42,7 @@ Software that relies on locally downloaded files / databases :
 - Kraken
 
 <p align="center">
-    <img title="The Canadian Biogenome Project Workflow" src="https://github.com/bcgsc/Canadian_Biogenome_Project/CBP_workflow.png" width=50%>
+    <img title="The Canadian Biogenome Project Workflow" src="https://github.com/bcgsc/Canadian_Biogenome_Project/raw/dev/CBP_workflow.png" width=50%>
 </p>
 <p align="center">
 Figure : Overview of the Canadian Biogenome project assembly pipeline
