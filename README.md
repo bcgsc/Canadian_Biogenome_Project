@@ -8,9 +8,8 @@ In short, each step of the pipeline is included in a module. Most of the modules
 A lot of the modules available in this pipeline were developed by members of the nf-core/genomeassembler group, if you want to participate, feel free to join the community.
 
 ## **Table of Contents**
------
 * **[Input data](#input-data)**
-* **[Output data](#output-data)**
+* **[Output data](#output-files)**
 * **[Process](#process)**
   * [Running the pipeline with test data](#running-the-pipeline-with-test-data-(will-work-once-the-repo-is-public))
   * [Running the pipeline with your own data](#running-the-pipeline-with-your-own-data)
@@ -104,7 +103,7 @@ The pipeline was originnally written by @scorreard with the help and input from 
 
 ## **Details on the test dataset**
 
-The PacBio data is a subset of covid ssequences obtained with this command lines :
+The PacBio data is a subset of covid sequences obtained with this command lines :
 
 ```
 wget https://downloads.pacbcloud.com/public/dataset/HiFiViral/Jan_2022/m64187e_211217_130958.hifi_reads.bam
