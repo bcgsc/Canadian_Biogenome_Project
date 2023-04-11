@@ -1,0 +1,8 @@
+**/QC
+**/work
+**/hic_scaffolding
+**/purge_dups
+**/assembly
+**/preprocessing
+**/.nextflow
+.nextflow.log*
