@@ -545,8 +545,8 @@ workflow {
 	        YAHS_JUICER (scaffold_agp.join(scaffold_bin), SAMTOOLS_FAIDX1.out.fai)
 		chrom_size = YAHS_JUICER.out.chrom_sizes
 //        	JUICER(YAHS_JUICER.out.chrom_sizes, YAHS_JUICER.out.alignments_sorted_txt)
-		PRETEXTMAP(YAHS_JUICER.out.chrom_sizes, YAHS_JUICER.out.alignments_sorted_txt)
-        	PRETEXTSNAPSHOT (PRETEXTMAP.out.pretext)
+//		PRETEXTMAP(YAHS_JUICER.out.chrom_sizes, YAHS_JUICER.out.alignments_sorted_txt)
+//        	PRETEXTSNAPSHOT (PRETEXTMAP.out.pretext)
 	
 //Blobtoolkit is commented out as it requires some local installation
 /*
