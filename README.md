@@ -93,9 +93,12 @@ nextflow run main.nf -profile singularity
 
 ## **Credits**
 
-The pipeline was originnally written by @scorreard with the help and input from :
+The pipeline was originnally written by [@scorreard](https://github.com/scorreard) with the help and input from :
 
 - Members of the Jones lab (Canada's Michael Smith Genome Sciences Centre, Vancouver, Canada).
+
+	- Special thanks to @Glenn Chang for reviewing that repo.
+
 - Members of the Earth Biogenome Project and other affiliated projects.
 - Members of the nf-core / nextflow community.
 
