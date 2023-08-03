@@ -13,5 +13,5 @@ jobs:
           ls ${{ github.workspace }}
       - uses: actions/checkout@v3
       - uses: nf-core/setup-nextflow@v1
-      - run: nextflow run bcgsc/Canadian_Biogenome_Project -latest -r dev
+      - run: nextflow run bcgsc/Canadian_Biogenome_Project -latest -r dev -c nextflow_github_test.config
       - run: echo "🍏 This job's status is ${{ job.status }}."
