@@ -8,7 +8,8 @@ process SALSA2 {
 //        'https://depot.galaxyproject.org/singularity/salsa2:2.3--py27hee3b9ab_0':
 //        'quay.io/biocontainers/salsa2:2.3--py27hee3b9ab_0' }"
 
-    container ='docker://quay.io/biocontainers/salsa2:2.3--py27hee3b9ab_0'
+//    container ='docker://quay.io/biocontainers/salsa2:2.3--py27hee3b9ab_0'
+    container ='quay.io/biocontainers/salsa2:2.3--py27hee3b9ab_0'
 
     input:
     tuple val(meta), path(fasta), path(index)

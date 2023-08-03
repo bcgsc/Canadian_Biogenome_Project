@@ -2,7 +2,7 @@ process BAMTOOLS_FILTER {
     tag "$meta.id"
     label 'process_medium'
 
-    conda "bioconda::bamtools=2.5.2"
+    conda "bioconda::bamtools"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/bamtools:2.5.2--hd03093a_0' :
         'quay.io/biocontainers/bamtools:2.5.2--hd03093a_0' }"

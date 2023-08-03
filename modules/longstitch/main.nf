@@ -4,6 +4,7 @@ process LONGSTITCH {
 
     conda "bioconda::longstitch=1.0.4"
 //    container "https://depot.galaxyproject.org/singularity/longstitch%3A1.0.3--hdfd78af_0"
+
     container "docker://quay.io/biocontainers/longstitch:1.0.4--hdfd78af_0"
 
     input:

@@ -713,7 +713,8 @@ taxon  = [
                 // JUICER must have contig fai for scaffold assembly
 	        YAHS_JUICER (scaffold_agp, scaffold_bin, SAMTOOLS_FAIDX1.out.fai)
 		chrom_size = YAHS_JUICER.out.chrom_sizes
-	        // Gather versions of all tools used
+
+// Gather versions of all tools used
 		ch_versions = ch_versions.mix(YAHS_JUICER.out.versions)
 		
                 GFASTATS(scaffold)
@@ -757,6 +758,7 @@ taxon  = [
 			ch_versions = ch_versions.mix(MASHMAP.out.versions)
 	        }
 		
+
 		GZIP(scaffold)
 
 		if (params.blobtools == 'yes'){
