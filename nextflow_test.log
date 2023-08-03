@@ -1,0 +1,280 @@
+N E X T F L O W  ~  version 22.10.4
+Launching `main.nf` [elated_gates] DSL2 - revision: f82558ff54
+WARN: Access to undefined parameter `bam_cell2` -- Initialise it to a default value eg. `params.bam_cell2 = some_value`
+WARN: Access to undefined parameter `bam_cell3` -- Initialise it to a default value eg. `params.bam_cell3 = some_value`
+WARN: Access to undefined parameter `bam_cell4` -- Initialise it to a default value eg. `params.bam_cell4 = some_value`
+WARN: Access to undefined parameter `ont_fastq_1` -- Initialise it to a default value eg. `params.ont_fastq_1 = some_value`
+
+CBP pipeline - Solenne Correard - Jones lab
+=============================================
+Specie id			: github
+Taxon number			: 5000
+PacBio input type		: ccs
+PacBio reads cell 1		: example_input/subset_covid_hifi.bam
+PacBio reads cell 2		: null
+PacBio reads cell 3     	: null
+PacBio reads cell 4             : null
+PacBio read quality threashold  : 0.99
+ONT reads			: null
+Hi-C reads F			: example_input/test_1.fastq.gz
+Hi-C reads R     		: example_input/test_2.fastq.gz
+Output path			: /projects/cbp/scratch/github/V2/
+Pipeline version		: V2
+Assembly method			: hifiasm
+Assembly mode			: pacbio
+FCS (Foreign Conta Screen)	: no
+Polishing method		: none
+Purging method			: purge_dups
+Scaffolding method		: yahs
+Mitochondrial assembly		: no
+Pretext Hi-C map		: no
+Juicer Hi-C map			: no
+Methylation calling		: no
+Comparison to related genome	: no
+Blobtools			: no
+Manual curation                 : none
+
+WARN: A process with name 'BOWTIE2_ALIGN_TRIMMED' is defined more than once in module script: /projects/cbp/scratch/pipeline/modules/nfcore_hic/subworkflows/local/./hicpro_mapping.nf -- Make sure to not define the same function as process
+WARN: Access to undefined parameter `illumina_SR_read1` -- Initialise it to a default value eg. `params.illumina_SR_read1 = some_value`
+WARN: Access to undefined parameter `enable_conda` -- Initialise it to a default value eg. `params.enable_conda = some_value`
+WARN: Access to undefined parameter `lineage` -- Initialise it to a default value eg. `params.lineage = some_value`
+WARN: Access to undefined parameter `lineage2` -- Initialise it to a default value eg. `params.lineage2 = some_value`
+WARN: Access to undefined parameter `lineage3` -- Initialise it to a default value eg. `params.lineage3 = some_value`
+WARN: Access to undefined parameter `lineage4` -- Initialise it to a default value eg. `params.lineage4 = some_value`
+[f2/5fcd72] Cached process > KRAKEN2_KRAKEN2_HIC_READS (hic_R1R2)
+[38/aa4498] Cached process > GOAT_TAXONSEARCH (github)
+[70/2da21b] Cached process > BAMTOOLS_FILTER_PACBIO (github)
+[7e/401699] Cached process > PBINDEX_FILTERED_PACBIO (github)
+[2c/64630f] Cached process > BAM2FASTX (github)
+[ca/f71a83] Cached process > CUTADAPT (github)
+[3d/25f41c] Cached process > MERYL_COUNT (github)
+[0e/3fe5ca] Cached process > COVERAGE_CALCULATION (github)
+[1f/a10d5f] Cached process > MERYL_HISTOGRAM (github)
+[b2/909e2a] Cached process > KRAKEN2_KRAKEN2_PACBIO_BAM (github)
+[3a/a2bdaa] Cached process > GENOMESCOPE2 (github)
+[f8/14398d] Cached process > HIFIASM (github)
+[8d/cf6beb] Cached process > LONGQC_PACBIO (github)
+[73/517530] Cached process > GFA_TO_FA_hap1 (github)
+[93/1845bd] Cached process > GFA_TO_FA_hap2 (github)
+[e8/d3f37a] Cached process > PURGEDUPS_SPLITFA_hap1 (github)
+[2c/b8574d] Cached process > QUAST_ASS_DOUBLE (github)
+[49/fda220] Cached process > MINIMAP2_ALIGN_TO_CONTIG (github)
+[9f/5249a4] Cached process > QUAST_CLEAN_DOUBLE (github)
+[6a/e2ba1a] Cached process > MINIMAP2_ALIGN_TO_SELF (github)
+[5e/13fda7] Cached process > PURGEDUPS_PBCSTAT_hap1 (github)
+[a4/50ab21] Cached process > PURGEDUPS_CALCUTS_hap1 (github)
+[66/d5afde] Cached process > BUSCO_lin1_PRIM (github)
+[76/af5f04] Cached process > PURGEDUPS_PURGEDUPS_hap1 (github)
+[eb/26d325] Cached process > PURGEDUPS_GETSEQS_hap1 (github)
+[ee/397b6a] Cached process > MERQURY_ASS_DOUBLE (github)
+[61/8d87f0] Cached process > CHROMAP_INDEX_hap1 (github)
+[a9/28eac2] Cached process > SAMTOOLS_FAIDX1 (github)
+[ec/31a587] Cached process > CAT (github)
+[25/304f1b] Cached process > MINIMAP2_ALIGN_TO_CONTIG_ALT (github)
+[2d/e38017] Cached process > PURGEDUPS_SPLITFA_ALT (github)
+[34/18836b] Cached process > CHROMAP_CHROMAP_hap1 (hic_R1R2)
+[fd/77e9ec] Cached process > PURGEDUPS_PBCSTAT_ALT (github)
+[fb/7fc529] Cached process > MINIMAP2_ALIGN_TO_SELF_ALT (github)
+[d3/393992] Cached process > PURGEDUPS_CALCUTS_ALT (github)
+[74/cdb687] Cached process > PURGEDUPS_PURGEDUPS_ALT (github)
+[22/02f171] Cached process > YAHS_hap1 (github)
+[0f/d4ee25] Submitted process > BUSCO_lin1_cleaned (github)
+[2d/cb7d75] Cached process > PURGEDUPS_GETSEQS_ALT (github)
+[fb/6a67aa] Cached process > GZIP (github)
+[75/4801cf] Cached process > SAMTOOLS_FAIDX2 (github)
+[90/6cefbd] Cached process > SAMTOOLS_FAIDX1_ALT (github)
+[61/ce1217] Cached process > GFASTATS (github)
+[96/00b5b8] Cached process > CHROMAP_INDEX_ALT (github)
+[66/48bf6a] Cached process > RAPIDCURATION_SPLIT (github)
+[c9/9c7a4b] Submitted process > BUSCO_lin1_purged (github)
+[8a/9dee78] Cached process > QUAST_PURGED_DOUBLE (github)
+[89/191e83] Cached process > YAHS_JUICER (github)
+[dc/0a663e] Cached process > PBMM2 (github)
+[6f/a604ec] Cached process > TIDK (github)
+[0b/68ab37] Cached process > CHROMAP_CHROMAP_ALT (hic_R1R2)
+[3a/cfe9c2] Cached process > SAMTOOLS_INDEX_PBMM2 (github)
+[84/e8e1e3] Cached process > BEDTOOLS_GENOMECOV (github)
+[c3/0b87c0] Cached process > YAHS_ALT (github)
+[fa/80f489] Cached process > SAMTOOLS_FAIDX2_ALT (github)
+[f9/fa4e61] Cached process > QUAST_SCAFF_DOUBLE (github)
+[47/d82952] Cached process > MERQURY_PURGED_DOUBLE (github)
+[3d/844cff] Cached process > MERQURY_SCAFF_DOUBLE (github)
+[e8/c36613] Submitted process > CUSTOM_DUMPSOFTWAREVERSIONS (1)
+[5c/1934ad] Submitted process > BUSCO_lin1_SCAFF (github)
+[c4/43f061] Submitted process > BUSCO_ALT (github)
+Error executing process > 'BUSCO_ALT (github)'
+
+Caused by:
+  Process `BUSCO_ALT (github)` terminated with an error exit status (1)
+
+Command executed:
+
+  # Nextflow changes the container --entrypoint to /bin/bash (container default entrypoint: /usr/local/env-execute)
+  # Check for container variable initialisation script and source it.
+  if [ -f "/usr/local/env-activate.sh" ]; then
+      set +u  # Otherwise, errors out because of various unbound variables
+      . "/usr/local/env-activate.sh"
+      set -u
+  fi
+  
+  # If the augustus config directory is not writable, then copy to writeable area
+  if [ ! -w "${AUGUSTUS_CONFIG_PATH}" ]; then
+      # Create writable tmp directory for augustus
+      AUG_CONF_DIR=$( mktemp -d -p $PWD )
+      cp -r $AUGUSTUS_CONFIG_PATH/* $AUG_CONF_DIR
+      export AUGUSTUS_CONFIG_PATH=$AUG_CONF_DIR
+      echo "New AUGUSTUS_CONFIG_PATH=${AUGUSTUS_CONFIG_PATH}"
+  fi
+  
+  # Ensure the input is uncompressed
+  INPUT_SEQS=input_seqs
+  mkdir "$INPUT_SEQS"
+  cd "$INPUT_SEQS"
+  for FASTA in ../tmp_input/*; do
+      if [ "${FASTA##*.}" == 'gz' ]; then
+          gzip -cdf "$FASTA" > $( basename "$FASTA" .gz )
+      else
+          ln -s "$FASTA" .
+      fi
+  done
+  cd ..
+  
+  busco \
+      --cpu 32 \
+      --in "$INPUT_SEQS" \
+      --out github-auto-busco \
+      --auto-lineage \
+       \
+       \
+      --mode genome
+  
+  # clean up
+  rm -rf "$INPUT_SEQS"
+  
+  # Move files to avoid staging/publishing issues
+  mv github-auto-busco/batch_summary.txt github-auto-busco.batch_summary.txt
+  mv github-auto-busco/*/short_summary.*.{json,txt} . || echo "Short summaries were not available: No genes were found."
+  
+  find . -type f -name 'full_table.tsv' -print0 | xargs --null -I{} mv {} {}_full_table.tsv
+  
+  mv github-auto-busco/*/*/*full_table.tsv .
+  
+  cat <<-END_VERSIONS > versions.yml
+  "BUSCO_ALT":
+      busco: $( busco --version 2>&1 | sed 's/^BUSCO //' )
+  END_VERSIONS
+
+Command exit status:
+  1
+
+Command output:
+  2023-08-03 15:18:17 INFO:	[hmmsearch]	14 of 27 task(s) completed
+  2023-08-03 15:18:17 INFO:	[hmmsearch]	17 of 27 task(s) completed
+  2023-08-03 15:18:17 INFO:	[hmmsearch]	19 of 27 task(s) completed
+  2023-08-03 15:18:17 INFO:	[hmmsearch]	22 of 27 task(s) completed
+  2023-08-03 15:18:17 INFO:	[hmmsearch]	25 of 27 task(s) completed
+  2023-08-03 15:18:17 INFO:	[hmmsearch]	25 of 27 task(s) completed
+  2023-08-03 15:18:17 INFO:	[hmmsearch]	27 of 27 task(s) completed
+  2023-08-03 15:18:18 WARNING:	BUSCO did not find any match. Make sure to check the log files if this is unexpected.
+  2023-08-03 15:18:18 INFO:	Results:	C:0.0%[S:0.0%,D:0.0%],F:0.0%,M:100.0%,n:27	   
+  
+  2023-08-03 15:18:18 INFO:	Downloading file 'https://busco-data.ezlab.org/v5/data/lineages/tunavirinae_odb10.2020-11-26.tar.gz'
+  2023-08-03 15:18:20 INFO:	Decompressing file 'busco_downloads/lineages/tunavirinae_odb10.tar.gz'
+  2023-08-03 15:18:22 INFO:	Running BUSCO using lineage dataset tunavirinae_odb10 (viruses, 2020-11-26)
+  2023-08-03 15:18:22 INFO:	***** Run Prodigal on input to predict and extract genes *****
+  2023-08-03 15:18:22 INFO:	Genetic code 11 selected as optimal
+  2023-08-03 15:18:22 INFO:	***** Run HMMER on gene sequences *****
+  2023-08-03 15:18:22 INFO:	Running 26 job(s) on hmmsearch, starting at 08/03/2023 15:18:22
+  2023-08-03 15:18:24 INFO:	[hmmsearch]	3 of 26 task(s) completed
+  2023-08-03 15:18:24 INFO:	[hmmsearch]	8 of 26 task(s) completed
+  2023-08-03 15:18:24 INFO:	[hmmsearch]	11 of 26 task(s) completed
+  2023-08-03 15:18:24 INFO:	[hmmsearch]	11 of 26 task(s) completed
+  2023-08-03 15:18:24 INFO:	[hmmsearch]	14 of 26 task(s) completed
+  2023-08-03 15:18:24 INFO:	[hmmsearch]	16 of 26 task(s) completed
+  2023-08-03 15:18:24 INFO:	[hmmsearch]	19 of 26 task(s) completed
+  2023-08-03 15:18:25 INFO:	[hmmsearch]	21 of 26 task(s) completed
+  2023-08-03 15:18:25 INFO:	[hmmsearch]	24 of 26 task(s) completed
+  2023-08-03 15:18:25 INFO:	[hmmsearch]	26 of 26 task(s) completed
+  2023-08-03 15:18:25 WARNING:	BUSCO did not find any match. Make sure to check the log files if this is unexpected.
+  2023-08-03 15:18:25 INFO:	Results:	C:0.0%[S:0.0%,D:0.0%],F:0.0%,M:100.0%,n:26	   
+  
+  2023-08-03 15:18:25 INFO:	Downloading file 'https://busco-data.ezlab.org/v5/data/lineages/varicellovirus_odb10.2020-11-26.tar.gz'
+  2023-08-03 15:18:28 INFO:	Decompressing file 'busco_downloads/lineages/varicellovirus_odb10.tar.gz'
+  2023-08-03 15:18:30 INFO:	Running BUSCO using lineage dataset varicellovirus_odb10 (viruses, 2020-11-26)
+  2023-08-03 15:18:30 INFO:	***** Run Prodigal on input to predict and extract genes *****
+  2023-08-03 15:18:30 INFO:	Genetic code 11 selected as optimal
+  2023-08-03 15:18:30 INFO:	***** Run HMMER on gene sequences *****
+  2023-08-03 15:18:30 INFO:	Running 37 job(s) on hmmsearch, starting at 08/03/2023 15:18:30
+  2023-08-03 15:18:33 INFO:	[hmmsearch]	4 of 37 task(s) completed
+  2023-08-03 15:18:35 INFO:	[hmmsearch]	8 of 37 task(s) completed
+  2023-08-03 15:18:36 INFO:	[hmmsearch]	12 of 37 task(s) completed
+  2023-08-03 15:18:36 INFO:	[hmmsearch]	15 of 37 task(s) completed
+  2023-08-03 15:18:37 INFO:	[hmmsearch]	23 of 37 task(s) completed
+  2023-08-03 15:18:37 INFO:	[hmmsearch]	26 of 37 task(s) completed
+  2023-08-03 15:18:37 INFO:	[hmmsearch]	30 of 37 task(s) completed
+  2023-08-03 15:18:37 INFO:	[hmmsearch]	34 of 37 task(s) completed
+  2023-08-03 15:18:37 INFO:	[hmmsearch]	37 of 37 task(s) completed
+  2023-08-03 15:18:37 WARNING:	BUSCO did not find any match. Make sure to check the log files if this is unexpected.
+  2023-08-03 15:18:37 INFO:	Results:	C:0.0%[S:0.0%,D:0.0%],F:0.0%,M:100.0%,n:37	   
+  
+  Short summaries were not available: No genes were found.
+
+Command error:
+  2023-08-03 15:18:17 INFO:	[hmmsearch]	25 of 27 task(s) completed
+  2023-08-03 15:18:17 INFO:	[hmmsearch]	25 of 27 task(s) completed
+  2023-08-03 15:18:17 INFO:	[hmmsearch]	27 of 27 task(s) completed
+  2023-08-03 15:18:18 WARNING:	BUSCO did not find any match. Make sure to check the log files if this is unexpected.
+  2023-08-03 15:18:18 INFO:	Results:	C:0.0%[S:0.0%,D:0.0%],F:0.0%,M:100.0%,n:27	   
+  
+  2023-08-03 15:18:18 INFO:	Downloading file 'https://busco-data.ezlab.org/v5/data/lineages/tunavirinae_odb10.2020-11-26.tar.gz'
+  2023-08-03 15:18:20 INFO:	Decompressing file 'busco_downloads/lineages/tunavirinae_odb10.tar.gz'
+  2023-08-03 15:18:22 INFO:	Running BUSCO using lineage dataset tunavirinae_odb10 (viruses, 2020-11-26)
+  2023-08-03 15:18:22 INFO:	***** Run Prodigal on input to predict and extract genes *****
+  2023-08-03 15:18:22 INFO:	Genetic code 11 selected as optimal
+  2023-08-03 15:18:22 INFO:	***** Run HMMER on gene sequences *****
+  2023-08-03 15:18:22 INFO:	Running 26 job(s) on hmmsearch, starting at 08/03/2023 15:18:22
+  2023-08-03 15:18:24 INFO:	[hmmsearch]	3 of 26 task(s) completed
+  2023-08-03 15:18:24 INFO:	[hmmsearch]	8 of 26 task(s) completed
+  2023-08-03 15:18:24 INFO:	[hmmsearch]	11 of 26 task(s) completed
+  2023-08-03 15:18:24 INFO:	[hmmsearch]	11 of 26 task(s) completed
+  2023-08-03 15:18:24 INFO:	[hmmsearch]	14 of 26 task(s) completed
+  2023-08-03 15:18:24 INFO:	[hmmsearch]	16 of 26 task(s) completed
+  2023-08-03 15:18:24 INFO:	[hmmsearch]	19 of 26 task(s) completed
+  2023-08-03 15:18:25 INFO:	[hmmsearch]	21 of 26 task(s) completed
+  2023-08-03 15:18:25 INFO:	[hmmsearch]	24 of 26 task(s) completed
+  2023-08-03 15:18:25 INFO:	[hmmsearch]	26 of 26 task(s) completed
+  2023-08-03 15:18:25 WARNING:	BUSCO did not find any match. Make sure to check the log files if this is unexpected.
+  2023-08-03 15:18:25 INFO:	Results:	C:0.0%[S:0.0%,D:0.0%],F:0.0%,M:100.0%,n:26	   
+  
+  2023-08-03 15:18:25 INFO:	Downloading file 'https://busco-data.ezlab.org/v5/data/lineages/varicellovirus_odb10.2020-11-26.tar.gz'
+  2023-08-03 15:18:28 INFO:	Decompressing file 'busco_downloads/lineages/varicellovirus_odb10.tar.gz'
+  2023-08-03 15:18:30 INFO:	Running BUSCO using lineage dataset varicellovirus_odb10 (viruses, 2020-11-26)
+  2023-08-03 15:18:30 INFO:	***** Run Prodigal on input to predict and extract genes *****
+  2023-08-03 15:18:30 INFO:	Genetic code 11 selected as optimal
+  2023-08-03 15:18:30 INFO:	***** Run HMMER on gene sequences *****
+  2023-08-03 15:18:30 INFO:	Running 37 job(s) on hmmsearch, starting at 08/03/2023 15:18:30
+  2023-08-03 15:18:33 INFO:	[hmmsearch]	4 of 37 task(s) completed
+  2023-08-03 15:18:35 INFO:	[hmmsearch]	8 of 37 task(s) completed
+  2023-08-03 15:18:36 INFO:	[hmmsearch]	12 of 37 task(s) completed
+  2023-08-03 15:18:36 INFO:	[hmmsearch]	15 of 37 task(s) completed
+  2023-08-03 15:18:37 INFO:	[hmmsearch]	23 of 37 task(s) completed
+  2023-08-03 15:18:37 INFO:	[hmmsearch]	26 of 37 task(s) completed
+  2023-08-03 15:18:37 INFO:	[hmmsearch]	30 of 37 task(s) completed
+  2023-08-03 15:18:37 INFO:	[hmmsearch]	34 of 37 task(s) completed
+  2023-08-03 15:18:37 INFO:	[hmmsearch]	37 of 37 task(s) completed
+  2023-08-03 15:18:37 WARNING:	BUSCO did not find any match. Make sure to check the log files if this is unexpected.
+  2023-08-03 15:18:37 INFO:	Results:	C:0.0%[S:0.0%,D:0.0%],F:0.0%,M:100.0%,n:37	   
+  
+  2023-08-03 15:18:37 ERROR:	No genes were recognized by BUSCO. Please check the content of your input file.
+  mv: cannot stat 'github-auto-busco/*/short_summary.*.json': No such file or directory
+  mv: cannot stat 'github-auto-busco/*/short_summary.*.txt': No such file or directory
+  Short summaries were not available: No genes were found.
+  mv: cannot stat 'github-auto-busco/*/*/*full_table.tsv': No such file or directory
+
+Work dir:
+  /projects/cbp/scratch/github/work/c4/43f0611a066218b5b24c7f9f1d9667
+
+Tip: you can try to figure out what's wrong by changing to the process work dir and showing the script file named `.command.sh`
+
+
+WARN: Killing running tasks (1)

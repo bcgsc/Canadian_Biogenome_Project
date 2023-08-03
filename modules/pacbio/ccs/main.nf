@@ -12,6 +12,7 @@ process CCS {
 
     output:
     tuple val(meta), path('*_postccs.bam'), emit: bam
+    path  "versions.yml"          , emit: versions
 
     script:
     """
@@ -20,5 +21,10 @@ process CCS {
 	--all \\
 	$bam \\
 	${meta.id}_postccs.bam
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        ccs: \$(ccs --version | sed 's/ccs v//g')
+    END_VERSIONS
     """
 }

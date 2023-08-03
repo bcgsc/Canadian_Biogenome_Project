@@ -2,7 +2,7 @@ process PILON {
     tag "$meta.id"
     label 'process_medium'
 
-    conda "bioconda::pilon=1.24"
+//    conda "bioconda::pilon=1.24"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/pilon:1.24--hdfd78af_0' :
         'quay.io/biocontainers/pilon' }"
@@ -18,6 +18,7 @@ process PILON {
     tuple val(meta), path("*.vcf")       , emit: vcf, optional : true
     tuple val(meta), path("*.bed")       , emit: tracks_bed, optional : true
     tuple val(meta), path("*.wig")       , emit: tracks_wig, optional : true
+    path  "versions.yml"          , emit: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -31,5 +32,10 @@ process PILON {
 	--output ${meta.id} \\
 	--threads $task.cpus \\
 	$pilon_mode $bam
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        pilon: \$(pilon --version | sed 's/pilon v//g')
+    END_VERSIONS
     """
 }

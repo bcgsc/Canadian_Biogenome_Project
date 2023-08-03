@@ -8,11 +8,12 @@ process PURGEDUPS_GETSEQS {
         'quay.io/biocontainers/purge_dups:1.2.6--h7132678_0' }"
 
     input:
-    tuple val(meta), path(assembly), path(bed)
+    tuple val(meta), path(assembly)
+    tuple val(meta2), path(bed)
 
     output:
-    tuple val(meta), path("*.hap.fa")   , emit: haplotigs
-    tuple val(meta), path("*.purged.fa"), emit: purged
+    tuple val(meta2), path("*.hap.fa")   , emit: haplotigs
+    tuple val(meta2), path("*.purged.fa"), emit: purged
     path "versions.yml"                 , emit: versions
 
     when:

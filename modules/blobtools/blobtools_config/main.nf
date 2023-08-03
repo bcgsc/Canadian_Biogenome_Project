@@ -16,11 +16,11 @@ process BLOBTOOLS_CONFIG {
     """
     echo "assembly:
       accession: ${meta.id}
-      file: ${params.outdir}/blobtools/${assembly}
+      file: ${params.outdir}/QC/blobtools/${assembly}
       level: scaffold
       prefix: ${meta.id}
     busco:
-      download_dir: busco_downloads/
+      download_dir: ${params.busco_lineages_path}
       lineages:
         - ${params.lineage}
         - ${params.lineage2}
@@ -42,7 +42,7 @@ process BLOBTOOLS_CONFIG {
       blast_max_chunks: 10
       blast_overlap: 0
       blast_min_length: 1000
-      taxdump: BlobtoolkitDatabase/taxdump 
+      taxdump: ${params.Blobtoolkit_db}/taxdump 
       tmp: /tmp
     similarity:
       defaults:
@@ -52,14 +52,14 @@ process BLOBTOOLS_CONFIG {
         taxrule: bestdistorder
       diamond_blastx:
         name: reference_proteomes
-        path: BlobtoolkitDatabase/uniprot
+        path: ${params.Blobtoolkit_db}/uniprot
       diamond_blastp:
         name: reference_proteomes
-        path: BlobtoolkitDatabase/uniprot
+        path: ${params.Blobtoolkit_db}/uniprot
         import_max_target_seqs: 100000
       blastn:
         name: nt
-        path: BlobtoolkitDatabase/nt
+        path: ${params.Blobtoolkit_db}/nt
     taxon:
       name: ${params.taxon_name}
       taxid: '${params.taxon_taxid}'

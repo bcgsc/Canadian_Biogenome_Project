@@ -32,14 +32,17 @@ process MULTIQC {
     echo \$coverage_estimation
 
     multiqc \\
-        --force \\
         $args \\
         $config \\
         $extra_config \\
-	-b "\${coverage_estimation}" \\
-	.
-
-
+        -b "Specie common name : ${params.id}"  \\
+        -b "Specie taxonomic ID : ${params.taxon_taxid}" \\
+        -b "Specie scientific name : ${params.taxon_name}" \\
+        -b "Specie ploidy : ${params.ploidy}" \\
+        -b "Specie genome size : ${params.hap_gen_size_Gb}" \\
+        -b "Specie number of chromosomes : ${params.chrom_num}" \\
+        -b "\${coverage_estimation}" \\
+        .
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

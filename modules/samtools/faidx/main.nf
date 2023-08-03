@@ -2,7 +2,7 @@ process SAMTOOLS_FAIDX {
     tag "$meta.id"
     label 'process_single'
 
-    conda "bioconda::samtools=1.16.1"
+//    conda "bioconda::samtools=1.16.1"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/samtools:1.16.1--h6899075_1' :
         'quay.io/biocontainers/samtools:1.16.1--h6899075_1' }"

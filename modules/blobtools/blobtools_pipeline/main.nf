@@ -14,6 +14,7 @@ process BLOBTOOLS_PIPELINE {
     tuple val(meta), path('hic_minimap.bam'), emit:hic_minimap_bam
     tuple val(meta), path('lineage1_full_table.tsv.gz'), emit: lineage1_full_table_tsv
     tuple val(meta), path('lineage2_full_table.tsv.gz'), emit: lineage2_full_table_tsv
+    path  "versions.yml"          , emit: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -30,7 +31,7 @@ process BLOBTOOLS_PIPELINE {
           --configfile $config \
           --latency-wait 60 \
           --stats blobtoolkit.stats \
-          -s blobtoolkit/insdc-pipeline/blobtoolkit.smk
+          -s ${params.blobtoolkit_path}/insdc-pipeline/blobtoolkit.smk
 
     cp blastn/*.blastn.nt.out .
     cp diamond/*.diamond.reference_proteomes.out .
@@ -40,5 +41,15 @@ process BLOBTOOLS_PIPELINE {
     mv ${meta.id}.*.bam hic_minimap.bam
     cp busco/${meta.id}.busco.${params.lineage}/full_table.tsv.gz lineage1_full_table.tsv.gz
     cp busco/${meta.id}.busco.${params.lineage2}/full_table.tsv.gz lineage2_full_table.tsv.gz
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        snakemake : \$(snakemake --version)
+        minimap2: \$(minimap2 --version 2>&1)
+        windowmasker: \$(windowmasker -version-full | head -n 1 | sed 's/^.*windowmasker: //; s/ .*\$//')
+        busco: \$(singularity run -B /projects ${params.singularity_cache}/busco5.sif busco --version 2>&1 | sed 's/^BUSCO //' ) 
+        diamond: \$(diamond --version 2>&1 | tail -n 1 | sed 's/^diamond version //')
+        blast: \$(blastn -version 2>&1 | sed 's/^.*blastn: //; s/ .*\$//' | head -1)
+    END_VERSIONS
     """
 }

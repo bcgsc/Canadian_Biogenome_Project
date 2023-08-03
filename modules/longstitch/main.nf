@@ -2,13 +2,14 @@ process LONGSTITCH {
     tag "$meta.id"
     label 'process_high'
 
-    conda "bioconda::longstitch"
+    conda "bioconda::longstitch=1.0.4"
 //    container "https://depot.galaxyproject.org/singularity/longstitch%3A1.0.3--hdfd78af_0"
-    container "docker://quay.io/biocontainers/longstitch:1.0.2--hdfd78af_0"
+    container "docker://quay.io/biocontainers/longstitch:1.0.4--hdfd78af_0"
 
     input:
-    tuple val(meta), path(reads)
-    tuple val(meta2), path(assembly)
+    tuple val(meta2), path(reads)
+    tuple val(meta), path(assembly)
+    val(genome_size)
 
     output:
     tuple val(meta), path('*.ntLink.scaffolds.fa') , emit: assembly
@@ -19,15 +20,20 @@ process LONGSTITCH {
 
     script:
     def args = task.ext.args ?: ''
+    def G = genome_size ? "G=$genome_size" : ""
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     gzip -cd  ${assembly} > ${assembly.simpleName}.fa
-    ln -s ${reads} ${reads.simpleName}.fq.gz
+
+    #gunzip -c ${reads} > ${reads.simpleName}.fq.gz
+
+    cp $reads ${reads.simpleName}.fq.gz
 
     longstitch tigmint-ntLink-arks \\
     draft=${assembly.simpleName} \\
     reads=${reads.simpleName} \\
     $args \\
+    $G \\
     t=$task.cpus
 
     cat <<-END_VERSIONS > versions.yml
