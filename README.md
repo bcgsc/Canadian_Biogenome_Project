@@ -62,7 +62,7 @@ To run this pipeline, you need nextflow, conda and singularity installed on your
 A set of test data are available in this repo to allow you to test the pipeline with just one command line:
 
 ```
-nextflow run bcgsc/Canadian_Biogenome_Project -latest -r dev
+nextflow run bcgsc/Canadian_Biogenome_Project -latest -r V2
 ```
 
 The outputs are organized in several subfolder that are self-explenatory.
