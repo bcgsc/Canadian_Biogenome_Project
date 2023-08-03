@@ -33,135 +33,135 @@ Blobtools			: ${params.blobtools}
 Manual curation                 : ${params.manual_curation}
 """
 
-include { GOAT_TAXONSEARCH } from '/projects/cbp/scratch/pipeline/modules/goat/taxonsearch/main.nf'
+include { GOAT_TAXONSEARCH } from './modules/goat/taxonsearch/main.nf'
 
 //Pre-processing
-include { CCS as CCS_PACBIO } from '/projects/cbp/scratch/pipeline/modules/pacbio/ccs/main.nf'
-include { BAMTOOLS_FILTER as BAMTOOLS_FILTER_PACBIO } from '/projects/cbp/scratch/pipeline/modules/bamtools_filter/main.nf'
-include { PBINDEX as PBINDEX_FILTERED_PACBIO } from '/projects/cbp/scratch/pipeline/modules/pacbio/pbbam/pbindex/main.nf'
-include { PBBAM_PBMERGE } from '/projects/cbp/scratch/pipeline/modules/pacbio/pbbam/pbmerge/main.nf'
-include { BAM2FASTX } from '/projects/cbp/scratch/pipeline/modules/pacbio/bam2fastx/main.nf'
+include { CCS as CCS_PACBIO } from './modules/pacbio/ccs/main.nf'
+include { BAMTOOLS_FILTER as BAMTOOLS_FILTER_PACBIO } from './modules/bamtools_filter/main.nf'
+include { PBINDEX as PBINDEX_FILTERED_PACBIO } from './modules/pacbio/pbbam/pbindex/main.nf'
+include { PBBAM_PBMERGE } from './modules/pacbio/pbbam/pbmerge/main.nf'
+include { BAM2FASTX } from './modules/pacbio/bam2fastx/main.nf'
 
-include { PREPROCESS_MERGED } from '/projects/cbp/scratch/pipeline/modules/pacbio/preprocess_merged/main.nf'
+include { PREPROCESS_MERGED } from './modules/pacbio/preprocess_merged/main.nf'
 
-include { CUTADAPT }  from '/projects/cbp/scratch/pipeline/modules/cutadapt/main.nf'
+include { CUTADAPT }  from './modules/cutadapt/main.nf'
 
 //QC Input data
-include { LONGQC as LONGQC_PACBIO; LONGQC as LONGQC_ONT } from '/projects/cbp/scratch/pipeline/modules/LongQC/main.nf'
-include { MERYL_COUNT } from '/projects/cbp/scratch/pipeline/modules/meryl/count/main.nf'
-include { MERYL_UNIONSUM } from '/projects/cbp/scratch/pipeline/modules/meryl/unionsum/main.nf'
-include { MERYL_HISTOGRAM } from '/projects/cbp/scratch/pipeline/modules/meryl/histogram/main.nf'
-include { GENOMESCOPE2 } from '/projects/cbp/scratch/pipeline/modules/genomescope2/main.nf'
-include { KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_PACBIO_BAM; KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_HIC_READS; KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_SR_READS; KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_ONT_READS } from '/projects/cbp/scratch/pipeline/modules/kraken2/main.nf'
-include { COVERAGE_CALCULATION } from '/projects/cbp/scratch/pipeline/modules/coverage_calculation/main.nf'
+include { LONGQC as LONGQC_PACBIO; LONGQC as LONGQC_ONT } from './modules/LongQC/main.nf'
+include { MERYL_COUNT } from './modules/meryl/count/main.nf'
+include { MERYL_UNIONSUM } from './modules/meryl/unionsum/main.nf'
+include { MERYL_HISTOGRAM } from './modules/meryl/histogram/main.nf'
+include { GENOMESCOPE2 } from './modules/genomescope2/main.nf'
+include { KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_PACBIO_BAM; KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_HIC_READS; KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_SR_READS; KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_ONT_READS } from './modules/kraken2/main.nf'
+include { COVERAGE_CALCULATION } from './modules/coverage_calculation/main.nf'
 
 //Mitochondrial assembly
-include { FASTQGZ_TO_FASTA } from '/projects/cbp/scratch/pipeline/modules/fastqgz_to_fasta/main.nf'
-include { FIND_MITO_REFERENCE } from '/projects/cbp/scratch/pipeline/modules/mitohifi/findmitoreference/main.nf'
-include { MITOHIFI } from '/projects/cbp/scratch/pipeline/modules/mitohifi/mitohifi/main.nf'
+include { FASTQGZ_TO_FASTA } from './modules/fastqgz_to_fasta/main.nf'
+include { FIND_MITO_REFERENCE } from './modules/mitohifi/findmitoreference/main.nf'
+include { MITOHIFI } from './modules/mitohifi/mitohifi/main.nf'
 
 
 //Assembly
 //HifiASM
-include { HIFIASM } from '/projects/cbp/scratch/pipeline/modules/hifiasm/main.nf'
-include { GFA_TO_FA as GFA_TO_FA_hap1; GFA_TO_FA as GFA_TO_FA_hap2 } from '/projects/cbp/scratch/pipeline/modules/gfa_to_fa/main.nf'
+include { HIFIASM } from './modules/hifiasm/main.nf'
+include { GFA_TO_FA as GFA_TO_FA_hap1; GFA_TO_FA as GFA_TO_FA_hap2 } from './modules/gfa_to_fa/main.nf'
 
 //Canu
-include { CANU } from '/projects/cbp/scratch/pipeline/modules/canu/main.nf'
+include { CANU } from './modules/canu/main.nf'
 
 //Flye
-include { FLYE } from '/projects/cbp/scratch/pipeline/modules/flye/main.nf'
-include { FLYE_PACBIO_ONT } from '/projects/cbp/scratch/pipeline/modules/flye/flye_pacbio_ont/main.nf'
-include { MINIMAP2_ALIGN as MINIMAP_ALIGN_FLYE } from '/projects/cbp/scratch/pipeline/modules/minimap2/align/main.nf'
-include { RACON } from '/projects/cbp/scratch/pipeline/modules/racon/main.nf'
-include { LONGSTITCH } from '/projects/cbp/scratch/pipeline/modules/longstitch/main.nf'
+include { FLYE } from './modules/flye/main.nf'
+include { FLYE_PACBIO_ONT } from './modules/flye/flye_pacbio_ont/main.nf'
+include { MINIMAP2_ALIGN as MINIMAP_ALIGN_FLYE } from './modules/minimap2/align/main.nf'
+include { RACON } from './modules/racon/main.nf'
+include { LONGSTITCH } from './modules/longstitch/main.nf'
 
 //Verkko
-include { VERKKO } from '/projects/cbp/scratch/pipeline/modules/verkko/main.nf'
+include { VERKKO } from './modules/verkko/main.nf'
 
 //Polishing
 //Pilon
-include { PILON } from '/projects/cbp/scratch/pipeline/modules/pilon/main.nf'
-include { BWAMEM2_INDEX as BWAMEM2_INDEX_PILON } from '/projects/cbp/scratch/pipeline/modules/bwamem2/index/main.nf'
-include { BWAMEM2_MEM as BWAMEM2_MEM_PILON } from '/projects/cbp/scratch/pipeline/modules/bwamem2/mem/main.nf'
-include { SAMTOOLS_INDEX as SAMTOOLS_INDEX_PILON } from '/projects/cbp/scratch/pipeline/modules/samtools/index/main.nf'
+include { PILON } from './modules/pilon/main.nf'
+include { BWAMEM2_INDEX as BWAMEM2_INDEX_PILON } from './modules/bwamem2/index/main.nf'
+include { BWAMEM2_MEM as BWAMEM2_MEM_PILON } from './modules/bwamem2/mem/main.nf'
+include { SAMTOOLS_INDEX as SAMTOOLS_INDEX_PILON } from './modules/samtools/index/main.nf'
 
 //NCBI cleaning sequence
-include { FCS_FCSADAPTOR as FCS_FCSADAPTOR_hap1; FCS_FCSADAPTOR as FCS_FCSADAPTOR_ALT } from '/projects/cbp/scratch/pipeline/modules/fcs/fcsadaptor/'
-include { FCS_FCSGX as FCS_FCSGX_hap1; FCS_FCSGX as FCS_FCSGX_ALT } from '/projects/cbp/scratch/pipeline/modules/fcs/fcsgx'
-include { FCS_FCSGX_CLEAN as FCS_FCSGX_CLEAN_hap1; FCS_FCSGX_CLEAN as FCS_FCSGX_CLEAN_ALT } from '/projects/cbp/scratch/pipeline/modules/fcs/fcsgx_clean'
+include { FCS_FCSADAPTOR as FCS_FCSADAPTOR_hap1; FCS_FCSADAPTOR as FCS_FCSADAPTOR_ALT } from './modules/fcs/fcsadaptor/'
+include { FCS_FCSGX as FCS_FCSGX_hap1; FCS_FCSGX as FCS_FCSGX_ALT } from './modules/fcs/fcsgx'
+include { FCS_FCSGX_CLEAN as FCS_FCSGX_CLEAN_hap1; FCS_FCSGX_CLEAN as FCS_FCSGX_CLEAN_ALT } from './modules/fcs/fcsgx_clean'
 
 
 //PurgeDups
-include { CAT } from '/projects/cbp/scratch/pipeline/modules/cat/main.nf'
-include { MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_CONTIG; MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_SELF; MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_CONTIG_ALT; MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_SELF_ALT } from '/projects/cbp/scratch/pipeline/modules/minimap2/align/main.nf'
-include { PURGEDUPS_SPLITFA as PURGEDUPS_SPLITFA_hap1; PURGEDUPS_SPLITFA as PURGEDUPS_SPLITFA_ALT } from '/projects/cbp/scratch/pipeline/modules/purgedups/splitfa/main.nf'
-include { PURGEDUPS_PBCSTAT as PURGEDUPS_PBCSTAT_hap1; PURGEDUPS_PBCSTAT as PURGEDUPS_PBCSTAT_ALT } from '/projects/cbp/scratch/pipeline/modules/purgedups/pbcstat/main.nf'
-include { PURGEDUPS_CALCUTS as PURGEDUPS_CALCUTS_hap1; PURGEDUPS_CALCUTS as PURGEDUPS_CALCUTS_ALT } from '/projects/cbp/scratch/pipeline/modules/purgedups/calcuts/main.nf'
-include { PURGEDUPS_PURGEDUPS as PURGEDUPS_PURGEDUPS_hap1; PURGEDUPS_PURGEDUPS as PURGEDUPS_PURGEDUPS_ALT } from '/projects/cbp/scratch/pipeline/modules/purgedups/purgedups/main.nf'
-include { PURGEDUPS_GETSEQS as PURGEDUPS_GETSEQS_hap1; PURGEDUPS_GETSEQS as PURGEDUPS_GETSEQS_ALT } from '/projects/cbp/scratch/pipeline/modules/purgedups/getseqs/main.nf'
+include { CAT } from './modules/cat/main.nf'
+include { MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_CONTIG; MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_SELF; MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_CONTIG_ALT; MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_SELF_ALT } from './modules/minimap2/align/main.nf'
+include { PURGEDUPS_SPLITFA as PURGEDUPS_SPLITFA_hap1; PURGEDUPS_SPLITFA as PURGEDUPS_SPLITFA_ALT } from './modules/purgedups/splitfa/main.nf'
+include { PURGEDUPS_PBCSTAT as PURGEDUPS_PBCSTAT_hap1; PURGEDUPS_PBCSTAT as PURGEDUPS_PBCSTAT_ALT } from './modules/purgedups/pbcstat/main.nf'
+include { PURGEDUPS_CALCUTS as PURGEDUPS_CALCUTS_hap1; PURGEDUPS_CALCUTS as PURGEDUPS_CALCUTS_ALT } from './modules/purgedups/calcuts/main.nf'
+include { PURGEDUPS_PURGEDUPS as PURGEDUPS_PURGEDUPS_hap1; PURGEDUPS_PURGEDUPS as PURGEDUPS_PURGEDUPS_ALT } from './modules/purgedups/purgedups/main.nf'
+include { PURGEDUPS_GETSEQS as PURGEDUPS_GETSEQS_hap1; PURGEDUPS_GETSEQS as PURGEDUPS_GETSEQS_ALT } from './modules/purgedups/getseqs/main.nf'
 
 //HIC scaffolding-SALSA2
-include { PREPARE_GENOME } from '/projects/cbp/scratch/pipeline/modules/nfcore_hic/subworkflows/local/prepare_genome.nf'
-include { FASTQC } from '/projects/cbp/scratch/pipeline/modules/nfcore_hic/modules/nf-core/fastqc/main.nf'
-include { HICPRO } from '/projects/cbp/scratch/pipeline/modules/nfcore_hic/subworkflows/local/hicpro.nf'
-include { COOLER } from '/projects/cbp/scratch/pipeline/modules/nfcore_hic/subworkflows/local/cooler.nf'
-include { HIC_PLOT_DIST_VS_COUNTS } from '/projects/cbp/scratch/pipeline/modules/nfcore_hic/modules/local/hicexplorer/hicPlotDistVsCounts.nf'
-include { COMPARTMENTS } from '/projects/cbp/scratch/pipeline/modules/nfcore_hic/subworkflows/local/compartments.nf'
-include { TADS } from '/projects/cbp/scratch/pipeline/modules/nfcore_hic/subworkflows/local/tads.nf'
+include { PREPARE_GENOME } from './modules/nfcore_hic/subworkflows/local/prepare_genome.nf'
+include { FASTQC } from './modules/nfcore_hic/modules/nf-core/fastqc/main.nf'
+include { HICPRO } from './modules/nfcore_hic/subworkflows/local/hicpro.nf'
+include { COOLER } from './modules/nfcore_hic/subworkflows/local/cooler.nf'
+include { HIC_PLOT_DIST_VS_COUNTS } from './modules/nfcore_hic/modules/local/hicexplorer/hicPlotDistVsCounts.nf'
+include { COMPARTMENTS } from './modules/nfcore_hic/subworkflows/local/compartments.nf'
+include { TADS } from './modules/nfcore_hic/subworkflows/local/tads.nf'
 
-include { MINIMAP2_ALIGN as MINIMAP_ALIGN_HIC_F_GETSEQS; MINIMAP2_ALIGN as MINIMAP_ALIGN_HIC_R_GETSEQS } from '/projects/cbp/scratch/pipeline/modules/minimap2/align/main.nf'
-include { BEDTOOLS_BAMTOBED as BEDTOOLS_BAMTOBED_HIC_F_GETSEQS; BEDTOOLS_BAMTOBED as BEDTOOLS_BAMTOBED_HIC_R_GETSEQS;} from '/projects/cbp/scratch/pipeline/modules/bedtools/bamtobed/main.nf'
-include { BED_PROCESSING } from '/projects/cbp/scratch/pipeline/modules/bed_processing/main.nf'
-include { SALSA2 } from '/projects/cbp/scratch/pipeline/modules/salsa2/main.nf'
-include { SALSA2_JUICER } from '/projects/cbp/scratch/pipeline/modules/juicer/salsa2_juicer/main.nf'
+include { MINIMAP2_ALIGN as MINIMAP_ALIGN_HIC_F_GETSEQS; MINIMAP2_ALIGN as MINIMAP_ALIGN_HIC_R_GETSEQS } from './modules/minimap2/align/main.nf'
+include { BEDTOOLS_BAMTOBED as BEDTOOLS_BAMTOBED_HIC_F_GETSEQS; BEDTOOLS_BAMTOBED as BEDTOOLS_BAMTOBED_HIC_R_GETSEQS;} from './modules/bedtools/bamtobed/main.nf'
+include { BED_PROCESSING } from './modules/bed_processing/main.nf'
+include { SALSA2 } from './modules/salsa2/main.nf'
+include { SALSA2_JUICER } from './modules/juicer/salsa2_juicer/main.nf'
 
 //HIC scaffolding-YAHS
-include { SAMTOOLS_FAIDX as SAMTOOLS_FAIDX1; SAMTOOLS_FAIDX as SAMTOOLS_FAIDX2; SAMTOOLS_FAIDX as SAMTOOLS_FAIDX1_ALT; SAMTOOLS_FAIDX as SAMTOOLS_FAIDX2_ALT } from '/projects/cbp/scratch/pipeline/modules/samtools/faidx/main.nf'
-include { CHROMAP_INDEX as CHROMAP_INDEX_hap1; CHROMAP_INDEX as CHROMAP_INDEX_ALT } from '/projects/cbp/scratch/pipeline/modules/chromap/index/main.nf'
-include { CHROMAP_CHROMAP as CHROMAP_CHROMAP_hap1; CHROMAP_CHROMAP as CHROMAP_CHROMAP_ALT } from '/projects/cbp/scratch/pipeline/modules/chromap/chromap/main.nf'
-include { YAHS as YAHS_hap1; YAHS as YAHS_ALT } from '/projects/cbp/scratch/pipeline/modules/yahs/main.nf'
+include { SAMTOOLS_FAIDX as SAMTOOLS_FAIDX1; SAMTOOLS_FAIDX as SAMTOOLS_FAIDX2; SAMTOOLS_FAIDX as SAMTOOLS_FAIDX1_ALT; SAMTOOLS_FAIDX as SAMTOOLS_FAIDX2_ALT } from './modules/samtools/faidx/main.nf'
+include { CHROMAP_INDEX as CHROMAP_INDEX_hap1; CHROMAP_INDEX as CHROMAP_INDEX_ALT } from './modules/chromap/index/main.nf'
+include { CHROMAP_CHROMAP as CHROMAP_CHROMAP_hap1; CHROMAP_CHROMAP as CHROMAP_CHROMAP_ALT } from './modules/chromap/chromap/main.nf'
+include { YAHS as YAHS_hap1; YAHS as YAHS_ALT } from './modules/yahs/main.nf'
 
 //Map PacBio data against newly genevated assembly
-include { JASMINE } from '/projects/cbp/scratch/pipeline/modules/pacbio/jasmine/main.nf'
-include { PBMM2 } from '/projects/cbp/scratch/pipeline/modules/pacbio/pbmm2/main.nf'
-include { SAMTOOLS_INDEX as SAMTOOLS_INDEX_PBMM2 } from '/projects/cbp/scratch/pipeline/modules/samtools/index/main.nf'
+include { JASMINE } from './modules/pacbio/jasmine/main.nf'
+include { PBMM2 } from './modules/pacbio/pbmm2/main.nf'
+include { SAMTOOLS_INDEX as SAMTOOLS_INDEX_PBMM2 } from './modules/samtools/index/main.nf'
 
 //Assembly QC
-include { YAHS_JUICER } from '/projects/cbp/scratch/pipeline/modules/juicer/yahs_juicer/main.nf'
-include { JUICER } from '/projects/cbp/scratch/pipeline/modules/juicer/juicer/main.nf'
-include { PRETEXTMAP } from '/projects/cbp/scratch/pipeline/modules/pretext/pretextmap/main.nf'
-include { PRETEXTSNAPSHOT } from '/projects/cbp/scratch/pipeline/modules/pretext/pretextsnapshot/main.nf'
-include { BEDTOOLS_GENOMECOV } from '/projects/cbp/scratch/pipeline/modules/bedtools/genomecov/main.nf'
-include { GFASTATS } from '/projects/cbp/scratch/pipeline/modules/gfastats/main.nf'
-include { TIDK } from '/projects/cbp/scratch/pipeline/modules/tidk/main.nf'
-include { PRETEXTGRAPH as PRETEXTGRAPH_TELO; PRETEXTGRAPH as PRETEXTGRAPH_TELO_COV } from '/projects/cbp/scratch/pipeline/modules/pretext/pretextgraph/main.nf'
+include { YAHS_JUICER } from './modules/juicer/yahs_juicer/main.nf'
+include { JUICER } from './modules/juicer/juicer/main.nf'
+include { PRETEXTMAP } from './modules/pretext/pretextmap/main.nf'
+include { PRETEXTSNAPSHOT } from './modules/pretext/pretextsnapshot/main.nf'
+include { BEDTOOLS_GENOMECOV } from './modules/bedtools/genomecov/main.nf'
+include { GFASTATS } from './modules/gfastats/main.nf'
+include { TIDK } from './modules/tidk/main.nf'
+include { PRETEXTGRAPH as PRETEXTGRAPH_TELO; PRETEXTGRAPH as PRETEXTGRAPH_TELO_COV } from './modules/pretext/pretextgraph/main.nf'
 
 //Genome comparison
-include { NCBIGENOMEDOWNLOAD } from '/projects/cbp/scratch/pipeline/modules/ncbigenomedownload/main.nf'
-include { JUPITER } from '/projects/cbp/scratch/pipeline/modules/jupiter/main.nf'
-include { MASHMAP } from '/projects/cbp/scratch/pipeline/modules/mashmap/main.nf'
+include { NCBIGENOMEDOWNLOAD } from './modules/ncbigenomedownload/main.nf'
+include { JUPITER } from './modules/jupiter/main.nf'
+include { MASHMAP } from './modules/mashmap/main.nf'
 
 //QC of assemblies
-include { BUSCO as BUSCO_lin1_PRIM; BUSCO as BUSCO_lin1_cleaned; BUSCO as BUSCO_lin1_purged; BUSCO as BUSCO_lin1_SCAFF; BUSCO as BUSCO_lin2; BUSCO as BUSCO_lin3; BUSCO as BUSCO_lin4; BUSCO as BUSCO_ALT } from '/projects/cbp/scratch/pipeline/modules/busco/main.nf'
-include { MERQURY as MERQURY_ASS; MERQURY as MERQURY_PURGED; MERQURY as MERQURY_SCAFF } from '/projects/cbp/scratch/pipeline/modules/merqury/main.nf'
-include { MERQURY_DOUBLE as MERQURY_ASS_DOUBLE; MERQURY_DOUBLE as MERQURY_PURGED_DOUBLE; MERQURY_DOUBLE as MERQURY_SCAFF_DOUBLE } from '/projects/cbp/scratch/pipeline/modules/merqury/merqury_double/main.nf'
-include { QUAST as QUAST_ASS; QUAST as QUAST_PILON; QUAST as QUAST_CLEAN; QUAST as QUAST_PURGED; QUAST as QUAST_SCAFF } from '/projects/cbp/scratch/pipeline/modules/quast/main.nf'
-include { QUAST_DOUBLE as QUAST_ASS_DOUBLE; QUAST_DOUBLE as QUAST_CLEAN_DOUBLE; QUAST_DOUBLE as QUAST_PURGED_DOUBLE; QUAST_DOUBLE as QUAST_SCAFF_DOUBLE } from '/projects/cbp/scratch/pipeline/modules/quast/quast_double/main.nf'
-include { MULTIQC } from '/projects/cbp/scratch/pipeline/modules/multiqc/main.nf'
+include { BUSCO as BUSCO_lin1_PRIM; BUSCO as BUSCO_lin1_cleaned; BUSCO as BUSCO_lin1_purged; BUSCO as BUSCO_lin1_SCAFF; BUSCO as BUSCO_lin2; BUSCO as BUSCO_lin3; BUSCO as BUSCO_lin4; BUSCO as BUSCO_ALT } from './modules/busco/main.nf'
+include { MERQURY as MERQURY_ASS; MERQURY as MERQURY_PURGED; MERQURY as MERQURY_SCAFF } from './modules/merqury/main.nf'
+include { MERQURY_DOUBLE as MERQURY_ASS_DOUBLE; MERQURY_DOUBLE as MERQURY_PURGED_DOUBLE; MERQURY_DOUBLE as MERQURY_SCAFF_DOUBLE } from './modules/merqury/merqury_double/main.nf'
+include { QUAST as QUAST_ASS; QUAST as QUAST_PILON; QUAST as QUAST_CLEAN; QUAST as QUAST_PURGED; QUAST as QUAST_SCAFF } from './modules/quast/main.nf'
+include { QUAST_DOUBLE as QUAST_ASS_DOUBLE; QUAST_DOUBLE as QUAST_CLEAN_DOUBLE; QUAST_DOUBLE as QUAST_PURGED_DOUBLE; QUAST_DOUBLE as QUAST_SCAFF_DOUBLE } from './modules/quast/quast_double/main.nf'
+include { MULTIQC } from './modules/multiqc/main.nf'
 
 //Blobtoolskit
-include { GZIP } from '/projects/cbp/scratch/pipeline/modules/gzip/main.nf'
-include { BLOBTOOLS_CONFIG } from '/projects/cbp/scratch/pipeline/modules/blobtools/blobtools_config/main.nf'
-include { BLOBTOOLS_PIPELINE } from '/projects/cbp/scratch/pipeline/modules/blobtools/blobtools_pipeline/main.nf'
-include { BLOBTOOLS_CREATE } from '/projects/cbp/scratch/pipeline/modules/blobtools/blobtools_create/main.nf'
-include { BLOBTOOLS_ADD } from '/projects/cbp/scratch/pipeline/modules/blobtools/blobtools_add/main.nf'
-include { BLOBTOOLS_VIEW } from '/projects/cbp/scratch/pipeline/modules/blobtools/blobtools_view/main.nf'
+include { GZIP } from './modules/gzip/main.nf'
+include { BLOBTOOLS_CONFIG } from './modules/blobtools/blobtools_config/main.nf'
+include { BLOBTOOLS_PIPELINE } from './modules/blobtools/blobtools_pipeline/main.nf'
+include { BLOBTOOLS_CREATE } from './modules/blobtools/blobtools_create/main.nf'
+include { BLOBTOOLS_ADD } from './modules/blobtools/blobtools_add/main.nf'
+include { BLOBTOOLS_VIEW } from './modules/blobtools/blobtools_view/main.nf'
 
-include { OVERVIEW_GENERATION_SAMPLE } from '/projects/cbp/scratch/pipeline/modules/overview_generation/sample/main.nf'
-include { CUSTOM_DUMPSOFTWAREVERSIONS                    } from '/projects/cbp/scratch/pipeline/modules/dumpsoftwareversions/main'
+include { OVERVIEW_GENERATION_SAMPLE } from './modules/overview_generation/sample/main.nf'
+include { CUSTOM_DUMPSOFTWAREVERSIONS                    } from './modules/dumpsoftwareversions/main'
 
-include { RAPIDCURATION_SPLIT } from '/projects/cbp/scratch/pipeline/modules/manualcuration/main.nf'
+include { RAPIDCURATION_SPLIT } from './modules/manualcuration/main.nf'
 
 workflow {
 
