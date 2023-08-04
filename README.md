@@ -49,7 +49,7 @@ Figure : Overview of the Canadian Biogenome project assembly pipeline
 
 
 ## Running the pipeline with test data
-To run this pipeline, you need nextflow and conda installed on your system.
+To run this pipeline, you need [nextflow](https://www.nextflow.io/docs/latest/getstarted.html) and [conda](https://docs.conda.io/projects/conda/en/latest/commands/install.html) installed on your system.
 
 A set of test data are available in this repo to allow you to test the pipeline with just one command line:
 
@@ -70,7 +70,7 @@ cd Canadian_Biogenome_Project
 ```
 
 Modify the nextflow.config file:
-IMPORTANT : In the nextflow config file, to comment out a line, the type is : // (instead of # in bash scripts)
+IMPORTANT : In the nextflow config file, to comment out a line, the type is : // (instead of # in bash scripts) - [More details](https://groovy-lang.org/syntax.html#:~:text=Single%2Dline%20comments%20start%20with,considered%20part%20of%20the%20comment.)
 
 - Indicate the specie ID (ex : "Steller_sea_lion_001) and the specie taxonomy ID (ex : 34886)
 The specie ID will be used as a prefix to name some of the output file, it as to be a string.
