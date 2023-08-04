@@ -317,7 +317,7 @@ taxon  = [
 
 
         // Gather versions of all tools used
-        ch_versions = ch_versions.mix(LONGQC_PACBIO.out.versions)
+//        ch_versions = ch_versions.mix(LONGQC_PACBIO.out.versions)
         ch_versions = ch_versions.mix(MERYL_COUNT.out.versions)
         ch_versions = ch_versions.mix(GENOMESCOPE2.out.versions)
 
