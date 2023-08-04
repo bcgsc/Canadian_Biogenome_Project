@@ -1,6 +1,6 @@
 name: test CBP nextflow pipeline
 run-name: ${{ github.actor }} is testing the Canafian Biogenome Project pipeline
-on: [push]
+#on: [push]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
