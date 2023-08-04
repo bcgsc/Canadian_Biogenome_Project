@@ -62,18 +62,19 @@ The outputs are organized in several subfolder that are self-explenatory.
 
 
 ## Running the pipeline with your own data
-Clone the repository in your local environment:
+### Clone the repository in your local environment:
 
 ```
 git clone https://github.com/bcgsc/Canadian_Biogenome_Project.git
 cd Canadian_Biogenome_Project
 ```
 
-Modify the nextflow.config file:
+### Modify the nextflow.config file:
+
 IMPORTANT : In the nextflow config file, to comment out a line, the type is : // (instead of # in bash scripts) - [More details](https://groovy-lang.org/syntax.html#:~:text=Single%2Dline%20comments%20start%20with,considered%20part%20of%20the%20comment.)
 
 - Indicate the specie ID (ex : "Steller_sea_lion_001) and the specie taxonomy ID (ex : 34886)
-- 
+  
 The specie ID will be used as a prefix to name some of the output file, it as to be a string.
 
 More details to identify the taxonomy ID are available [here](#Input-data)
@@ -90,9 +91,14 @@ For details regarding the 'related_genome' optional parameter, see below in opti
 
 
 - Indicate the location and filenames of the input files (PacBio data, Hi-C data, etc)
-For PacBio data, unlaigned bam files are expected.
-Reads from the latest PacBio technology (CCS) are expected, if other reads are used, indicate it and use another aligner to generate the assembly (hifiasm, the default assembler in this pipeline, is designed for HiFi reads, PacBio latest technology).
+  
+For PacBio data, [unlaigned bam files](https://pacbiofileformats.readthedocs.io/en/11.0/BAM.html#:~:text=Unaligned%20PacBio%20BAM%20files%20shall,a%20ZMW%2C%20numerically%20by%20qStart%20.) are expected.
+
+Reads from the [CCS PacBio technology](https://ccs.how) are expected, if other reads are used, indicate it with the 'pacbio_input_type' parameter and use another aligner in the method section to generate the assembly (hifiasm, the default assembler in this pipeline, is designed for [HiFi reads](https://www.pacb.com/blog/the-hifi-difference-large-scale-high-quality-data-for-all-of-us/)).
+
 If you have several PacBio SMRT cells for one specie, you can indicate them all (up to 4). No need to merge the data prior to launching the pipeline.
+
+For Hi-C reads, Illumina paired-end data are expected (fastq.gz) - [More details](https://www.illumina.com/science/sequencing-method-explorer/kits-and-arrays/hi-c-3c-seq-capture-c.html)
 ```
 //PacBio input
 	pacbio_input_type	= "ccs" //'ccs' or 'clr' or 'subreads'
@@ -105,14 +111,17 @@ If you have several PacBio SMRT cells for one specie, you can indicate them all 
         Illumina_prefix         = "test"
 ```
 
-(optionnaly) - As the pipeline relies on hifiasm by default, only reads with rq>0.99 (≥Q20 (HiFi reads only, Probability of incorrect base call : 1 in 100), equivalent of using extracthifi software) are used.
-If you want to filter mor or less read, you can change the read quality threashold in the nextf.config file:
+- (Optional) As the pipeline relies on hifiasm by default, only reads with rq>0.99 (≥Q20 (HiFi reads only, Probability of incorrect base call : 1 in 100), equivalent of using extracthifi software) are used.
+
+If you want to filter more or less read, you can change the read quality threashold in the nextflow.config file:
 ```
         pacbio_rq               = "0.99"
 ```
 
-(optional) - Indicate the BUSCO lineage or lineages that BUSCO should use to assess the completness of the assembly.
+- (Optional) Indicate the BUSCO lineage or lineages that BUSCO should use to assess the completness of the assembly.
+
 If no lineage are indicated (if the lines are comented out as in the below example), BUSCO will be set to [auto-lineage](https://busco.ezlab.org/busco_userguide.html#automated-lineage-selection)
+
 If you indiciate a specific lineage, this lineage needs to be [downloaded](https://busco.ezlab.org/busco_userguide.html#offline) and located in the path section in nextflow.config
 ```
 //Optional (if not indicated, autolineage for busco)
@@ -122,7 +131,8 @@ If you indiciate a specific lineage, this lineage needs to be [downloaded](https
 //        lineage4                = "eukaryota_odb10"
 ```
 
-(optional) - Include additional dataset (nanopore data such as ultra-long reads or long reads; Illumina short read data for polishing)
+(Optional) - Include additional dataset (nanopore data such as ultra-long reads or long reads; Illumina short read data for polishing)
+
 By default, this pipeline relies on PacBio HiFi reads and Hi-C data only. In some cases, nanopore data may be generated, in which case, polishing using Illumina short-read may be preferable. If such approach is done, you can indicate the nanopore and Illumina short-read data in this section
 ```
 //ONT input
@@ -134,7 +144,7 @@ By default, this pipeline relies on PacBio HiFi reads and Hi-C data only. In som
 ```
 
 
-(optional) - To use another assembler than hifiasm, modify the method section in the nextflow.config file (Details indiacted in the nextflow.config file)
+- (Optional) To use another assembler than hifiasm, modify the method section in the nextflow.config file (Details indiacted in the nextflow.config file)
 ```
 //Method
         assembly_method         = "hifiasm"	// 'hifiasm' or 'canu' of 'flye' or 'verkko'
@@ -144,7 +154,7 @@ By default, this pipeline relies on PacBio HiFi reads and Hi-C data only. In som
 // With flye : 'hifi' (--pacbio-hifi mode), 'ont' (--nano-raw mode), 'pacbio+ont', 'clr' (--pacbio-raw)
 // With verkko : 'pacbio' (--hifi: uses HiFi data only), 'ont' (--nano : uses nanopore data only), 'pacbio+ont' (--hifi --nano)
 	polishing_method	= "none"	// 'pilon' or 'none'
-	purging_method		= "purge_dups"	//DO NOT MODIFY
+	purging_method		= "purge_dups"	// "purge_dups" or "no"
 	scaffolding_method	= "yahs"	// 'yahs' or 'salsa'
 ```
 
