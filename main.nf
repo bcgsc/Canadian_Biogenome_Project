@@ -297,7 +297,7 @@ taxon  = [
 	ch_versions = ch_versions.mix(BAM2FASTX.out.versions)
 
         //QC Input data
-        LONGQC_PACBIO (CUTADAPT.out.reads)
+//        LONGQC_PACBIO (CUTADAPT.out.reads)
         MERYL_COUNT (CUTADAPT.out.reads)
         MERYL_HISTOGRAM (MERYL_COUNT.out.meryl_db)
         GENOMESCOPE2 (MERYL_HISTOGRAM.out.hist, GOAT_TAXONSEARCH.out.ploidy)
