@@ -2,7 +2,7 @@ process BAM2FASTX {
     tag "$meta.id"
     label 'process_medium'
 
-    conda (params.enable_conda ? "bioconda::bam2fastx=1.3.1" : null)
+    conda "bioconda::bam2fastx=1.3.1"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/bam2fastx%3A1.3.1--hf05d43a_1':
         'quay.io/biocontainers/bam2fastx' }"
