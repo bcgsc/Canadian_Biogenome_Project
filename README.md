@@ -11,7 +11,7 @@ A lot of the modules available in this pipeline were developed by members of the
 * **[Input data](#input-data)**
 * **[Output data](#output-files)**
 * **[Process](#process)**
-  * [Running the pipeline with test data](#running-the-pipeline-with-test-data-(will-work-once-the-repo-is-public))
+  * [Running the pipeline with test data](#running-the-pipeline-with-test-data)
   * [Running the pipeline with your own data](#running-the-pipeline-with-your-own-data)
 * **[Credits](#credits)**
 * **[Details on the test dataset](#details-on-the-test-dataset)**
@@ -34,21 +34,11 @@ The pipeline generates many files and intermediate files, most are self explanat
 
 
 ## **Process**
-An overview of the pipeline is visible on the following subway map. Some parts of the pipeline may have been commented out in this version as they relied on locaaly installed software. The code is still available in case you also want to locally install the software and try it out.
+An overview of the pipeline is visible on the following subway map. Some parts of the pipeline have been commented out as they relied on locaaly installed software. The code is still available in case you also want to locally install the software and use them for the assembly generation / evaluation.
 
 By default, the pipeline will use hifiasm with PacBio data for the assembly, and if Hi-C data is available, YAHS is used for the scaffolding.
 Other assembler and scaffolder are available within the pipeline, to change, you need to edit the nextflow.config file.
 
-Software used that would require local installation:
-
-- [LongQC](https://github.com/yfukasawa/LongQC)
-- [MitoHifi](https://github.com/marcelauliano/MitoHiFi)
-- [Juicer](https://github.com/aidenlab/juicer)
-
-
-Software that relies on locally downloaded files / databases :
-
-- [Kraken](http://ccb.jhu.edu/software/kraken/)
 
 <p align="center">
     <img title="The Canadian Biogenome Project Workflow" src="res/CBP_workflow.png" width=50%>
@@ -82,7 +72,10 @@ cd Canadian_Biogenome_Project
 Modify the nextflow.config file:
 IMPORTANT : In the nextflow config file, to comment out a line, the type is : // (instead of # in bash scripts)
 
-- Indicate the specie ID (ex : "Steller_sea_lion_001) and the taxon ID (ex : 34886)
+- Indicate the specie ID (ex : "Steller_sea_lion_001) and the specie taxonomy ID (ex : 34886)
+The specie ID will be used as a prefix to name some of the output file, it as to be a string.
+More details to identify the taxonomy ID are available [here](#Input-data)
+For details regarding the 'related_genome' optional parameter, see below in optional additional steps of the pipeline
 ```
 //Specie parameters
         id                      = "Steller_sea_lion_001"
@@ -115,7 +108,7 @@ If you want to filter mor or less read, you can change the read quality threasho
         pacbio_rq               = "0.99"
 ```
 
-(optionnaly) - Indicate the BUSCO lineage or lineages that BUSCO should use to assess the completness of the assembly.
+(optional) - Indicate the BUSCO lineage or lineages that BUSCO should use to assess the completness of the assembly.
 If no lineage are indicated (if the lines are comented out as in the below example), BUSCO will be set to [auto-lineage](https://busco.ezlab.org/busco_userguide.html#automated-lineage-selection)
 If you indiciate a specific lineage, this lineage needs to be [downloaded](https://busco.ezlab.org/busco_userguide.html#offline) and located in the path section in nextflow.config
 ```
@@ -126,7 +119,7 @@ If you indiciate a specific lineage, this lineage needs to be [downloaded](https
 //        lineage4                = "eukaryota_odb10"
 ```
 
-(optionnaly) - Include additional dataset (nanopore data such as ultra-long reads or long reads; Illumina short read data for polishing)
+(optional) - Include additional dataset (nanopore data such as ultra-long reads or long reads; Illumina short read data for polishing)
 By default, this pipeline relies on PacBio HiFi reads and Hi-C data only. In some cases, nanopore data may be generated, in which case, polishing using Illumina short-read may be preferable. If such approach is done, you can indicate the nanopore and Illumina short-read data in this section
 ```
 //ONT input
@@ -138,7 +131,7 @@ By default, this pipeline relies on PacBio HiFi reads and Hi-C data only. In som
 ```
 
 
-(optionnaly) - To use another assembler than hifiasm, modify the method section in the nextflow.config file (Details indiacted in the nextflow.config file)
+(optional) - To use another assembler than hifiasm, modify the method section in the nextflow.config file (Details indiacted in the nextflow.config file)
 ```
 //Method
         assembly_method         = "hifiasm"	// 'hifiasm' or 'canu' of 'flye' or 'verkko'
@@ -152,13 +145,23 @@ By default, this pipeline relies on PacBio HiFi reads and Hi-C data only. In som
 	scaffolding_method	= "yahs"	// 'yahs' or 'salsa'
 ```
 
-(optionnaly) -  If you want to run additional steps of the pipeline. 
+(optional) -  If you want to run additional steps of the pipeline. 
 Most of them have been set to 'no' by default as they require local installation of tools or databases.
+```
+//Optional steps
+	mitohifi		= "no"		// 'yes' or 'no' - Geneerate the mitochondrial assembly
+	execute_kraken		= "no"		// 'yes' or 'no' - Assigning taxonomic labels to short DNA sequences
+	fcs			= "no"		// 'yes' or 'no' - Foreign contamination screening
+	methylation_calling	= "no"		// 'yes' or 'no'
+	juicer			= "no"		// 'yes' or 'no' - HiC contact map
+	genome_comparison	= "no"		// 'yes' or 'no' - Jupiter plots using circos
+	pretext			= "no"		// 'yes' or 'no' - HiC contact map
+	blobtools		= "no"		// 'yes' or 'no' - Overview of data quality
+	manual_curation		= "no"		// 'yes' or 'no' - This parameter doesn't change the pipeline, it is only used to track which assemblies have been manually curated
+```
 
-generate a [Jupiter plot](https://github.com/JustinChu/JupiterPlot) to compare the obtained assembly to the assembly of a closely related specie using [Circos](http://circos.ca), specify the GenBank assembly number of the closely related specie.
-For example, if we wanted to compare to the [California sea lion](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009762305.2/), we would indicate "GCA_009762305.2"
-
-- To run some additional steps (Kraken,  
+genome_comparison : Generates a [Jupiter plot](https://github.com/JustinChu/JupiterPlot) to compare the obtained assembly to the assembly of a closely related specie using [Circos](http://circos.ca), specify the GenBank assembly number of the closely related specie.
+For example, if we wanted to compare to the [California sea lion](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009762305.2/), we would indicate "GCA_009762305.2"  
 
 Launch the pipeline
 
