@@ -73,8 +73,11 @@ Modify the nextflow.config file:
 IMPORTANT : In the nextflow config file, to comment out a line, the type is : // (instead of # in bash scripts) - [More details](https://groovy-lang.org/syntax.html#:~:text=Single%2Dline%20comments%20start%20with,considered%20part%20of%20the%20comment.)
 
 - Indicate the specie ID (ex : "Steller_sea_lion_001) and the specie taxonomy ID (ex : 34886)
+- 
 The specie ID will be used as a prefix to name some of the output file, it as to be a string.
+
 More details to identify the taxonomy ID are available [here](#Input-data)
+
 For details regarding the 'related_genome' optional parameter, see below in optional additional steps of the pipeline
 ```
 //Specie parameters
