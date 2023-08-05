@@ -243,6 +243,8 @@ nextflow run main.nf -profile singularity
 
 ## **Credits**
 
+The credit relies on tool developped by many other team, and on the Nextflow framework developped by the nextflow / Seqera labs team.
+
 The pipeline was originnally written by [@scorreard](https://github.com/scorreard) with the help and input from :
 
 - Members of the Jones lab (Canada's Michael Smith Genome Sciences Centre, Vancouver, Canada).
