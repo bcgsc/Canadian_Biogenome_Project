@@ -122,7 +122,7 @@ If you want to filter more or less read, you can change the read quality threash
 
 If no lineage are indicated (if the lines are comented out as in the below example), BUSCO will be set to [auto-lineage](https://busco.ezlab.org/busco_userguide.html#automated-lineage-selection)
 
-If you indiciate a specific lineage, this lineage needs to be [downloaded](https://busco.ezlab.org/busco_userguide.html#offline) and located in the path section in nextflow.config
+If you indiciate a specific lineage, this lineage needs to be [downloaded](https://busco.ezlab.org/busco_userguide.html#offline) and located in the path section under 'busco_lineages_path' in nextflow.config file
 ```
 //Optional (if not indicated, autolineage for busco)
 //        lineage                 = ""
@@ -131,7 +131,7 @@ If you indiciate a specific lineage, this lineage needs to be [downloaded](https
 //        lineage4                = "eukaryota_odb10"
 ```
 
-(Optional) - Include additional dataset (nanopore data such as ultra-long reads or long reads; Illumina short read data for polishing)
+- (Optional) Include additional dataset (nanopore data such as ultra-long reads or long reads; Illumina short read data for polishing)
 
 By default, this pipeline relies on PacBio HiFi reads and Hi-C data only. In some cases, nanopore data may be generated, in which case, polishing using Illumina short-read may be preferable. If such approach is done, you can indicate the nanopore and Illumina short-read data in this section
 ```
@@ -158,8 +158,9 @@ By default, this pipeline relies on PacBio HiFi reads and Hi-C data only. In som
 	scaffolding_method	= "yahs"	// 'yahs' or 'salsa'
 ```
 
-(optional) -  If you want to run additional steps of the pipeline. 
-Most of them have been set to 'no' by default as they require local installation of tools or databases.
+- (Optional) If you want to run additional steps of the pipeline.
+  
+Most of the following steps have been set to 'no' by default as they require local installation of tools or databases.
 ```
 //Optional steps
 	mitohifi		= "no"		// 'yes' or 'no' - Geneerate the mitochondrial assembly
@@ -173,8 +174,64 @@ Most of them have been set to 'no' by default as they require local installation
 	manual_curation		= "no"		// 'yes' or 'no' - This parameter doesn't change the pipeline, it is only used to track which assemblies have been manually curated
 ```
 
-genome_comparison : Generates a [Jupiter plot](https://github.com/JustinChu/JupiterPlot) to compare the obtained assembly to the assembly of a closely related specie using [Circos](http://circos.ca), specify the GenBank assembly number of the closely related specie.
-For example, if we wanted to compare to the [California sea lion](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009762305.2/), we would indicate "GCA_009762305.2"  
+_mitohifi_ : Geneerate the mitochondrial assembly using [mitohifi](https://github.com/marcelauliano/MitoHi
+
+To run mitohifi, it is required to include your email address in the path section under 'email_adress' and download a local version of MitoHifi (mitohifi.py that should be located in ${params.singularity_cache}/MitoHiFi/mitohifi.py)
+
+(This may be updated in the future if conda / singularity containers are generated and stable).
+
+_execute_kraken_ : Assigning taxonomic labels to short DNA sequences with [Kraken2](https://github.com/DerrickWood/kraken2)
+
+Kraken2 requires [downloading and setting up specific databases](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#kraken-2-databases). If you have the expected databases in your system, indicate the path in the path section under 'kraken_db'
+
+_fcs_ : [Foreign contamination screening](https://github.com/ncbi/fcs) from NCBI.
+
+The NCBI Foreign Contamination Screen (FCS) is a tool suite for identifying and removing contaminant sequences in genome assemblies. Contaminants are defined as sequences in a dataset that do not originate from the biological source organism and can arise from a variety of environmental and laboratory sources. FCS will help you remove contaminants from genomes before submission to GenBank.
+
+FCS_GX requires [downloading a database](https://github.com/ncbi/fcs/wiki/FCS-GX#b-download-the-database). If you have such database in your system, you can indicate the path in the path section under 'fcs_gx_database'
+
+_methylation_calling_ : Using PacBio HiFi reads with kinetics, it is possible to [identify epigenetic marks in the ssequence](https://www.pacb.com/products-and-services/applications/epigenetics/). This is done using [jasmine](https://github.com/PacificBiosciences/jasmine).
+
+This is commented out as the test PacBio dataset do not include kinetics.
+
+_juicer_ : [Platform](https://github.com/aidenlab/juicer) for analyzing kilobase resolution Hi-C data
+
+The command line version of Juicer requires a [jar file](https://github.com/aidenlab/juicer#command-line-tools-usage) that needs to be downloaded locally. If you have juicer_tools.jar installed on your system, you can include the path to the jar file in the path section under 'JUICER_JAR'.
+
+_genome_comparison_ : Generates a [Jupiter plot](https://github.com/JustinChu/JupiterPlot) to compare the obtained assembly to the assembly of a closely related specie using [Circos](http://circos.ca).
+
+This only works for high-quality scaffold assemble (high scaffold N50, low number of scaffolds).
+
+The GenBank assembly number of the closely related specie to compare the generated assembly must be indicated in the Specie parameter (top of the nextflow.config file), under 'related_genome'
+
+For example, if we wanted to compare to the [California sea lion](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_009762305.2/), we would indicate "GCA_009762305.2" and remove the // that comment out this information.
+
+_pretext_ : [Converts SAM or pairs formatted read pairs into genome contact maps](https://github.com/wtsi-hpag/PretextMap).
+
+_blobtools_ : [BlobTools2](https://github.com/blobtoolkit/blobtoolkit) is a command line tool designed to aid genome assembly QC and contaminant/cobiont detection and filtering.
+
+Blobtools2 is a great tool but a bit complex to install locally. It requires database, and a specific data structure. I automated most of it to obtain the [good looking plots](https://blobtoolkit.genomehubs.org/btk-viewer/viewer-tutorials/exploring-views/) (snails, blob and cumulative).
+
+The Darwin Tree of Life is working on a [nextflow version of this tool](https://github.com/sanger-tol/blobtoolkit).
+
+_manual_curation_ : This doesn't actually do a thing. It is just used to track which assemblies were manually curated and which were not.
+
+- (Optional) Modify the path
+```
+//Path 
+        scratch_dir		= "<path>"
+        outdir                  = "${scratch_dir}/${id}/${pipeline_version}/"
+        busco_lineages_path     = "${scratch_dir}/busco_downloads/"
+	kraken_db		= "${scratch_dir}/kraken-db/"
+	singularity_cache	= "${scratch_dir}/singularity/"
+        JUICER_JAR              = "${singularity_cache}/juicer_tools_1.22.01.jar"
+	Blobtoolkit_db		= "<path>/BlobtoolkitDatabase/"
+	blobtoolkit_path	= "${scratch_dir}/blobtoolkit"
+	modules_path		= "${scratch_dir}/pipeline/modules/"
+	email_adress		= "<email_address>"
+	fcs_gx_database		= "${scratch_dir}/fcs_gx/gxdb/all"
+```
+
 
 Launch the pipeline
 
