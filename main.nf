@@ -28,7 +28,6 @@ Mitochondrial assembly		: ${params.mitohifi}
 Pretext Hi-C map		: ${params.pretext}
 Juicer Hi-C map			: ${params.juicer}
 Methylation calling		: ${params.methylation_calling}
-Comparison to related genome	: ${params.genome_comparison}
 Blobtools			: ${params.blobtools}
 Manual curation                 : ${params.manual_curation}
 """
