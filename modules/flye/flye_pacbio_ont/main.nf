@@ -2,7 +2,7 @@ process FLYE_PACBIO_ONT {
     tag "$meta.id"
     label 'process_high'
 
-    conda "bioconda::flye=2.9"
+    //conda "bioconda::flye=2.9"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/flye:2.9--py39h6935b12_1' :
         'quay.io/biocontainers/flye:2.9--py39h6935b12_1' }"

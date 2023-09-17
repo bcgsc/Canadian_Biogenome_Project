@@ -1,4 +1,3 @@
-
 process PRETEXTMAP {
     tag "$meta.id"
     label 'process_single'
@@ -14,9 +13,16 @@ process PRETEXTMAP {
 
     output:
     tuple val(meta), path("*.pretext"), emit: pretext
+    path  "versions.yml"          , emit: versions
 
     script:
     """
     (awk 'BEGIN{print "## pairs format v1.0"} {print "#chromsize:\t"\$1"\t"\$2} END {print "#columns:\treadID\tchr1\tpos1\tchr2\tpos2\tstrand1\tstrand2"}' $chrom_sizes; awk '{print ".\t"\$2"\t"\$3"\t"\$6"\t"\$7"\t.\t."}' $alignments_sorted_txt) | PretextMap -o ${meta.id}.pretext
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        pretextmap: \$(PretextMap | grep "Version" | sed 's/PretextMap Version //g')
+        samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//' )
+    END_VERSIONS
     """
 }

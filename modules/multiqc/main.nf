@@ -1,7 +1,7 @@
 process MULTIQC {
     label 'process_single'
 
-    conda (params.enable_conda ? 'bioconda::multiqc=1.13' : null)
+    conda 'bioconda::multiqc=1.13'
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/multiqc:1.13--pyhdfd78af_0' :
         'quay.io/biocontainers/multiqc:1.13--pyhdfd78af_0' }"
@@ -32,14 +32,17 @@ process MULTIQC {
     echo \$coverage_estimation
 
     multiqc \\
-        --force \\
         $args \\
         $config \\
         $extra_config \\
-	-b "\${coverage_estimation}" \\
-	.
-
-
+        -b "Specie common name : ${params.id}"  \\
+        -b "Specie taxonomic ID : ${params.taxon_taxid}" \\
+        -b "Specie scientific name : ${params.taxon_name}" \\
+        -b "Specie ploidy : ${params.ploidy}" \\
+        -b "Specie genome size : ${params.hap_gen_size_Gb}" \\
+        -b "Specie number of chromosomes : ${params.chrom_num}" \\
+        -b "\${coverage_estimation}" \\
+        .
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -14,7 +14,7 @@ process VERKKO {
     output:
     tuple val(meta), path("*_verkko_assembly.fasta")       , emit: assembly
     tuple val(meta), path("*_homopolymer-compressed.gfa")       , emit: gfa
-//    path  "versions.yml"                       , emit: versions
+    path  "versions.yml"                       , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -32,6 +32,11 @@ process VERKKO {
 
 	mv ${meta.id}/assembly.fasta ${meta.id}_verkko_assembly.fasta
 	mv ${meta.id}/assembly.homopolymer-compressed.gfa ${meta.id}_homopolymer-compressed.gfa
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        verkko: \$(verkko --version | sed 's/verkko v//g')
+    END_VERSIONS
         """
     } else if (params.assembly_secondary_mode == 'pacbio'){
         """
@@ -42,6 +47,11 @@ process VERKKO {
 
         mv ${meta.id}/assembly.fasta ${meta.id}_verkko_assembly.fasta
         mv ${meta.id}/assembly.homopolymer-compressed.gfa ${meta.id}_homopolymer-compressed.gfa
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        verkko: \$(verkko --version | sed 's/verkko v//g')
+    END_VERSIONS
         """
     } else if (params.assembly_secondary_mode == 'ont'){ 
         """
@@ -52,6 +62,11 @@ process VERKKO {
 
         mv ${meta.id}/assembly.fasta ${meta.id}_verkko_assembly.fasta
         mv ${meta.id}/assembly.homopolymer-compressed.gfa ${meta.id}_homopolymer-compressed.gfa
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        verkko: \$(verkko --version | sed 's/verkko v//g')
+    END_VERSIONS
         """
     } else {
 	error "Verkko needs a correct mode : 'pacbio', 'pacbio+ont' or 'ont'"

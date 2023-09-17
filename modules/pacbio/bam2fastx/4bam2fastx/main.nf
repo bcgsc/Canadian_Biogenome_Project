@@ -15,6 +15,7 @@ process FOURBAM2FASTX {
 
     output:
     tuple val(meta), path('*.fastq.gz'), emit: reads
+    path  "versions.yml"          , emit: versions
  
     script:
     def args = task.ext.args ?: ''
@@ -22,12 +23,16 @@ process FOURBAM2FASTX {
     """
     bam2fastq \\
         $args \\
-	-o ${prefix} \\
-	$bam \\
-	$bam2 \\
-	$bam3 \\
-	$bam4 \\
+        -o ${prefix} \\
+        $bam \\
+        $bam2 \\
+        $bam3 \\
+        $bam4 \\
         > ${prefix}.bam2fastx.log
+
     cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        bam2fastq: \$(bam2fastq --version | sed 's/bam2fastq //g')
+    END_VERSIONS
     """
 }

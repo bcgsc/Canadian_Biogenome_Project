@@ -2,7 +2,7 @@ process MITOHIFI {
     tag "$meta.id"
     label 'process_medium'
 
-    conda '/home/miniconda3/envs/mitohifi_v3'
+    conda '/home/scorreard/miniconda3/envs/mitohifi_v3'
 
     input:
     tuple val(meta), path(reads_fasta)
@@ -13,16 +13,24 @@ process MITOHIFI {
     tuple val (meta), path('final_mitogenome.fasta'), emit : final_mito_fasta
     tuple val (meta), path('final_mitogenome.gb'), emit : final_mito_gb
     tuple val (meta), path('contigs_stats.tsv'), emit : mito_contig_stat
+    tuple val (meta), path('*.png'), emit : figures
+    path  "versions.yml"          , emit: versions
  
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"    
     """
-    python mitohifi.py \\
+    python ${params.singularity_cache}/MitoHiFi/mitohifi.py \\
     $args \\
     -r "$reads_fasta" \\
     -f $reference_fasta \\
     -g $reference_gb \\
     -t 10 
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        python: \$(python --version | sed 's/Python //g')
+        mitohifi : \$(python ${params.singularity_cache}/MitoHiFi/mitohifi.py --version | sed 's/MitoHiFi//g')
+    END_VERSIONS
     """
 }

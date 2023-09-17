@@ -13,6 +13,7 @@ process YAHS {
     tuple val(meta), path("*bin"), emit: bin
     tuple val(meta), path("*_scaffolds_final.agp"), emit: agp
     tuple val(meta), path("*_scaffolds_final.fa"), emit: fasta
+    path  "versions.yml"          , emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -21,9 +22,14 @@ process YAHS {
     def args = task.ext.args ?: ''
     """
     yahs \\
-	-o ${assembly.baseName} \\
+        -o ${assembly.baseName} \\
         $assembly \\
         $bam \\
         $args
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        yahs: \$(yahs --version | sed 's/yahs v//g')
+    END_VERSIONS
     """
 }

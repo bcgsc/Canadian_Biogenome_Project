@@ -9,6 +9,7 @@ process GENOMESCOPE2 {
 
     input:
     tuple val(meta), path(histogram)
+    val(ploidy)
 
     output:
     tuple val(meta), path("*_linear_plot.png")            , emit: linear_plot_png
@@ -24,10 +25,12 @@ process GENOMESCOPE2 {
 
     script:
     def args = task.ext.args ?: ''
+    def ploidy_value = ploidy ? "-p $ploidy" : ""
     prefix = task.ext.prefix ?: "${meta.id}"
     """
     genomescope2 \\
         --input $histogram \\
+        $ploidy_value \\
         $args \\
         --output . \\
         --name_prefix $prefix

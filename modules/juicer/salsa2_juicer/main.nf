@@ -12,7 +12,7 @@ process SALSA2_JUICER {
     output:
     tuple val(meta), path("*.hic"), emit: hic
     tuple val(meta), path('*.assembly'), emit: assembly
-
+    path  "versions.yml"          , emit: versions
 
     script:
     def args = task.ext.args ?: ''
@@ -24,5 +24,13 @@ process SALSA2_JUICER {
     awk '{if (\$2 > \$6) {print \$1"\t"\$6"\t"\$7"\t"\$8"\t"\$5"\t"\$2"\t"\$3"\t"\$4} else {print}}' alignments.txt | sort -k2,2d -k6,6d -T $projectDir --parallel=8 | awk 'NF'  > alignments_sorted.txt
 
     java -jar ${params.JUICER_JAR} pre $args -o ${meta.id} alignments_sorted.txt salsa_scaffolds.hic chromosome_sizes.tsv
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+		cut: \$(cut --version | sed 's/cut (GNU coreutils) //g' | sed -n 1p)
+        python: \$(python --version | sed 's/Python //g')
+		awk: \$(awk --version | sed 's/GNU Awk //g' | sed -n 1p)
+		java: \$(java --version | sed 's/java //g' | sed -n 1p)
+    END_VERSIONS
     """
 }
