@@ -13,7 +13,7 @@ process BLOBTOOLS_PIPELINE {
     tuple val(meta), path('assembly_minimap.bam'), emit: assembly_minimap_bam
     tuple val(meta), path('hic_minimap.bam'), emit:hic_minimap_bam
     tuple val(meta), path('lineage1_full_table.tsv.gz'), emit: lineage1_full_table_tsv
-    tuple val(meta), path('lineage2_full_table.tsv.gz'), emit: lineage2_full_table_tsv
+    tuple val(meta), path('lineage2_full_table.tsv.gz'), emit: lineage2_full_table_tsv, optional: true
     path  "versions.yml"          , emit: versions
 
     script:
@@ -39,8 +39,8 @@ process BLOBTOOLS_PIPELINE {
     cp minimap/*.bam .
     mv *.${meta.id}.bam assembly_minimap.bam
     mv ${meta.id}.*.bam hic_minimap.bam
-    cp busco/${meta.id}.busco.${params.lineage}/full_table.tsv.gz lineage1_full_table.tsv.gz
-    cp busco/${meta.id}.busco.${params.lineage2}/full_table.tsv.gz lineage2_full_table.tsv.gz
+    cp busco/${meta.id}.busco.*/full_table.tsv.gz lineage1_full_table.tsv.gz
+    #cp busco/${meta.id}.busco.${params.lineage2}/full_table.tsv.gz lineage2_full_table.tsv.gz
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

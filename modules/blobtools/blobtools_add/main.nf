@@ -9,7 +9,7 @@ process BLOBTOOLS_ADD {
     tuple val(meta), path(assembly_minimap_bam)
     tuple val(meta), path(hic_minimap_bam)
     tuple val(meta), path(lineage1_full_table_tsv)
-    tuple val(meta), path(lineage2_full_table_tsv)
+//    tuple val(meta), path(lineage2_full_table_tsv)
     tuple val(meta), path(blobtools_folder)
 
     output:
@@ -30,7 +30,6 @@ process BLOBTOOLS_ADD {
 	--cov ${assembly_minimap_bam} \
 	--cov ${hic_minimap_bam} \
 	--busco ${lineage1_full_table_tsv} \
-        --busco ${lineage2_full_table_tsv} \
 	--link taxon.taxid.ENA="https://www.ebi.ac.uk/ena/data/view/Taxon:${params.taxon_taxid}" \
 	--link taxon.name.Wikipedia="https://en.wikipedia.org/wiki/${meta.id}" \
     	${meta.id}

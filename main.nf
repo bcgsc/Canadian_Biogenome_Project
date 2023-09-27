@@ -30,138 +30,141 @@ Juicer Hi-C map			: ${params.juicer}
 Methylation calling		: ${params.methylation_calling}
 Comparison to related genome	: ${params.genome_comparison}
 Blobtools			: ${params.blobtools}
+Busco				: ${params.run_busco}
 Manual curation                 : ${params.manual_curation}
 """
 
-include { GOAT_TAXONSEARCH } from '/projects/cbp/scratch/pipeline/modules/goat/taxonsearch/main.nf'
+include { GOAT_TAXONSEARCH } from './modules/goat/taxonsearch/main.nf'
 
 //Pre-processing
-include { CCS as CCS_PACBIO } from '/projects/cbp/scratch/pipeline/modules/pacbio/ccs/main.nf'
-include { BAMTOOLS_FILTER as BAMTOOLS_FILTER_PACBIO } from '/projects/cbp/scratch/pipeline/modules/bamtools_filter/main.nf'
-include { PBINDEX as PBINDEX_FILTERED_PACBIO } from '/projects/cbp/scratch/pipeline/modules/pacbio/pbbam/pbindex/main.nf'
-include { PBBAM_PBMERGE } from '/projects/cbp/scratch/pipeline/modules/pacbio/pbbam/pbmerge/main.nf'
-include { BAM2FASTX } from '/projects/cbp/scratch/pipeline/modules/pacbio/bam2fastx/main.nf'
+include { CCS as CCS_PACBIO } from './modules/pacbio/ccs/main.nf'
+include { BAMTOOLS_FILTER as BAMTOOLS_FILTER_PACBIO } from './modules/bamtools_filter/main.nf'
+include { PBINDEX } from './modules/pacbio/pbindex/main.nf'
+include { PBBAM_PBMERGE } from './modules/pacbio/pbmerge/main.nf'
+include { BAM2FASTX } from './modules/pacbio/bam2fastx/main.nf'
 
-include { PREPROCESS_MERGED } from '/projects/cbp/scratch/pipeline/modules/pacbio/preprocess_merged/main.nf'
+include { PREPROCESS_MERGED } from './modules/pacbio/preprocess_merged/main.nf'
 
-include { CUTADAPT }  from '/projects/cbp/scratch/pipeline/modules/cutadapt/main.nf'
+include { CUTADAPT }  from './modules/cutadapt/main.nf'
 
 //QC Input data
-include { LONGQC as LONGQC_PACBIO; LONGQC as LONGQC_ONT } from '/projects/cbp/scratch/pipeline/modules/LongQC/main.nf'
-include { MERYL_COUNT } from '/projects/cbp/scratch/pipeline/modules/meryl/count/main.nf'
-include { MERYL_UNIONSUM } from '/projects/cbp/scratch/pipeline/modules/meryl/unionsum/main.nf'
-include { MERYL_HISTOGRAM } from '/projects/cbp/scratch/pipeline/modules/meryl/histogram/main.nf'
-include { GENOMESCOPE2 } from '/projects/cbp/scratch/pipeline/modules/genomescope2/main.nf'
-include { KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_PACBIO_BAM; KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_HIC_READS; KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_SR_READS; KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_ONT_READS } from '/projects/cbp/scratch/pipeline/modules/kraken2/main.nf'
-include { COVERAGE_CALCULATION } from '/projects/cbp/scratch/pipeline/modules/coverage_calculation/main.nf'
+include { LONGQC as LONGQC_PACBIO; LONGQC as LONGQC_ONT } from './modules/LongQC/main.nf'
+include { MERYL_COUNT } from './modules/meryl/count/main.nf'
+include { MERYL_UNIONSUM } from './modules/meryl/unionsum/main.nf'
+include { MERYL_HISTOGRAM } from './modules/meryl/histogram/main.nf'
+include { GENOMESCOPE2 } from './modules/genomescope2/main.nf'
+include { KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_PACBIO_BAM; KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_HIC_READS; KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_SR_READS; KRAKEN2_KRAKEN2 as KRAKEN2_KRAKEN2_ONT_READS } from './modules/kraken2/main.nf'
+include { COVERAGE_CALCULATION } from './modules/coverage_calculation/main.nf'
 
 //Mitochondrial assembly
-include { FASTQGZ_TO_FASTA } from '/projects/cbp/scratch/pipeline/modules/fastqgz_to_fasta/main.nf'
-include { FIND_MITO_REFERENCE } from '/projects/cbp/scratch/pipeline/modules/mitohifi/findmitoreference/main.nf'
-include { MITOHIFI } from '/projects/cbp/scratch/pipeline/modules/mitohifi/mitohifi/main.nf'
+include { FASTQGZ_TO_FASTA } from './modules/fastqgz_to_fasta/main.nf'
+include { FIND_MITO_REFERENCE } from './modules/mitohifi/findmitoreference/main.nf'
+include { MITOHIFI } from './modules/mitohifi/mitohifi/main.nf'
 
 
 //Assembly
 //HifiASM
-include { HIFIASM } from '/projects/cbp/scratch/pipeline/modules/hifiasm/main.nf'
-include { GFA_TO_FA as GFA_TO_FA_hap1; GFA_TO_FA as GFA_TO_FA_hap2 } from '/projects/cbp/scratch/pipeline/modules/gfa_to_fa/main.nf'
+include { YAK as YAK_PAT; YAK as YAK_MAT } from './modules/yak/main.nf'
+include { HIFIASM } from './modules/hifiasm/main.nf'
+include { GFA_TO_FA as GFA_TO_FA_hap1; GFA_TO_FA as GFA_TO_FA_hap2 } from './modules/gfa_to_fa/main.nf'
 
 //Canu
-include { CANU } from '/projects/cbp/scratch/pipeline/modules/canu/main.nf'
+include { CANU } from './modules/canu/main.nf'
 
 //Flye
-include { FLYE } from '/projects/cbp/scratch/pipeline/modules/flye/main.nf'
-include { FLYE_PACBIO_ONT } from '/projects/cbp/scratch/pipeline/modules/flye/flye_pacbio_ont/main.nf'
-include { MINIMAP2_ALIGN as MINIMAP_ALIGN_FLYE } from '/projects/cbp/scratch/pipeline/modules/minimap2/align/main.nf'
-include { RACON } from '/projects/cbp/scratch/pipeline/modules/racon/main.nf'
-include { LONGSTITCH } from '/projects/cbp/scratch/pipeline/modules/longstitch/main.nf'
+include { FLYE } from './modules/flye/main.nf'
+include { FLYE_PACBIO_ONT } from './modules/flye/flye_pacbio_ont/main.nf'
+include { MINIMAP2_ALIGN as MINIMAP_ALIGN_FLYE } from './modules/minimap2/align/main.nf'
+include { RACON } from './modules/racon/main.nf'
+include { LONGSTITCH } from './modules/longstitch/main.nf'
 
 //Verkko
-include { VERKKO } from '/projects/cbp/scratch/pipeline/modules/verkko/main.nf'
+include { VERKKO } from './modules/verkko/main.nf'
 
 //Polishing
 //Pilon
-include { PILON } from '/projects/cbp/scratch/pipeline/modules/pilon/main.nf'
-include { BWAMEM2_INDEX as BWAMEM2_INDEX_PILON } from '/projects/cbp/scratch/pipeline/modules/bwamem2/index/main.nf'
-include { BWAMEM2_MEM as BWAMEM2_MEM_PILON } from '/projects/cbp/scratch/pipeline/modules/bwamem2/mem/main.nf'
-include { SAMTOOLS_INDEX as SAMTOOLS_INDEX_PILON } from '/projects/cbp/scratch/pipeline/modules/samtools/index/main.nf'
+include { PILON } from './modules/pilon/main.nf'
+include { BWAMEM2_INDEX as BWAMEM2_INDEX_PILON } from './modules/bwamem2/index/main.nf'
+include { BWAMEM2_MEM as BWAMEM2_MEM_PILON } from './modules/bwamem2/mem/main.nf'
+include { SAMTOOLS_INDEX as SAMTOOLS_INDEX_PILON } from './modules/samtools/index/main.nf'
 
 //NCBI cleaning sequence
-include { FCS_FCSADAPTOR as FCS_FCSADAPTOR_hap1; FCS_FCSADAPTOR as FCS_FCSADAPTOR_ALT } from '/projects/cbp/scratch/pipeline/modules/fcs/fcsadaptor/'
-include { FCS_FCSGX as FCS_FCSGX_hap1; FCS_FCSGX as FCS_FCSGX_ALT } from '/projects/cbp/scratch/pipeline/modules/fcs/fcsgx'
-include { FCS_FCSGX_CLEAN as FCS_FCSGX_CLEAN_hap1; FCS_FCSGX_CLEAN as FCS_FCSGX_CLEAN_ALT } from '/projects/cbp/scratch/pipeline/modules/fcs/fcsgx_clean'
+include { FCS_FCSADAPTOR as FCS_FCSADAPTOR_hap1; FCS_FCSADAPTOR as FCS_FCSADAPTOR_ALT } from './modules/fcs/fcsadaptor/'
+include { FCS_FCSGX as FCS_FCSGX_hap1; FCS_FCSGX as FCS_FCSGX_ALT } from './modules/fcs/fcsgx'
+include { FCS_FCSGX_CLEAN as FCS_FCSGX_CLEAN_hap1; FCS_FCSGX_CLEAN as FCS_FCSGX_CLEAN_ALT } from './modules/fcs/fcsgx_clean'
 
 
 //PurgeDups
-include { CAT } from '/projects/cbp/scratch/pipeline/modules/cat/main.nf'
-include { MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_CONTIG; MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_SELF; MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_CONTIG_ALT; MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_SELF_ALT } from '/projects/cbp/scratch/pipeline/modules/minimap2/align/main.nf'
-include { PURGEDUPS_SPLITFA as PURGEDUPS_SPLITFA_hap1; PURGEDUPS_SPLITFA as PURGEDUPS_SPLITFA_ALT } from '/projects/cbp/scratch/pipeline/modules/purgedups/splitfa/main.nf'
-include { PURGEDUPS_PBCSTAT as PURGEDUPS_PBCSTAT_hap1; PURGEDUPS_PBCSTAT as PURGEDUPS_PBCSTAT_ALT } from '/projects/cbp/scratch/pipeline/modules/purgedups/pbcstat/main.nf'
-include { PURGEDUPS_CALCUTS as PURGEDUPS_CALCUTS_hap1; PURGEDUPS_CALCUTS as PURGEDUPS_CALCUTS_ALT } from '/projects/cbp/scratch/pipeline/modules/purgedups/calcuts/main.nf'
-include { PURGEDUPS_PURGEDUPS as PURGEDUPS_PURGEDUPS_hap1; PURGEDUPS_PURGEDUPS as PURGEDUPS_PURGEDUPS_ALT } from '/projects/cbp/scratch/pipeline/modules/purgedups/purgedups/main.nf'
-include { PURGEDUPS_GETSEQS as PURGEDUPS_GETSEQS_hap1; PURGEDUPS_GETSEQS as PURGEDUPS_GETSEQS_ALT } from '/projects/cbp/scratch/pipeline/modules/purgedups/getseqs/main.nf'
+include { CAT } from './modules/cat/main.nf'
+include { MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_CONTIG; MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_SELF; MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_CONTIG_ALT; MINIMAP2_ALIGN as MINIMAP2_ALIGN_TO_SELF_ALT } from './modules/minimap2/align/main.nf'
+include { PURGEDUPS_SPLITFA as PURGEDUPS_SPLITFA_hap1; PURGEDUPS_SPLITFA as PURGEDUPS_SPLITFA_ALT } from './modules/purgedups/splitfa/main.nf'
+include { PURGEDUPS_PBCSTAT as PURGEDUPS_PBCSTAT_hap1; PURGEDUPS_PBCSTAT as PURGEDUPS_PBCSTAT_ALT } from './modules/purgedups/pbcstat/main.nf'
+include { PURGEDUPS_CALCUTS as PURGEDUPS_CALCUTS_hap1; PURGEDUPS_CALCUTS as PURGEDUPS_CALCUTS_ALT } from './modules/purgedups/calcuts/main.nf'
+include { PURGEDUPS_PURGEDUPS as PURGEDUPS_PURGEDUPS_hap1; PURGEDUPS_PURGEDUPS as PURGEDUPS_PURGEDUPS_ALT } from './modules/purgedups/purgedups/main.nf'
+include { PURGEDUPS_GETSEQS as PURGEDUPS_GETSEQS_hap1; PURGEDUPS_GETSEQS as PURGEDUPS_GETSEQS_ALT } from './modules/purgedups/getseqs/main.nf'
 
 //HIC scaffolding-SALSA2
-include { PREPARE_GENOME } from '/projects/cbp/scratch/pipeline/modules/nfcore_hic/subworkflows/local/prepare_genome.nf'
-include { FASTQC } from '/projects/cbp/scratch/pipeline/modules/nfcore_hic/modules/nf-core/fastqc/main.nf'
-include { HICPRO } from '/projects/cbp/scratch/pipeline/modules/nfcore_hic/subworkflows/local/hicpro.nf'
-include { COOLER } from '/projects/cbp/scratch/pipeline/modules/nfcore_hic/subworkflows/local/cooler.nf'
-include { HIC_PLOT_DIST_VS_COUNTS } from '/projects/cbp/scratch/pipeline/modules/nfcore_hic/modules/local/hicexplorer/hicPlotDistVsCounts.nf'
-include { COMPARTMENTS } from '/projects/cbp/scratch/pipeline/modules/nfcore_hic/subworkflows/local/compartments.nf'
-include { TADS } from '/projects/cbp/scratch/pipeline/modules/nfcore_hic/subworkflows/local/tads.nf'
+include { PREPARE_GENOME } from './modules/nfcore_hic/subworkflows/local/prepare_genome.nf'
+include { FASTQC } from './modules/nfcore_hic/modules/nf-core/fastqc/main.nf'
+include { HICPRO } from './modules/nfcore_hic/subworkflows/local/hicpro.nf'
+include { COOLER } from './modules/nfcore_hic/subworkflows/local/cooler.nf'
+include { HIC_PLOT_DIST_VS_COUNTS } from './modules/nfcore_hic/modules/local/hicexplorer/hicPlotDistVsCounts.nf'
+include { COMPARTMENTS } from './modules/nfcore_hic/subworkflows/local/compartments.nf'
+include { TADS } from './modules/nfcore_hic/subworkflows/local/tads.nf'
 
-include { MINIMAP2_ALIGN as MINIMAP_ALIGN_HIC_F_GETSEQS; MINIMAP2_ALIGN as MINIMAP_ALIGN_HIC_R_GETSEQS } from '/projects/cbp/scratch/pipeline/modules/minimap2/align/main.nf'
-include { BEDTOOLS_BAMTOBED as BEDTOOLS_BAMTOBED_HIC_F_GETSEQS; BEDTOOLS_BAMTOBED as BEDTOOLS_BAMTOBED_HIC_R_GETSEQS;} from '/projects/cbp/scratch/pipeline/modules/bedtools/bamtobed/main.nf'
-include { BED_PROCESSING } from '/projects/cbp/scratch/pipeline/modules/bed_processing/main.nf'
-include { SALSA2 } from '/projects/cbp/scratch/pipeline/modules/salsa2/main.nf'
-include { SALSA2_JUICER } from '/projects/cbp/scratch/pipeline/modules/juicer/salsa2_juicer/main.nf'
+include { MINIMAP2_ALIGN as MINIMAP_ALIGN_HIC_F_GETSEQS; MINIMAP2_ALIGN as MINIMAP_ALIGN_HIC_R_GETSEQS } from './modules/minimap2/align/main.nf'
+include { BEDTOOLS_BAMTOBED as BEDTOOLS_BAMTOBED_HIC_F_GETSEQS; BEDTOOLS_BAMTOBED as BEDTOOLS_BAMTOBED_HIC_R_GETSEQS;} from './modules/bedtools/bamtobed/main.nf'
+include { BED_PROCESSING } from './modules/bed_processing/main.nf'
+include { SALSA2 } from './modules/salsa2/main.nf'
+include { SALSA2_JUICER } from './modules/juicer/salsa2_juicer/main.nf'
 
 //HIC scaffolding-YAHS
-include { SAMTOOLS_FAIDX as SAMTOOLS_FAIDX1; SAMTOOLS_FAIDX as SAMTOOLS_FAIDX2; SAMTOOLS_FAIDX as SAMTOOLS_FAIDX1_ALT; SAMTOOLS_FAIDX as SAMTOOLS_FAIDX2_ALT } from '/projects/cbp/scratch/pipeline/modules/samtools/faidx/main.nf'
-include { CHROMAP_INDEX as CHROMAP_INDEX_hap1; CHROMAP_INDEX as CHROMAP_INDEX_ALT } from '/projects/cbp/scratch/pipeline/modules/chromap/index/main.nf'
-include { CHROMAP_CHROMAP as CHROMAP_CHROMAP_hap1; CHROMAP_CHROMAP as CHROMAP_CHROMAP_ALT } from '/projects/cbp/scratch/pipeline/modules/chromap/chromap/main.nf'
-include { YAHS as YAHS_hap1; YAHS as YAHS_ALT } from '/projects/cbp/scratch/pipeline/modules/yahs/main.nf'
+include { SAMTOOLS_FAIDX as SAMTOOLS_FAIDX_FCS_hap1; SAMTOOLS_FAIDX as SAMTOOLS_FAIDX_FCS_hap2; SAMTOOLS_FAIDX as SAMTOOLS_FAIDX_PURGE_hap1; SAMTOOLS_FAIDX as SAMTOOLS_FAIDX_PURGE_hap2; SAMTOOLS_FAIDX as SAMTOOLS_FAIDX_SCAFF_hap1; SAMTOOLS_FAIDX as SAMTOOLS_FAIDX_SCAFF_hap2 } from './modules/samtools/faidx/main.nf'
+include { CHROMAP_INDEX as CHROMAP_INDEX_hap1; CHROMAP_INDEX as CHROMAP_INDEX_ALT } from './modules/chromap/index/main.nf'
+include { CHROMAP_CHROMAP as CHROMAP_CHROMAP_hap1; CHROMAP_CHROMAP as CHROMAP_CHROMAP_ALT } from './modules/chromap/chromap/main.nf'
+include { YAHS as YAHS_hap1; YAHS as YAHS_ALT } from './modules/yahs/main.nf'
 
 //Map PacBio data against newly genevated assembly
-include { JASMINE } from '/projects/cbp/scratch/pipeline/modules/pacbio/jasmine/main.nf'
-include { PBMM2 } from '/projects/cbp/scratch/pipeline/modules/pacbio/pbmm2/main.nf'
-include { SAMTOOLS_INDEX as SAMTOOLS_INDEX_PBMM2 } from '/projects/cbp/scratch/pipeline/modules/samtools/index/main.nf'
+include { JASMINE } from './modules/pacbio/jasmine/main.nf'
+include { PBMM2 } from './modules/pacbio/pbmm2/main.nf'
+include { SAMTOOLS_INDEX as SAMTOOLS_INDEX_PBMM2 } from './modules/samtools/index/main.nf'
 
 //Assembly QC
-include { YAHS_JUICER } from '/projects/cbp/scratch/pipeline/modules/juicer/yahs_juicer/main.nf'
-include { JUICER } from '/projects/cbp/scratch/pipeline/modules/juicer/juicer/main.nf'
-include { PRETEXTMAP } from '/projects/cbp/scratch/pipeline/modules/pretext/pretextmap/main.nf'
-include { PRETEXTSNAPSHOT } from '/projects/cbp/scratch/pipeline/modules/pretext/pretextsnapshot/main.nf'
-include { BEDTOOLS_GENOMECOV } from '/projects/cbp/scratch/pipeline/modules/bedtools/genomecov/main.nf'
-include { GFASTATS } from '/projects/cbp/scratch/pipeline/modules/gfastats/main.nf'
-include { TIDK } from '/projects/cbp/scratch/pipeline/modules/tidk/main.nf'
-include { PRETEXTGRAPH as PRETEXTGRAPH_TELO; PRETEXTGRAPH as PRETEXTGRAPH_TELO_COV } from '/projects/cbp/scratch/pipeline/modules/pretext/pretextgraph/main.nf'
+include { YAHS_JUICER } from './modules/juicer/yahs_juicer/main.nf'
+include { JUICER } from './modules/juicer/juicer/main.nf'
+include { PRETEXTMAP } from './modules/pretext/pretextmap/main.nf'
+include { PRETEXTSNAPSHOT } from './modules/pretext/pretextsnapshot/main.nf'
+include { BEDTOOLS_GENOMECOV } from './modules/bedtools/genomecov/main.nf'
+include { GFASTATS } from './modules/gfastats/main.nf'
+include { TIDK } from './modules/tidk/main.nf'
+include { PRETEXTGRAPH as PRETEXTGRAPH_TELO; PRETEXTGRAPH as PRETEXTGRAPH_TELO_COV } from './modules/pretext/pretextgraph/main.nf'
 
 //Genome comparison
-include { NCBIGENOMEDOWNLOAD } from '/projects/cbp/scratch/pipeline/modules/ncbigenomedownload/main.nf'
-include { JUPITER } from '/projects/cbp/scratch/pipeline/modules/jupiter/main.nf'
-include { MASHMAP } from '/projects/cbp/scratch/pipeline/modules/mashmap/main.nf'
+include { NCBIGENOMEDOWNLOAD } from './modules/ncbigenomedownload/main.nf'
+include { JUPITER } from './modules/jupiter/main.nf'
+include { MASHMAP } from './modules/mashmap/main.nf'
 
 //QC of assemblies
-include { BUSCO as BUSCO_lin1_PRIM; BUSCO as BUSCO_lin1_cleaned; BUSCO as BUSCO_lin1_purged; BUSCO as BUSCO_lin1_SCAFF; BUSCO as BUSCO_lin2; BUSCO as BUSCO_lin3; BUSCO as BUSCO_lin4; BUSCO as BUSCO_ALT } from '/projects/cbp/scratch/pipeline/modules/busco/main.nf'
-include { MERQURY as MERQURY_ASS; MERQURY as MERQURY_PURGED; MERQURY as MERQURY_SCAFF } from '/projects/cbp/scratch/pipeline/modules/merqury/main.nf'
-include { MERQURY_DOUBLE as MERQURY_ASS_DOUBLE; MERQURY_DOUBLE as MERQURY_PURGED_DOUBLE; MERQURY_DOUBLE as MERQURY_SCAFF_DOUBLE } from '/projects/cbp/scratch/pipeline/modules/merqury/merqury_double/main.nf'
-include { QUAST as QUAST_ASS; QUAST as QUAST_PILON; QUAST as QUAST_CLEAN; QUAST as QUAST_PURGED; QUAST as QUAST_SCAFF } from '/projects/cbp/scratch/pipeline/modules/quast/main.nf'
-include { QUAST_DOUBLE as QUAST_ASS_DOUBLE; QUAST_DOUBLE as QUAST_CLEAN_DOUBLE; QUAST_DOUBLE as QUAST_PURGED_DOUBLE; QUAST_DOUBLE as QUAST_SCAFF_DOUBLE } from '/projects/cbp/scratch/pipeline/modules/quast/quast_double/main.nf'
-include { MULTIQC } from '/projects/cbp/scratch/pipeline/modules/multiqc/main.nf'
+include { BUSCO as BUSCO_lin1_PRIM; BUSCO as BUSCO_lin1_cleaned; BUSCO as BUSCO_lin1_purged; BUSCO as BUSCO_lin1_SCAFF; BUSCO as BUSCO_lin2; BUSCO as BUSCO_lin3; BUSCO as BUSCO_lin4; BUSCO as BUSCO_ALT } from './modules/busco/main.nf'
+include { MERQURY as MERQURY_ASS; MERQURY as MERQURY_PURGED; MERQURY as MERQURY_SCAFF } from './modules/merqury/main.nf'
+include { MERQURY_DOUBLE as MERQURY_ASS_DOUBLE; MERQURY_DOUBLE as MERQURY_PURGED_DOUBLE; MERQURY_DOUBLE as MERQURY_SCAFF_DOUBLE } from './modules/merqury/merqury_double/main.nf'
+include { QUAST as QUAST_ASS; QUAST as QUAST_PILON; QUAST as QUAST_CLEAN; QUAST as QUAST_PURGED; QUAST as QUAST_SCAFF } from './modules/quast/main.nf'
+include { QUAST_DOUBLE as QUAST_ASS_DOUBLE; QUAST_DOUBLE as QUAST_CLEAN_DOUBLE; QUAST_DOUBLE as QUAST_PURGED_DOUBLE; QUAST_DOUBLE as QUAST_SCAFF_DOUBLE } from './modules/quast/quast_double/main.nf'
+include { MULTIQC } from './modules/multiqc/main.nf'
 
 //Blobtoolskit
-include { GZIP } from '/projects/cbp/scratch/pipeline/modules/gzip/main.nf'
-include { BLOBTOOLS_CONFIG } from '/projects/cbp/scratch/pipeline/modules/blobtools/blobtools_config/main.nf'
-include { BLOBTOOLS_PIPELINE } from '/projects/cbp/scratch/pipeline/modules/blobtools/blobtools_pipeline/main.nf'
-include { BLOBTOOLS_CREATE } from '/projects/cbp/scratch/pipeline/modules/blobtools/blobtools_create/main.nf'
-include { BLOBTOOLS_ADD } from '/projects/cbp/scratch/pipeline/modules/blobtools/blobtools_add/main.nf'
-include { BLOBTOOLS_VIEW } from '/projects/cbp/scratch/pipeline/modules/blobtools/blobtools_view/main.nf'
+include { GZIP } from './modules/gzip/main.nf'
+include { BLOBTOOLS_CONFIG_1LINEAGE } from './modules/blobtools/blobtools_config/blobtools_config_1lineage/main.nf'
+include { BLOBTOOLS_CONFIG_2LINEAGES } from './modules/blobtools/blobtools_config/blobtools_config_2lineages/main.nf'
+include { BLOBTOOLS_PIPELINE } from './modules/blobtools/blobtools_pipeline/main.nf'
+include { BLOBTOOLS_CREATE } from './modules/blobtools/blobtools_create/main.nf'
+include { BLOBTOOLS_ADD } from './modules/blobtools/blobtools_add/main.nf'
+include { BLOBTOOLS_VIEW } from './modules/blobtools/blobtools_view/main.nf'
 
-include { OVERVIEW_GENERATION_SAMPLE } from '/projects/cbp/scratch/pipeline/modules/overview_generation/sample/main.nf'
-include { CUSTOM_DUMPSOFTWAREVERSIONS                    } from '/projects/cbp/scratch/pipeline/modules/dumpsoftwareversions/main'
+include { OVERVIEW_GENERATION_SAMPLE } from './modules/overview_generation/sample/main.nf'
+include { CUSTOM_DUMPSOFTWAREVERSIONS                    } from './modules/dumpsoftwareversions/main'
 
-include { RAPIDCURATION_SPLIT } from '/projects/cbp/scratch/pipeline/modules/manualcuration/main.nf'
+include { RAPIDCURATION_SPLIT } from './modules/manualcuration/main.nf'
 
 workflow {
 
@@ -240,6 +243,29 @@ taxon  = [
         ]
         }
 
+//Paternal Illumina SR data (Only if illumina_SR defined)
+        if (( params.illumina_SR_pat_read1 ) && ( params.illumina_SR_pat_read2 )) {
+                input_illumina_SR_pat_R1_R2 = [
+                [ id:'input_illumina_SR_pat_R1_R2', single_end: false], // meta map
+                [
+                        file(params.illumina_SR_pat_read1, checkIfExists: true),
+                        file(params.illumina_SR_pat_read2, checkIfExists: true)
+                ]
+        ]
+        }
+
+//Maternal Illumina SR data (Only if illumina_SR defined)
+        if (( params.illumina_SR_mat_read1 ) && ( params.illumina_SR_mat_read2 )) {
+                input_illumina_SR_mat_R1_R2 = [
+                [ id:'input_illumina_SR_mat_R1_R2', single_end: false], // meta map
+                [
+                        file(params.illumina_SR_mat_read1, checkIfExists: true),
+                        file(params.illumina_SR_mat_read2, checkIfExists: true)
+                ]
+        ]
+        }
+
+
 //////////////////////////////////////////////////  DUMMY FILES   //////////////////////////////////
         quast_fasta             = file('fasta_dummy')
         quast_gff                = file('gff_dummy')
@@ -264,37 +290,63 @@ taxon  = [
 //Limiting the capacity to run several genomes in parrallel
 //Merging the steps in one module and deleting the intermediate files was a solution
 
-        if ((params.bam_cell2) && (params.pacbio_input_type == 'ccs')){
+        if ((params.bam_cell2) && (params.pacbio_input_type == 'hifi')){
+		//No need for filtering as only hifi are in this file (output from the Revio machine)
+		//PBmerge include an indexing
+		PBBAM_PBMERGE(input_pacbio)
+		ch_versions = ch_versions.mix(PBBAM_PBMERGE.out.versions)
+		final_pacBio_bam	= PBBAM_PBMERGE.out.bam
+		final_pacBio_bam_index	= PBBAM_PBMERGE.out.pbi
+        } else if ((params.bam_cell2) && (params.pacbio_input_type == 'ccs')){
 		//MERGED STEPS : PBBAM_PBMERGE + BAMTOOLS_FILTER_PACBIO 
                 PREPROCESS_MERGED(input_pacbio)
-                bamtools_filter_output= PREPROCESS_MERGED.out.filtered_bam
-                PBINDEX_FILTERED_PACBIO (bamtools_filter_output)
+                PBINDEX (PREPROCESS_MERGED.out.filtered_bam)
 		ch_versions = ch_versions.mix(PREPROCESS_MERGED.out.versions)
-                ch_versions = ch_versions.mix(PBINDEX_FILTERED_PACBIO.out.versions)
-	} else if ((params.bam_cell2) && (params.pacbio_input_type == 'subreads')) {
+                ch_versions = ch_versions.mix(PBINDEX.out.versions)
+                final_pacBio_bam        = PREPROCESS_MERGED.out.filtered_bam
+                final_pacBio_bam_index  = PBINDEX.out.index
+	} else if ((params.bam_cell2) && (params.pacbio_input_type == 'clr')) {
                 PBBAM_PBMERGE(input_pacbio)
 		CCS_PACBIO(PBBAM_PBMERGE.out.bam)
 		BAMTOOLS_FILTER_PACBIO (CCS_PACBIO_CELL1.out.bam)
-	        PBINDEX_FILTERED_PACBIO (BAMTOOLS_FILTER_PACBIO.out.filtered_bam)
-		bamtools_filter_output=BAMTOOLS_FILTER_PACBIO.out.filtered_bam
+	        PBINDEX (BAMTOOLS_FILTER_PACBIO.out.filtered_bam)
                 ch_versions = ch_versions.mix(PBBAM_PBMERGE.out.versions)
                 ch_versions = ch_versions.mix(CCS_PACBIO_CELL1.out.versions)
                 ch_versions = ch_versions.mix(BAMTOOLS_FILTER_PACBIO.out.versions)
-                ch_versions = ch_versions.mix(PBINDEX_FILTERED_PACBIO.out.versions)
-	} else {
-		//If only one SMRT cell
+                ch_versions = ch_versions.mix(PBINDEX.out.versions)
+                final_pacBio_bam        = BAMTOOLS_FILTER_PACBIO.out.filtered_bam
+                final_pacBio_bam_index  = PBINDEX.out.index
+	} else if (!(params.bam_cell2) && (params.pacbio_input_type == 'hifi')){
+		PBINDEX(params.bam_cell1)
+                ch_versions = ch_versions.mix(PBINDEX.out.versions)
+                final_pacBio_bam        = params.bam_cell1
+                final_pacBio_bam_index  = PBINDEX.out.index 
+	} else if (!(params.bam_cell2) && (params.pacbio_input_type == 'ccs')){
 		BAMTOOLS_FILTER_PACBIO (input_pacbio)
-                PBINDEX_FILTERED_PACBIO (BAMTOOLS_FILTER_PACBIO.out.filtered_bam)
-		bamtools_filter_output=BAMTOOLS_FILTER_PACBIO.out.filtered_bam
+                PBINDEX (BAMTOOLS_FILTER_PACBIO.out.filtered_bam)
                 ch_versions = ch_versions.mix(BAMTOOLS_FILTER_PACBIO.out.versions)
-                ch_versions = ch_versions.mix(PBINDEX_FILTERED_PACBIO.out.versions)
+                ch_versions = ch_versions.mix(PBINDEX.out.versions)
+                final_pacBio_bam        = BAMTOOLS_FILTER_PACBIO.out.filtered_bam
+                final_pacBio_bam_index  = PBINDEX.out.index
+        } else if (!(params.bam_cell2) && (params.pacbio_input_type == 'clr')) {
+                CCS_PACBIO(input_pacbio)
+                BAMTOOLS_FILTER_PACBIO (CCS_PACBIO_CELL1.out.bam)
+                PBINDEX (BAMTOOLS_FILTER_PACBIO.out.filtered_bam)
+                ch_versions = ch_versions.mix(CCS_PACBIO_CELL1.out.versions)
+                ch_versions = ch_versions.mix(BAMTOOLS_FILTER_PACBIO.out.versions)
+                ch_versions = ch_versions.mix(PBINDEX.out.versions)
+                final_pacBio_bam        = BAMTOOLS_FILTER_PACBIO.out.filtered_bam
+                final_pacBio_bam_index  = PBINDEX.out.index
+	} else {
+		error "Invalid pacbio input parameters"
 	}
-	BAM2FASTX (bamtools_filter_output.join(PBINDEX_FILTERED_PACBIO.out.index))
-        bam2fastx_output=BAM2FASTX.out.reads
+
+	BAM2FASTX (final_pacBio_bam.join(final_pacBio_bam_index))
+        ch_versions = ch_versions.mix(BAM2FASTX.out.versions)
+        bam2fastx_output	= BAM2FASTX.out.reads
+
 	CUTADAPT (bam2fastx_output)
-        // Gather versions of all tools used
 	ch_versions = ch_versions.mix(CUTADAPT.out.versions)
-	ch_versions = ch_versions.mix(BAM2FASTX.out.versions)
 
         //QC Input data
         LONGQC_PACBIO (CUTADAPT.out.reads)
@@ -352,7 +404,6 @@ taxon  = [
 	        FIND_MITO_REFERENCE(FASTQGZ_TO_FASTA.out.fasta, GOAT_TAXONSEARCH.out.scientific_name)
 	        MITOHIFI(FASTQGZ_TO_FASTA.out.fasta, FIND_MITO_REFERENCE.out.reference_fasta, FIND_MITO_REFERENCE.out.reference_gb)
 
-	        // Gather versions of all tools used
 	        ch_versions = ch_versions.mix(FASTQGZ_TO_FASTA.out.versions)
                 ch_versions = ch_versions.mix(FIND_MITO_REFERENCE.out.versions)
                 ch_versions = ch_versions.mix(MITOHIFI.out.versions)
@@ -369,17 +420,20 @@ taxon  = [
 			HIFIASM (CUTADAPT.out.reads, [], [], [], [], [], GOAT_TAXONSEARCH.out.ploidy, GOAT_TAXONSEARCH.out.genome_size )
                 } else if (params.assembly_secondary_mode == 'pacbio+ont+hic') {
                         HIFIASM (CUTADAPT.out.reads, [], [], params.hic_read1, params.hic_read2,params.ont_fastq_1, GOAT_TAXONSEARCH.out.ploidy, GOAT_TAXONSEARCH.out.genome_size )
+                } else if (params.assembly_secondary_mode == 'trio') {
+			YAK_PAT(input_illumina_SR_pat_R1_R2)
+			YAK_MAT(input_illumina_SR_mat_R1_R2)
+                        HIFIASM (CUTADAPT.out.reads, YAK_PAT.out.yak.collect{it[1]}, YAK_MAT.out.yak.collect{it[1]}, [], [], [], GOAT_TAXONSEARCH.out.ploidy, GOAT_TAXONSEARCH.out.genome_size )
 		} else {
 			error "Invalid hifiasm mode: params.assembly_secondary_mode. These modes are currently supported : 'pacbio' or 'pacbio+hic' or 'pacbio+ont' or 'pacbio+ont+hic'"
 		}
-        	GFA_TO_FA_hap1 (HIFIASM.out.hap1_contigs)
-		assembly_primary = GFA_TO_FA_hap1.out.fa_assembly	
+        	GFA_TO_FA_hap1 (HIFIASM.out.hap1_contigs)	
 		GFA_TO_FA_hap2 (HIFIASM.out.hap2_contigs)
-		assembly_alternate = GFA_TO_FA_hap2.out.fa_assembly
-
-                // Gather versions of all tools used
                 ch_versions = ch_versions.mix(HIFIASM.out.versions)
                 ch_versions = ch_versions.mix(GFA_TO_FA_hap1.out.versions)
+
+                assembly_primary 	= GFA_TO_FA_hap1.out.fa_assembly
+                assembly_alternate 	= GFA_TO_FA_hap2.out.fa_assembly
 	} else if ( params.assembly_method == 'canu') {
 		//CANU
 		if (params.assembly_secondary_mode == 'hicanu') {
@@ -391,10 +445,9 @@ taxon  = [
                 } else {
 			error "Invalid canu mode: params.assembly_secondary_mode. These modes are currently supported : 'hicanu', 'ont' or 'clr'"
 		}
-                assembly_primary = CANU.out.assembly
-
-                // Gather versions of all tools used
                 ch_versions = ch_versions.mix(CANU.out.versions)
+
+                assembly_primary 	= CANU.out.assembly
 	} else if ( params.assembly_method == 'flye') {
         	//FLYE
 		if (params.assembly_secondary_mode== 'hifi') {
@@ -432,7 +485,7 @@ taxon  = [
                         error "Invalid flye mode: params.assembly_secondary_mode. These modes are currently supported : 'hifi' or 'ont' or 'pacbio+ont' or 'clr'"
 		}
 
-		assembly_primary = LONGSTITCH.out.assembly
+		assembly_primary 	= LONGSTITCH.out.assembly
                 // Gather versions of all tools used
                 ch_versions = ch_versions.mix(MINIMAP_ALIGN_FLYE.out.versions)
                 ch_versions = ch_versions.mix(RACON.out.versions)
@@ -456,15 +509,16 @@ taxon  = [
 	}
 
 	//QC post assembly
-	if (params.lineage) {
-		BUSCO_lin1_PRIM(assembly_primary, params.lineage, params.busco_lineages_path, [])
-	} else {
-		BUSCO_lin1_PRIM(assembly_primary, 'auto', [], [])
+	if ((params.run_busco == 'yes') && (params.busco_extend == 'every_step')) {
+		if (params.lineage) {
+			BUSCO_lin1_PRIM(assembly_primary, params.lineage, params.busco_lineages_path, [])
+		} else {
+			BUSCO_lin1_PRIM(assembly_primary, 'auto', params.busco_lineages_path, [])
+		}
+	        mqc_input = mqc_input.mix(BUSCO_lin1_PRIM.out.short_summaries_txt.collect{it[1]})
 	}
-	mqc_input = mqc_input.mix(BUSCO_lin1_PRIM.out.short_summaries_txt.collect{it[1]})
-	// Gather versions of all tools used
-	ch_versions = ch_versions.mix(BUSCO_lin1_PRIM.out.versions)
-	if ((params.assembly_method == 'hifiasm') && (GOAT_TAXONSEARCH.out.ploidy != '1')) {
+
+	if ((params.assembly_method == 'hifiasm') && (params.hap2 == 'yes')) {
 	        QUAST_ASS_DOUBLE (assembly_primary, assembly_alternate, quast_fasta, quast_gff, false, false, GOAT_TAXONSEARCH.out.genome_size)
 	        mqc_input = mqc_input.mix(QUAST_ASS_DOUBLE.out.tsv)
 		quast_contig = QUAST_ASS_DOUBLE.out.renamed_tsv
@@ -492,14 +546,14 @@ taxon  = [
 		assembly_polished = PILON.out.improved_assembly
 		QUAST_PILON(assembly_polished, quast_fasta, quast_gff, false, false, GOAT_TAXONSEARCH.out.genome_size)
 		mqc_input = mqc_input.mix(QUAST_PILON.out.tsv)
-		assembly_unpurged = assembly_polished
-                // Gather versions of all tools used
                 ch_versions = ch_versions.mix(BWAMEM2_INDEX_PILON.out.versions)
                 ch_versions = ch_versions.mix(BWAMEM2_MEM_PILON.out.versions)
                 ch_versions = ch_versions.mix(SAMTOOLS_INDEX_PILON.out.versions)
                 ch_versions = ch_versions.mix(PILON.out.versions)
+
+                assembly_unpurged       = assembly_polished
 	} else {
-		assembly_unpurged = assembly_primary
+		assembly_unpurged	= assembly_primary
 	}
 
 	if (params.fcs == 'yes') {		
@@ -507,32 +561,43 @@ taxon  = [
 		FCS_FCSADAPTOR_hap1(assembly_unpurged)
 		FCS_FCSGX_hap1(FCS_FCSADAPTOR_hap1.out.cleaned_assembly)
 		FCS_FCSGX_CLEAN_hap1(FCS_FCSADAPTOR_hap1.out.cleaned_assembly, FCS_FCSGX_hap1.out.fcs_gx_report)
-	        cleaned_hap1 = FCS_FCSGX_CLEAN_hap1.out.cleaned_fasta
-		// Gather versions of all tools used
+		SAMTOOLS_FAIDX_FCS_hap1(FCS_FCSGX_CLEAN_hap1.out.cleaned_fasta)
 		ch_versions = ch_versions.mix(FCS_FCSADAPTOR_hap1.out.versions)
 	        ch_versions = ch_versions.mix(FCS_FCSGX_hap1.out.versions)
 	        ch_versions = ch_versions.mix(FCS_FCSGX_CLEAN_hap1.out.versions)
-		if ((params.assembly_method == 'hifiasm')  && (GOAT_TAXONSEARCH.out.ploidy != '1')) {
+
+                cleaned_hap1		= FCS_FCSGX_CLEAN_hap1.out.cleaned_fasta
+		cleaned_hap1_index	= SAMTOOLS_FAIDX_FCS_hap1.out.fai
+
+		if ((params.assembly_method == 'hifiasm')  && (params.hap2 == 'yes')) {
 			FCS_FCSADAPTOR_ALT(assembly_alternate)
 		        FCS_FCSGX_ALT(FCS_FCSADAPTOR_ALT.out.cleaned_assembly)
 		        FCS_FCSGX_CLEAN_ALT(FCS_FCSADAPTOR_ALT.out.cleaned_assembly, FCS_FCSGX_ALT.out.fcs_gx_report)
-               	        cleaned_hap2 = FCS_FCSGX_CLEAN_ALT.out.cleaned_fasta
+			SAMTOOLS_FAIDX_FCS_hap2(FCS_FCSGX_CLEAN_ALT.out.cleaned_fasta)
+               	        cleaned_hap2		= FCS_FCSGX_CLEAN_ALT.out.cleaned_fasta
+			cleaned_hap2_index	= SAMTOOLS_FAIDX_FCS_hap2.out.fai
 		}
 	} else {
-		cleaned_hap1 = assembly_unpurged
-		if ((params.assembly_method == 'hifiasm')  && (GOAT_TAXONSEARCH.out.ploidy != '1')) {
-			cleaned_hap2 = assembly_alternate
+		cleaned_hap1	= assembly_unpurged
+		SAMTOOLS_FAIDX_FCS_hap1(cleaned_hap1)
+		cleaned_hap1_index = SAMTOOLS_FAIDX_FCS_hap1.out.fai
+		if ((params.assembly_method == 'hifiasm')  && (params.hap2 == 'yes')) {
+			cleaned_hap2	= assembly_alternate
+			SAMTOOLS_FAIDX_FCS_hap2(cleaned_hap2)
+			cleaned_hap2_index = SAMTOOLS_FAIDX_FCS_hap2.out.fai
 		}
 	}
 
 	//QC on cleaned contig assemblies
-	if (params.lineage) {
-		BUSCO_lin1_cleaned(cleaned_hap1, params.lineage, params.busco_lineages_path, [])
-	} else {
-                BUSCO_lin1_cleaned(cleaned_hap1, 'auto', [], [])
+        if ((params.run_busco == 'yes') && (params.busco_extend == 'every_step')) {
+		if (params.lineage) {
+			BUSCO_lin1_cleaned(cleaned_hap1, params.lineage, params.busco_lineages_path, [])
+		} else {
+	                BUSCO_lin1_cleaned(cleaned_hap1, 'auto', params.busco_lineages_path, [])
+		}
+	        mqc_input = mqc_input.mix(BUSCO_lin1_cleaned.out.short_summaries_txt.collect{it[1]})
 	}
-        mqc_input = mqc_input.mix(BUSCO_lin1_cleaned.out.short_summaries_txt.collect{it[1]})
-        if ((params.assembly_method == 'hifiasm') && (GOAT_TAXONSEARCH.out.ploidy != '1')) {
+        if ((params.assembly_method == 'hifiasm') && (params.hap2 == 'yes')) {
                 QUAST_CLEAN_DOUBLE (cleaned_hap1, cleaned_hap2, quast_fasta, quast_gff, false, false, GOAT_TAXONSEARCH.out.genome_size)
                 mqc_input = mqc_input.mix(QUAST_CLEAN_DOUBLE.out.tsv)
         } else {
@@ -540,56 +605,71 @@ taxon  = [
                 mqc_input = mqc_input.mix(QUAST_CLEAN.out.tsv)
         }
 
-	//PurgeDups for primary assembly
-        PURGEDUPS_SPLITFA_hap1 (cleaned_hap1)
-        MINIMAP2_ALIGN_TO_CONTIG (CUTADAPT.out.reads, cleaned_hap1.collect{it[1]}, false, false, false)
-        MINIMAP2_ALIGN_TO_SELF (PURGEDUPS_SPLITFA_hap1.out.split_fasta, [], false, false, false)
-        PURGEDUPS_PBCSTAT_hap1 (MINIMAP2_ALIGN_TO_CONTIG.out.paf)
-        PURGEDUPS_CALCUTS_hap1 (PURGEDUPS_PBCSTAT_hap1.out.stat) 
-        PURGEDUPS_PURGEDUPS_hap1 (PURGEDUPS_PBCSTAT_hap1.out.basecov.join (PURGEDUPS_CALCUTS_hap1.out.cutoff), MINIMAP2_ALIGN_TO_SELF.out.paf )
-        PURGEDUPS_GETSEQS_hap1 (cleaned_hap1, PURGEDUPS_PURGEDUPS_hap1.out.bed)
-        SAMTOOLS_FAIDX1 (PURGEDUPS_GETSEQS_hap1.out.purged)
-	purged_primary = PURGEDUPS_GETSEQS_hap1.out.purged
-	if (params.lineage) {
-		BUSCO_lin1_purged(purged_primary, params.lineage, params.busco_lineages_path, [])
+	if (params.purging_method == 'purge_dups') {
+		//PurgeDups for primary assembly
+	        PURGEDUPS_SPLITFA_hap1 (cleaned_hap1)
+	        MINIMAP2_ALIGN_TO_CONTIG (CUTADAPT.out.reads, cleaned_hap1.collect{it[1]}, false, false, false)
+	        MINIMAP2_ALIGN_TO_SELF (PURGEDUPS_SPLITFA_hap1.out.split_fasta, [], false, false, false)
+	        PURGEDUPS_PBCSTAT_hap1 (MINIMAP2_ALIGN_TO_CONTIG.out.paf)
+	        PURGEDUPS_CALCUTS_hap1 (PURGEDUPS_PBCSTAT_hap1.out.stat) 
+	        PURGEDUPS_PURGEDUPS_hap1 (PURGEDUPS_PBCSTAT_hap1.out.basecov.join (PURGEDUPS_CALCUTS_hap1.out.cutoff), MINIMAP2_ALIGN_TO_SELF.out.paf )
+	        PURGEDUPS_GETSEQS_hap1 (cleaned_hap1, PURGEDUPS_PURGEDUPS_hap1.out.bed)
+	        SAMTOOLS_FAIDX_PURGE_hap1 (PURGEDUPS_GETSEQS_hap1.out.purged)
+		purged_hap1		= PURGEDUPS_GETSEQS_hap1.out.purged
+		purged_hap1_index	= SAMTOOLS_FAIDX_PURGE_hap1.out.fai 
+                ch_versions = ch_versions.mix(PURGEDUPS_SPLITFA_hap1.out.versions)
+                ch_versions = ch_versions.mix(MINIMAP2_ALIGN_TO_CONTIG.out.versions)
+                ch_versions = ch_versions.mix(MINIMAP2_ALIGN_TO_SELF.out.versions)
+                ch_versions = ch_versions.mix(PURGEDUPS_PBCSTAT_hap1.out.versions)
+                ch_versions = ch_versions.mix(PURGEDUPS_CALCUTS_hap1.out.versions)
+                ch_versions = ch_versions.mix(PURGEDUPS_PURGEDUPS_hap1.out.versions)
+                ch_versions = ch_versions.mix(PURGEDUPS_GETSEQS_hap1.out.versions)
+                ch_versions = ch_versions.mix(SAMTOOLS_FAIDX_PURGE_hap1.out.versions)
+
+		if (params.run_busco == 'yes') {
+			if (params.lineage) {
+				BUSCO_lin1_purged(purged_hap1, params.lineage, params.busco_lineages_path, [])
+			} else {
+		                BUSCO_lin1_purged(purged_hap1, 'auto', params.busco_lineages_path, [])
+			}
+		        mqc_input = mqc_input.mix(BUSCO_lin1_purged.out.short_summaries_txt.collect{it[1]})
+		        // Gather versions of all tools used
+			ch_versions = ch_versions.mix(BUSCO_lin1_purged.out.versions)
+		}
+
+	        if ((params.assembly_method == 'hifiasm')  && (params.hap2 == 'yes')) {
+	                //Merge haplotig from purge_dups and alternate assembly from hifiasm
+	                CAT (cleaned_hap2, PURGEDUPS_GETSEQS_hap1.out.haplotigs)
+	                PURGEDUPS_SPLITFA_ALT (CAT.out.alternate_contigs_full)
+	                MINIMAP2_ALIGN_TO_CONTIG_ALT (CUTADAPT.out.reads, CAT.out.alternate_contigs_full.collect{it[1]}, false, false, false)
+	                MINIMAP2_ALIGN_TO_SELF_ALT (PURGEDUPS_SPLITFA_ALT.out.split_fasta, [], false, false, false)
+	                PURGEDUPS_PBCSTAT_ALT (MINIMAP2_ALIGN_TO_CONTIG_ALT.out.paf)
+	                PURGEDUPS_CALCUTS_ALT (PURGEDUPS_PBCSTAT_ALT.out.stat)
+	                PURGEDUPS_PURGEDUPS_ALT (PURGEDUPS_PBCSTAT_ALT.out.basecov.join (PURGEDUPS_CALCUTS_ALT.out.cutoff), MINIMAP2_ALIGN_TO_SELF_ALT.out.paf )
+	                PURGEDUPS_GETSEQS_ALT (CAT.out.alternate_contigs_full, PURGEDUPS_PURGEDUPS_ALT.out.bed)
+	                SAMTOOLS_FAIDX_PURGE_hap2 (PURGEDUPS_GETSEQS_ALT.out.purged)
+	                purged_hap2		= PURGEDUPS_GETSEQS_ALT.out.purged
+			purged_hap2_index	= SAMTOOLS_FAIDX_PURGE_hap2.out.fai
+	
+	                QUAST_PURGED_DOUBLE (purged_hap1, purged_hap2, quast_fasta, quast_gff, false, false, GOAT_TAXONSEARCH.out.genome_size)
+	                mqc_input = mqc_input.mix(QUAST_PURGED_DOUBLE.out.tsv)
+			quast_contig_purged=QUAST_PURGED_DOUBLE.out.renamed_tsv
+	                MERQURY_PURGED_DOUBLE(MERYL_COUNT.out.meryl_db, purged_hap1, purged_hap2)
+	        } else {
+			QUAST_PURGED (purged_hap1, quast_fasta, quast_gff, false, false, GOAT_TAXONSEARCH.out.genome_size)
+			mqc_input = mqc_input.mix(QUAST_PURGED.out.tsv)
+			quast_contig_purged = QUAST_PURGED.out.renamed_tsv
+	                MERQURY_PURGED(MERYL_COUNT.out.meryl_db.join(purged_hap1))
+	        }
 	} else {
-                BUSCO_lin1_purged(purged_primary, 'auto', [], [])
+		purged_hap1     	= cleaned_hap1
+		purged_hap1_index	= cleaned_hap1_index
+                quast_contig_purged = file('quast_purged_dummy')
+                if ((params.assembly_method == 'hifiasm')  && (params.hap2 == 'yes')) {
+			purged_hap2		= cleaned_hap2
+			purged_hap2_index	= cleaned_hap2_index
+		}
 	}
-        mqc_input = mqc_input.mix(BUSCO_lin1_purged.out.short_summaries_txt.collect{it[1]})
-
-        // Gather versions of all tools used
-        ch_versions = ch_versions.mix(PURGEDUPS_SPLITFA_hap1.out.versions)
-        ch_versions = ch_versions.mix(MINIMAP2_ALIGN_TO_CONTIG.out.versions)
-        ch_versions = ch_versions.mix(MINIMAP2_ALIGN_TO_SELF.out.versions)
-        ch_versions = ch_versions.mix(PURGEDUPS_PBCSTAT_hap1.out.versions)
-        ch_versions = ch_versions.mix(PURGEDUPS_CALCUTS_hap1.out.versions)
-        ch_versions = ch_versions.mix(PURGEDUPS_PURGEDUPS_hap1.out.versions)
-        ch_versions = ch_versions.mix(PURGEDUPS_GETSEQS_hap1.out.versions)
-        ch_versions = ch_versions.mix(SAMTOOLS_FAIDX1.out.versions)
-
-        if ((params.assembly_method == 'hifiasm')  && (GOAT_TAXONSEARCH.out.ploidy != '1')) {
-                //Merge haplotig from purge_dups and alternate assembly from hifiasm
-                CAT (cleaned_hap2, PURGEDUPS_GETSEQS_hap1.out.haplotigs)
-                PURGEDUPS_SPLITFA_ALT (CAT.out.alternate_contigs_full)
-                MINIMAP2_ALIGN_TO_CONTIG_ALT (CUTADAPT.out.reads, CAT.out.alternate_contigs_full.collect{it[1]}, false, false, false)
-                MINIMAP2_ALIGN_TO_SELF_ALT (PURGEDUPS_SPLITFA_ALT.out.split_fasta, [], false, false, false)
-                PURGEDUPS_PBCSTAT_ALT (MINIMAP2_ALIGN_TO_CONTIG_ALT.out.paf)
-                PURGEDUPS_CALCUTS_ALT (PURGEDUPS_PBCSTAT_ALT.out.stat)
-                PURGEDUPS_PURGEDUPS_ALT (PURGEDUPS_PBCSTAT_ALT.out.basecov.join (PURGEDUPS_CALCUTS_ALT.out.cutoff), MINIMAP2_ALIGN_TO_SELF_ALT.out.paf )
-                PURGEDUPS_GETSEQS_ALT (CAT.out.alternate_contigs_full, PURGEDUPS_PURGEDUPS_ALT.out.bed)
-                SAMTOOLS_FAIDX1_ALT (PURGEDUPS_GETSEQS_ALT.out.purged)
-                purged_alternate = PURGEDUPS_GETSEQS_ALT.out.purged
-
-                QUAST_PURGED_DOUBLE (purged_primary, purged_alternate, quast_fasta, quast_gff, false, false, GOAT_TAXONSEARCH.out.genome_size)
-                mqc_input = mqc_input.mix(QUAST_PURGED_DOUBLE.out.tsv)
-		quast_contig_purged=QUAST_PURGED_DOUBLE.out.renamed_tsv
-                MERQURY_PURGED_DOUBLE(MERYL_COUNT.out.meryl_db, purged_primary, purged_alternate)
-        } else {
-		QUAST_PURGED (purged_primary, quast_fasta, quast_gff, false, false, GOAT_TAXONSEARCH.out.genome_size)
-		mqc_input = mqc_input.mix(QUAST_PURGED.out.tsv)
-		quast_contig_purged = QUAST_PURGED.out.renamed_tsv
-                MERQURY_PURGED(MERYL_COUNT.out.meryl_db.join(purged_primary))
-        }
 
 
 	//Only if HiC data is available
@@ -597,7 +677,7 @@ taxon  = [
 		//HIC scaffolding: The method is selected in the parameters : salsa or yahs
 		if ( params.scaffolding_method == "salsa") {
 			// For SALSA2, need to run nf-core/hic
-			PREPARE_GENOME (PURGEDUPS_GETSEQS.out.purged, params.restriction_site)
+			PREPARE_GENOME (purged_hap1, params.restriction_site)
 			FASTQC (input_hic_R1_R2)
 			ch_map_res = Channel.from( params.bin_size ).splitCsv().flatten().toInteger()
 			HICPRO (input_hic_R1_R2, PREPARE_GENOME.out.index, PREPARE_GENOME.out.res_frag, PREPARE_GENOME.out.chromosome_size, params.ligation_site, ch_map_res)
@@ -614,7 +694,7 @@ taxon  = [
 				.filter{ it[0].resolution == it[2] }
 				.map { it -> [it[0], it[1], it[2]]}
 				.set{ ch_cool_compartments }
-			COMPARTMENTS (ch_cool_compartments, PURGEDUPS_GETSEQS.out.purged, PREPARE_GENOME.out.chromosome_size)
+			COMPARTMENTS (ch_cool_compartments, purged_hap1, PREPARE_GENOME.out.chromosome_size)
 		 	COOLER.out.cool
 				.combine(ch_tads_res)
 				.filter{ it[0].resolution == it[2] }
@@ -632,11 +712,11 @@ taxon  = [
 
 			//Then start the pipeline again.
         		BED_PROCESSING(HICPRO.out.bam)
-        		SALSA2 (PURGEDUPS_GETSEQS.out.purged.join(SAMTOOLS_FAIDX1.out.fai), BED_PROCESSING.out.sorted_bed.collect{it[1]}, [], [], [] )
-			SAMTOOLS_FAIDX2 (SALSA2.out.fasta)
+        		SALSA2 (purged_hap1.join(purged_hap1_index), BED_PROCESSING.out.sorted_bed.collect{it[1]}, [], [], [] )
+			SAMTOOLS_FAIDX_SCAFF_hap1 (SALSA2.out.fasta)
         		scaffold                = SALSA2.out.fasta
         		scaffold_agp            = SALSA2.out.agp
-        		scaffold_index          = SAMTOOLS_FAIDX2.out.fai
+        		scaffold_index          = SAMTOOLS_FAIDX_SCAFF_hap1.out.fai
 	
 			SALSA2_JUICER (
                 		scaffold
@@ -646,45 +726,47 @@ taxon  = [
                 	        	.join(SALSA2.out.scaffold_length_iteration_1)
                 		)	
 		} else if ( params.scaffolding_method == "yahs") {
-        		CHROMAP_INDEX_hap1(PURGEDUPS_GETSEQS_hap1.out.purged)
-        		CHROMAP_CHROMAP_hap1(input_hic_R1_R2, PURGEDUPS_GETSEQS_hap1.out.purged, CHROMAP_INDEX_hap1.out.index, [],[],[],[])
-        		YAHS_hap1(PURGEDUPS_GETSEQS_hap1.out.purged, SAMTOOLS_FAIDX1.out.fai, CHROMAP_CHROMAP_hap1.out.bam)
-        		SAMTOOLS_FAIDX2(YAHS_hap1.out.fasta)
+        		CHROMAP_INDEX_hap1(purged_hap1)
+        		CHROMAP_CHROMAP_hap1(input_hic_R1_R2, purged_hap1, CHROMAP_INDEX_hap1.out.index, [],[],[],[])
+        		YAHS_hap1(purged_hap1, purged_hap1_index, CHROMAP_CHROMAP_hap1.out.bam)
+        		SAMTOOLS_FAIDX_SCAFF_hap1(YAHS_hap1.out.fasta)
 
 		        // Gather versions of all tools used
 		        ch_versions = ch_versions.mix(CHROMAP_INDEX_hap1.out.versions)
                         ch_versions = ch_versions.mix(CHROMAP_CHROMAP_hap1.out.versions)
                         ch_versions = ch_versions.mix(YAHS_hap1.out.versions)
-                        ch_versions = ch_versions.mix(SAMTOOLS_FAIDX2.out.versions)
+                        ch_versions = ch_versions.mix(SAMTOOLS_FAIDX_SCAFF_hap1.out.versions)
 
         		scaffold 		= YAHS_hap1.out.fasta
 			scaffold_agp 		= YAHS_hap1.out.agp
 			scaffold_bin 		= YAHS_hap1.out.bin
-        		scaffold_index		= SAMTOOLS_FAIDX2.out.fai
+        		scaffold_index		= SAMTOOLS_FAIDX_SCAFF_hap1.out.fai
 
-		        if ((params.assembly_method == 'hifiasm')  && (GOAT_TAXONSEARCH.out.ploidy != '1')) {
-				CHROMAP_INDEX_ALT(purged_alternate)
-				CHROMAP_CHROMAP_ALT(input_hic_R1_R2, purged_alternate, CHROMAP_INDEX_ALT.out.index, [],[],[],[])
-                        	YAHS_ALT(purged_alternate, SAMTOOLS_FAIDX1_ALT.out.fai, CHROMAP_CHROMAP_ALT.out.bam)
-                        	SAMTOOLS_FAIDX2_ALT(YAHS_ALT.out.fasta)
+		        if ((params.assembly_method == 'hifiasm')  && (params.hap2 == 'yes')) {
+				CHROMAP_INDEX_ALT(purged_hap2)
+				CHROMAP_CHROMAP_ALT(input_hic_R1_R2, purged_hap2, CHROMAP_INDEX_ALT.out.index, [],[],[],[])
+                        	YAHS_ALT(purged_hap2, purged_hap2_index, CHROMAP_CHROMAP_ALT.out.bam)
+                        	SAMTOOLS_FAIDX_SCAFF_hap2(YAHS_ALT.out.fasta)
 
 	                        scaffold_alt                = YAHS_ALT.out.fasta
 	                        scaffold_agp_alt            = YAHS_ALT.out.agp
 	                        scaffold_bin_alt            = YAHS_ALT.out.bin
-	                        scaffold_index_alt          = SAMTOOLS_FAIDX2_ALT.out.fai
+	                        scaffold_index_alt          = SAMTOOLS_FAIDX_SCAFF_hap2.out.fai
 			}
 		} else {
 			error "Invalid alignment mode: params.scaffolding_method "
 		}
 
 		//Scaffold QC
-		if (params.lineage) {
-			BUSCO_lin1_SCAFF(scaffold, params.lineage, params.busco_lineages_path, [])
-		} else {
-                        BUSCO_lin1_SCAFF(scaffold, 'auto', [], [])
+		if (params.run_busco == 'yes') {
+			if (params.lineage) {
+				BUSCO_lin1_SCAFF(scaffold, params.lineage, params.busco_lineages_path, [])
+			} else {
+	                        BUSCO_lin1_SCAFF(scaffold, 'auto', params.busco_lineages_path, [])
+			}
+	        	mqc_input = mqc_input.mix(BUSCO_lin1_SCAFF.out.short_summaries_txt.collect{it[1]})
 		}
-        	mqc_input = mqc_input.mix(BUSCO_lin1_SCAFF.out.short_summaries_txt.collect{it[1]})
-        	if ((params.assembly_method == 'hifiasm')  && (GOAT_TAXONSEARCH.out.ploidy != '1')) {
+        	if ((params.assembly_method == 'hifiasm')  && (params.hap2 == 'yes')) {
                 	QUAST_SCAFF_DOUBLE (scaffold, scaffold_alt, quast_fasta, quast_gff, false, false, GOAT_TAXONSEARCH.out.genome_size)
                 	mqc_input = mqc_input.mix(QUAST_SCAFF_DOUBLE.out.tsv)
 			quast_scaffold = QUAST_SCAFF_DOUBLE.out.renamed_tsv
@@ -698,11 +780,11 @@ taxon  = [
 
 		if (params.methylation_calling == 'yes') {
 			//Map PacBio data against newly genevated assembly
-		        JASMINE (bamtools_filter_output)
+		        JASMINE (final_pacBio_bam)
  	               ch_versions = ch_versions.mix(JASMINE.out.versions)
 	                PBMM2 (JASMINE.out.cpg_bam, scaffold)
 		} else {
-			PBMM2 (bamtools_filter_output, scaffold)
+			PBMM2 (final_pacBio_bam, scaffold)
 		}
                 SAMTOOLS_INDEX_PBMM2 (PBMM2.out.aligned_bam)
 	        // Gather versions of all tools used
@@ -711,7 +793,7 @@ taxon  = [
          
 
                 // JUICER must have contig fai for scaffold assembly
-	        YAHS_JUICER (scaffold_agp, scaffold_bin, SAMTOOLS_FAIDX1.out.fai)
+	        YAHS_JUICER (scaffold_agp, scaffold_bin, purged_hap1_index)
 		chrom_size = YAHS_JUICER.out.chrom_sizes
 	        // Gather versions of all tools used
 		ch_versions = ch_versions.mix(YAHS_JUICER.out.versions)
@@ -759,11 +841,17 @@ taxon  = [
 		
 		GZIP(scaffold)
 
-		if (params.blobtools == 'yes'){
-			BLOBTOOLS_CONFIG(GZIP.out.gz, bam2fastx_output)
-	                BLOBTOOLS_PIPELINE(BLOBTOOLS_CONFIG.out.config, GZIP.out.gz)
-	                BLOBTOOLS_CREATE(scaffold, BLOBTOOLS_CONFIG.out.config)
-	                BLOBTOOLS_ADD(BLOBTOOLS_PIPELINE.out.blast_out, BLOBTOOLS_PIPELINE.out.diamond_proteome_out, BLOBTOOLS_PIPELINE.out.diamond_busco_out, BLOBTOOLS_PIPELINE.out.assembly_minimap_bam, BLOBTOOLS_PIPELINE.out.hic_minimap_bam , BLOBTOOLS_PIPELINE.out.lineage1_full_table_tsv , BLOBTOOLS_PIPELINE.out.lineage2_full_table_tsv, BLOBTOOLS_CREATE.out.blobtools_folder)
+		if ((params.blobtools == 'yes') && (params.lineage)) {
+			if (params.lineage2) {
+				BLOBTOOLS_CONFIG_2LINEAGES(GZIP.out.gz, bam2fastx_output)
+				blobtools_config=BLOBTOOLS_CONFIG_2LINEAGES.out.config
+			} else {
+				BLOBTOOLS_CONFIG_1LINEAGE(GZIP.out.gz, bam2fastx_output)
+				blobtools_config=BLOBTOOLS_CONFIG_1LINEAGE.out.config
+			}
+			BLOBTOOLS_PIPELINE(blobtools_config, GZIP.out.gz)
+	                BLOBTOOLS_CREATE(scaffold, blobtools_config)
+	                BLOBTOOLS_ADD(BLOBTOOLS_PIPELINE.out.blast_out, BLOBTOOLS_PIPELINE.out.diamond_proteome_out, BLOBTOOLS_PIPELINE.out.diamond_busco_out, BLOBTOOLS_PIPELINE.out.assembly_minimap_bam, BLOBTOOLS_PIPELINE.out.hic_minimap_bam, BLOBTOOLS_PIPELINE.out.lineage1_full_table_tsv, BLOBTOOLS_CREATE.out.blobtools_folder)
 	                BLOBTOOLS_VIEW(BLOBTOOLS_ADD.out.blobtools_folder)
 
 	                ch_versions = ch_versions.mix(BLOBTOOLS_PIPELINE.out.versions)
@@ -779,38 +867,42 @@ taxon  = [
                 ]
 	}
 
-
 	//Busco is ran on all lineages for hap 1 only for the most final assembly (scaffold > purged > contig)
 	//BUSCO is ran on the principal lineage for hap2 only for the most final assembly (scaffold > purged > contig)
 	//Define which file to run Busco on
 	if (( params.hic_read1 ) && ( params.hic_read2 )) {
 		busco_assembly = scaffold
-		if ((params.assembly_method == 'hifiasm')  && (GOAT_TAXONSEARCH.out.ploidy != '1')) {
+		if ((params.assembly_method == 'hifiasm')  && (params.hap2 == 'yes')) {
 			busco_assembly_alt = scaffold_alt
 		}
 	} else {
 		busco_assembly = purged_primary
-		if (( params.assembly_method == 'hifiasm' )  && (GOAT_TAXONSEARCH.out.ploidy != '1')) {
+		if (( params.assembly_method == 'hifiasm' )  && (params.hap2 == 'yes')) {
 			busco_assembly_alt = purged_alternate
 		}
 	}
-
-       if (( params.hic_read1 ) && ( params.hic_read2 )) {
-		busco_lin1_json=BUSCO_lin1_SCAFF.out.short_summaries_json
+	if (params.run_busco == 'yes') {
+		if (( params.hic_read1 ) && ( params.hic_read2 )) {
+			busco_lin1_json=BUSCO_lin1_SCAFF.out.short_summaries_json
+		} else {
+			busco_lin1_json=BUSCO_lin1_purged.out.short_summaries_json
+		}
 	} else {
-		busco_lin1_json=BUSCO_lin1_purged.out.short_summaries_json
+                busco_lin1_json = [
+                        [ id:'dummy', single_end: true], // meta map
+                        [ file('busco_lin1_json_dummy')]
+                ]
 	}
 
-/*
-        if ((params.assembly_method == 'hifiasm')  && (GOAT_TAXONSEARCH.out.ploidy != '1')) {
+	if ((params.run_busco == 'yes') && (params.busco_extend == 'every_step') && (params.assembly_method == 'hifiasm')  && (params.hap2 == 'yes')) {
 		if (params.lineage) {		
 	                BUSCO_ALT (busco_assembly_alt, params.lineage, params.busco_lineages_path, [])
 		} else {
-                        BUSCO_ALT (busco_assembly_alt, 'auto', [], [])
+                        BUSCO_ALT (busco_assembly_alt, 'auto', params.busco_lineages_path, [])
 		}
                 mqc_input = mqc_input.mix(BUSCO_ALT.out.short_summaries_txt.collect{it[1]})
         }
-*/
+
 
         if (params.lineage2) {
 		BUSCO_lin2(busco_assembly, params.lineage2, params.busco_lineages_path, [])         

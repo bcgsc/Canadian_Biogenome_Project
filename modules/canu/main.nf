@@ -32,51 +32,51 @@ process CANU {
     def genomesize = genome_size ? "genomesize=$genome_size" : "" 
     if (params.assembly_secondary_mode == 'hicanu'){
     """
-        canu \\
-                -p ${prefix} \\
-                $args \\
-		$genomesize \\
-                maxThreads=$task.cpus \\
-                -pacbio-hifi $reads
+    canu \\
+        -p ${prefix} \\
+        $args \\
+        $genomesize \\
+        maxThreads=$task.cpus \\
+        -pacbio-hifi $reads
                 
-            gzip *.fasta
+    gzip *.fasta
             
-            cat <<-END_VERSIONS > versions.yml
-            "${task.process}":
-                canu: \$(echo \$(canu --version 2>&1) | sed 's/^.*canu //; s/Using.*\$//' )
-            END_VERSIONS
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        canu: \$(echo \$(canu --version 2>&1) | sed 's/^.*canu //; s/Using.*\$//' )
+    END_VERSIONS
     """     
     } else if (params.assembly_secondary_mode == 'ont'){
     """
-        canu \\
-                -p ${prefix} \\
-                $args \\
-		$genomesize \\
-                maxThreads=$task.cpus \\
-                -nanopore $reads
+    canu \\
+        -p ${prefix} \\
+        $args \\
+        $genomesize \\
+        maxThreads=$task.cpus \\
+        -nanopore $reads
 
-            gzip *.fasta
+    gzip *.fasta
 
-            cat <<-END_VERSIONS > versions.yml
-            "${task.process}":
-                canu: \$(echo \$(canu --version 2>&1) | sed 's/^.*canu //; s/Using.*\$//' )
-            END_VERSIONS
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        canu: \$(echo \$(canu --version 2>&1) | sed 's/^.*canu //; s/Using.*\$//' )
+    END_VERSIONS
     """
     } else if (params.assembly_secondary_mode == 'clr'){
     """
-        canu \\
-                -p ${prefix} \\
-                $args \\
-		$genomesize \\
-                maxThreads=$task.cpus \\
-                -pacbio $reads
+    canu \\
+        -p ${prefix} \\
+        $args \\
+        $genomesize \\
+        maxThreads=$task.cpus \\
+        -pacbio $reads
 
-            gzip *.fasta
+    gzip *.fasta
 
-            cat <<-END_VERSIONS > versions.yml
-            "${task.process}":
-                canu: \$(echo \$(canu --version 2>&1) | sed 's/^.*canu //; s/Using.*\$//' )
-            END_VERSIONS
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        canu: \$(echo \$(canu --version 2>&1) | sed 's/^.*canu //; s/Using.*\$//' )
+    END_VERSIONS
     """
     } else {
 	error "Canu needs a correct mode : 'hicanu', 'ont' or 'clr'"

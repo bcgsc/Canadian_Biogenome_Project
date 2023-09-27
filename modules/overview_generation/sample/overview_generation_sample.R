@@ -40,6 +40,11 @@ lineage4 =(args[29])
 
 taxon_name =paste0((args[41]), "_", (args[42]))
 
+#Depending on the version, the genome size is in bp or in Gb, need to make it all in Gb
+if (hap_gen_size_Gb >  1000) {
+	hap_gen_size_Gb = as.numeric(hap_gen_size_Gb)/1000000000
+}
+
 #Count the number of files
 #number of pacbio bam files (including both barcoded and unbarcoded)
 pacbio_concat = paste(bam_cell1, bam_cell2, bam_cell3, bam_cell4, sep = "; ")
@@ -67,15 +72,24 @@ ont_n_files = 1- lengths(regmatches(ont_concat, gregexpr("null", ont_concat)))
 #Extract the information from the different files to generate aggregated tsv and figures
 
 #LongQC data
-#longqc_report= fromJSON(file="~/Downloads/Greenland_cockle_R/QC_vals_longQC_sampleqc_Greenland_cockle_004.json")
-longqc_report= fromJSON(file=(args[30]))
-pacbio_n_reads_longqc = longqc_report[["Num_of_reads"]]
-pacbio_longest_read_longqc_kb = longqc_report[["Longest_read"]]/1000
-pacbio_mean_read_length_longqc_kb = longqc_report[["Length_stats"]][["Mean_read_length"]]/1000
-pacbio_coverage_x=(pacbio_n_reads_longqc*pacbio_mean_read_length_longqc_kb)/(as.numeric(hap_gen_size_Gb)*1000000)
-
+if (file.exists(args[30])) {
+	#longqc_report= fromJSON(file="~/Downloads/Greenland_cockle_R/QC_vals_longQC_sampleqc_Greenland_cockle_004.json")
+	longqc_report= fromJSON(file=(args[30]))
+	pacbio_n_reads_longqc = longqc_report[["Num_of_reads"]]
+	pacbio_longest_read_longqc_kb = longqc_report[["Longest_read"]]/1000
+	pacbio_mean_read_length_longqc_kb = longqc_report[["Length_stats"]][["Mean_read_length"]]/1000
+	pacbio_coverage_x=(pacbio_n_reads_longqc*pacbio_mean_read_length_longqc_kb)/(as.numeric(hap_gen_size_Gb)*1000000)	
+} else {
+	pacbio_n_reads_longqc = "NA"
+	pacbio_longest_read_longqc_kb = "NA"
+	pacbio_mean_read_length_longqc_kb = "NA"
+	pacbio_coverage_xpacbio_coverage_xpacbio_coverage_x = "NA"
+	pacbio_coverage_x = "NA"
+}
 lonqc_overview = cbind(pacbio_n_reads_longqc, pacbio_longest_read_longqc_kb, pacbio_mean_read_length_longqc_kb, pacbio_coverage_x)
 #head(lonqc_overview)
+
+
 #Pacbio Kraken results
 #kraken_pacbio_results = read.table("~/Downloads/Greenland_cockle_R/Greenland_cockle_004.kraken2.report.txt", sep = "\t", blank.lines.skip = FALSE, quote="", comment.char="")
 kraken_pacbio_results = read.table(args[31], sep = "\t", blank.lines.skip = FALSE, quote="", comment.char="")

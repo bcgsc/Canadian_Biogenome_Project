@@ -21,10 +21,17 @@ process SAMTOOLS_FAIDX {
     script:
     def args = task.ext.args ?: ''
     """
+    FILE=$fasta
+    if [[ \$FILE == *.gz ]]
+    then
+        gzip -cdf $fasta > unzipped.fasta
+        FILE=unzipped.fasta
+    fi
+
     samtools \\
         faidx \\
         $args \\
-        $fasta
+        \$FILE
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

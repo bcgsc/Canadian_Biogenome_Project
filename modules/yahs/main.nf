@@ -19,11 +19,19 @@ process YAHS {
     task.ext.when == null || task.ext.when
 
     script:
+    def prefix = task.ext.prefix ?: "${meta.id}"
     def args = task.ext.args ?: ''
     """
+    FILE=$assembly
+    if [[ \$FILE == *.gz ]]
+    then
+        gzip -cdf $assembly > unzipped.fasta
+        FILE=unzipped.fasta
+    fi
+
     yahs \\
         -o ${assembly.baseName} \\
-        $assembly \\
+        \$FILE \\
         $bam \\
         $args
 

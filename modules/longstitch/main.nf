@@ -12,7 +12,7 @@ process LONGSTITCH {
     val(genome_size)
 
     output:
-    tuple val(meta), path('*.ntLink.scaffolds.fa') , emit: assembly
+    tuple val(meta), path ('*ntLink-arks.longstitch-scaffolds.fa') , emit: assembly
     path "versions.yml"          , emit: versions
 
     when:
@@ -29,7 +29,7 @@ process LONGSTITCH {
 
     cp $reads ${reads.simpleName}.fq.gz
 
-    longstitch tigmint-ntLink-arks \\
+    longstitch ntLink-arks \\
     draft=${assembly.simpleName} \\
     reads=${reads.simpleName} \\
     $args \\

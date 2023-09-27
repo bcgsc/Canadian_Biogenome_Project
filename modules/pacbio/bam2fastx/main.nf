@@ -2,10 +2,10 @@ process BAM2FASTX {
     tag "$meta.id"
     label 'process_medium'
 
-    conda (params.enable_conda ? "bioconda::bam2fastx=1.3.1" : null)
+    conda (params.enable_conda ? "bioconda::pbtk==3.1.0" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/bam2fastx%3A1.3.1--hf05d43a_1':
-        'quay.io/biocontainers/bam2fastx' }"
+        'https://depot.galaxyproject.org/singularity/pbtk:3.1.0--h9ee0642_0':
+        'quay.io/biocontainers/pbtk' }"
 
     input:
     tuple val(meta), path(bam, stageAs: '??.bam'), path(index, stageAs: '??.bam.pbi')

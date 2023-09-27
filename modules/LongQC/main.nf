@@ -2,7 +2,7 @@ process LONGQC {
     tag "$meta.id"
     label 'process_medium'
 
-    container '/projects/cbp/scratch/singularity/longqc.sif'
+    container 'longqc.sif'
 
     input:
     tuple val(meta), path(reads)

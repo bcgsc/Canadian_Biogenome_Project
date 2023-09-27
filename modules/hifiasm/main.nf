@@ -45,7 +45,7 @@ process HIFIASM {
         error "Hifiasm Trio-binning requires paternal data"
     } else if ((paternal_kmer_dump) && (maternal_kmer_dump)) {
         """
-	hg_size_kb=\$(echo $genome_size | awk '{print \$1 /1000}')
+        hg_size_kb=\$(echo $genome_size | awk '{print \$1 /1000}')
 
         hifiasm \\
             $args \\

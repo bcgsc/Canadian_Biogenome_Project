@@ -2,7 +2,7 @@ process PREPROCESS_MERGED {
     tag "$meta.id"
     label 'process_high'
 
-    conda "bioconda::pbbam=2.1.0 bioconda::bamtools=2.5.2"
+    conda "bioconda::pbtk==3.1.0 bioconda::bamtools=2.5.2"
 
     input:
     tuple val(meta), path(bam, stageAs: "?/*")

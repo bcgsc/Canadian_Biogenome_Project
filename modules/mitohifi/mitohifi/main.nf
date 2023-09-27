@@ -27,6 +27,8 @@ process MITOHIFI {
     -g $reference_gb \\
     -t 10 
 
+    sed ' 1 s/.*/& [topology=circular] [location=mitochondrion]/' final_mitogenome.fasta > final_mitogenome_tagged.fasta
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python --version | sed 's/Python //g')
