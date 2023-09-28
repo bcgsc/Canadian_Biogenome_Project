@@ -349,7 +349,7 @@ taxon  = [
 	ch_versions = ch_versions.mix(CUTADAPT.out.versions)
 
         //QC Input data
-        LONGQC_PACBIO (CUTADAPT.out.reads)
+//        LONGQC_PACBIO (CUTADAPT.out.reads)
         MERYL_COUNT (CUTADAPT.out.reads)
         MERYL_HISTOGRAM (MERYL_COUNT.out.meryl_db)
         GENOMESCOPE2 (MERYL_HISTOGRAM.out.hist, GOAT_TAXONSEARCH.out.ploidy)
@@ -369,7 +369,7 @@ taxon  = [
 
 
         // Gather versions of all tools used
-        ch_versions = ch_versions.mix(LONGQC_PACBIO.out.versions)
+//        ch_versions = ch_versions.mix(LONGQC_PACBIO.out.versions)
         ch_versions = ch_versions.mix(MERYL_COUNT.out.versions)
         ch_versions = ch_versions.mix(GENOMESCOPE2.out.versions)
 
