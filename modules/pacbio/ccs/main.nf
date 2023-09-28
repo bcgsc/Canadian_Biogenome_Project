@@ -2,7 +2,7 @@ process CCS {
     tag "$meta.id"
     label 'process_medium'
 
-    conda (params.enable_conda ? "bioconda::pbccs" : null)
+    conda "bioconda::pbccs"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/pbccs%3A6.4.0--h9ee0642_0':
         'quay.io/biocontainers/pbccs' }"

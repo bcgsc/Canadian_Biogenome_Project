@@ -2,7 +2,7 @@ process PBMM2 {
     tag "$meta.id"
     label 'process_medium'
 
-    conda (params.enable_conda ? "bioconda::pbmm2==1.12.0" : null)
+    conda "bioconda::pbmm2==1.12.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/pbmm2:1.12.0--h9ee0642_0':
         'quay.io/biocontainers/pbmm2:1.12.0--h9ee0642_0' }"

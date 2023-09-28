@@ -2,7 +2,7 @@ process BUSCO {
     tag "$meta.id"
     label 'process_high'
 
-    conda (params.enable_conda ? "bioconda::busco=5.3.2" : null)
+    conda "bioconda::busco=5.3.2"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/busco:5.3.2--pyhdfd78af_0':
         'quay.io/biocontainers/busco:5.3.2--pyhdfd78af_0' }"

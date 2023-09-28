@@ -2,7 +2,7 @@ process QUAST {
     tag "$meta.id" 
     label 'process_medium'
 
-    conda (params.enable_conda ? 'bioconda::quast=5.2.0' : null)
+    conda 'bioconda::quast=5.2.0'
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/quast:5.2.0--py39pl5321h2add14b_1' :
         'quay.io/biocontainers/quast:5.2.0--py39pl5321h2add14b_1' }"

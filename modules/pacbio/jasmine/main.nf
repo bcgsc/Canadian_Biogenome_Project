@@ -2,7 +2,7 @@ process JASMINE {
     tag "$meta.id"
     label 'process_medium'
 
-    conda (params.enable_conda ? "bioconda::pbjasmine" : null)
+    conda "bioconda::pbjasmine"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/pbjasmine:2.0.0--h9ee0642_0':
         'quay.io/biocontainers/pbjasmine' }"
