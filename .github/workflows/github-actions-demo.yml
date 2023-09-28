@@ -7,11 +7,9 @@ jobs:
     steps:
       - name: install mamba
         run: |
-          mkdir -p /workspace/
-          cd /workspace/
           curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
-          bash Mambaforge-$(uname)-$(uname -m).sh -b -p /workspace/conda && rm Mambaforge-$(uname)-$(uname -m).sh
-          /workspace/conda/bin/mamba init bash
+          bash Mambaforge-$(uname)-$(uname -m).sh -b -p /conda && rm Mambaforge-$(uname)-$(uname -m).sh
+          /conda/bin/mamba init bash
           source ${HOME}/.bashrc
 
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
