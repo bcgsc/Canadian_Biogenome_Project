@@ -19,6 +19,7 @@ jobs:
           bash Mambaforge-$(uname)-$(uname -m).sh -b -p conda && rm Mambaforge-$(uname)-$(uname -m).sh
           conda/bin/mamba init bash
           source ${HOME}/.bashrc
+          source ~/.bash_profile
 
           nextflow run bcgsc/Canadian_Biogenome_Project -latest -r V2 -profile mamba
       - run: echo "🍏 This job's status is ${{ job.status }}."
