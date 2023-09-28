@@ -13,13 +13,5 @@ jobs:
           ls ${{ github.workspace }}
       - uses: actions/checkout@v3
       - uses: nf-core/setup-nextflow@v1
-      - name: install mamba
-        run: |
-          curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
-          bash Mambaforge-$(uname)-$(uname -m).sh -b -p conda && rm Mambaforge-$(uname)-$(uname -m).sh
-          conda/bin/mamba init bash
-          source ${HOME}/.bashrc
-          source ~/.bash_profile
-
-          nextflow run bcgsc/Canadian_Biogenome_Project -latest -r V2 -profile mamba
+          nextflow run bcgsc/Canadian_Biogenome_Project -latest -r V2 -profile conda
       - run: echo "🍏 This job's status is ${{ job.status }}."
