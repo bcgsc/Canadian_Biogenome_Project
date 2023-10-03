@@ -10,9 +10,9 @@ A lot of the modules available in this pipeline were developed by members of the
 
 
 ## Input data 
-The pipeline was developped to take as input PacBio ccs files (bam) and Hi-C files (fastq.gz). The pipeline also support the inclusion of nanopore data and short-reads for polishing.
+The pipeline was developped to take as input PacBio files (bam, from Sequel II or Revio machines) and Hi-C files (fastq.gz). The pipeline also support the inclusion of nanopore data and short-reads for polishing.
 
-The pipeline also require information related to the specie of interest such as genome size or ploidy. This information can be found on GoaT (https://goat.genomehubs.org).
+The pipeline also require the specie NCBI Taxonomy ID, which can be found on GoaT (https://goat.genomehubs.org) or on NCBI.
 
 
 
@@ -22,7 +22,7 @@ The pipeline generates many files and intermediate files, most are self explanat
 
 
 ## Process
-An overview of the pipeline is visible on the following subway map. Some parts of the pipeline may have been commented out in this version as they relied on locaaly installed software. The code is still available in case you also want to locally install the software and try it out.
+An overview of the pipeline is visible on the following subway map. Some parts of the pipeline may have been commented out in this version as they relied on localy installed software. The code is still available in case you also want to locally install the software and try it out.
 
 By default, the pipeline will use hifiasm with PacBio data for the assembly, and if Hi-C data is available, YAHS is used for the scaffolding.
 Other assembler and scaffolder are available within the pipeline, to change, you need to edit the nextflow.config file.
