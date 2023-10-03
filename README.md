@@ -57,8 +57,8 @@ Figure : Overview of the Canadian Biogenome project assembly pipeline
 
 
 
-## Running the pipeline with test data (will work once the repo is public)
-To run this pipeline, you need nextflow, conda and singularity installed on your system.
+## Running the pipeline with test data
+To run this pipeline, you need nextflow and conda or singularity installed on your system.
 
 A set of test data are available in this repo to allow you to test the pipeline with just one command line:
 
