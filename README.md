@@ -7,6 +7,15 @@ In short, each step of the pipeline is included in a module. Most of the modules
 
 A lot of the modules available in this pipeline were developed by members of the nf-core/genomeassembler group, if you want to participate, feel free to join the community.
 
+## **Table of Contents**
+* **[Input data](#input-data)**
+* **[Output data](#output-files)**
+* **[Process](#process)**
+  * [Running the pipeline with test data](#running-the-pipeline-with-test-data-(will-work-once-the-repo-is-public))
+  * [Running the pipeline with your own data](#running-the-pipeline-with-your-own-data)
+* **[Credits](#credits)**
+* **[Details on the test dataset](#details-on-the-test-dataset)**
+
 
 
 ## Input data 
@@ -29,24 +38,23 @@ Other assembler and scaffolder are available within the pipeline, to change, you
 
 Software used that would require local installation:
 
-- LongQC
+- [LongQC](https://github.com/yfukasawa/LongQC)
+- [MitoHifi](https://github.com/marcelauliano/MitoHiFi)
+- [Juicer](https://github.com/aidenlab/juicer)
 
-- MitoHifi
-
-- Juicer
 
 Software that relies on locally downloaded files / databases :
 
-- Busco
-
-- Kraken
+- [Busco](https://busco.ezlab.org/busco_userguide.html#download-and-automated-update)
+- [Kraken](http://ccb.jhu.edu/software/kraken/)
 
 <p align="center">
-    <img title="The Canadian Biogenome Project Workflow" src="https://github.com/bcgsc/Canadian_Biogenome_Project/CBP_workflow.png" width=50%>
+    <img title="The Canadian Biogenome Project Workflow" src="res/CBP_workflow.png" width=50%>
 </p>
 <p align="center">
 Figure : Overview of the Canadian Biogenome project assembly pipeline
 </p>
+
 
 
 ## Running the pipeline with test data (will work once the repo is public)
@@ -55,7 +63,7 @@ To run this pipeline, you need nextflow, conda and singularity installed on your
 A set of test data are available in this repo to allow you to test the pipeline with just one command line:
 
 ```
-nextflow run bcgsc/Canadian_Biogenome_Project -latest -r dev
+nextflow run bcgsc/Canadian_Biogenome_Project -latest -r V2 -profile conda
 ```
 
 The outputs are organized in several subfolder that are self-explenatory.
@@ -87,13 +95,15 @@ nextflow run main.nf -profile singularity
 
 ## Credits
 
-The pipeline was originnally written by @scorreard with the help and input from :
+The pipeline was originnally written by [@scorreard](https://github.com/scorreard) with the help and input from :
 
 - Members of the Jones lab (Canada's Michael Smith Genome Sciences Centre, Vancouver, Canada).
 
-- Members of the Earth Biogenome Project and other affiliated projects.
+	- Special thanks to [@Glenn Chang](https://github.com/Glenn032787) for reviewing that repo.
 
+- Members of the Earth Biogenome Project and other affiliated projects.
 - Members of the nf-core / nextflow community.
+
 
 
 
