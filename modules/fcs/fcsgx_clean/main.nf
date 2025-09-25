@@ -17,12 +17,12 @@ process FCS_FCSGX_CLEAN {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def FCSGX_VERSION = '0.4.0'
+    def FCSGX_VERSION = '0.5.5'
     """
     cp $fcsgx_report local_report.txt
 
     zcat $assembly | python3 ${params.singularity_cache}/fcs.py \\
-        --image=${params.singularity_cache}/ftp.ncbi.nlm.nih.gov-genomes-TOOLS-FCS-releases-0.4.0-fcs-gx.sif \\
+        --image=${params.singularity_cache}/ftp.ncbi.nlm.nih.gov-genomes-TOOLS-FCS-releases-latest-fcs-gx.sif \\
         clean genome \\
         --action-report=local_report.txt \\
         --output=cleaned.fasta \\

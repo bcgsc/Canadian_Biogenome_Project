@@ -4,8 +4,8 @@ process HIFIASM {
 
     conda "bioconda::hifiasm=0.19.4"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/hifiasm:0.19.4--h5b5514e_0' :
-        'quay.io/biocontainers/hifiasm:0.19.4--h5b5514e_0' }"
+        'https://depot.galaxyproject.org/singularity/hifiasm:0.25.0--h5ca1c30_0' :
+        'quay.io/biocontainers/hifiasm:0.25.0--h5ca1c30_0' }"
 
     input:
     tuple val(meta), path(reads)
@@ -14,6 +14,7 @@ process HIFIASM {
     path  hic_read1
     path  hic_read2
     path(nanopore_UL)
+    path (nanopore_ont)
     val ploidy
     val genome_size
 
@@ -37,6 +38,7 @@ process HIFIASM {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     def ploidy_value = ploidy ? "--n-hap $ploidy" : ""
+    def ont_flag = nanopore_ont ? "--ont ${nanopore_ont}" : ""
     if ((paternal_kmer_dump) && (maternal_kmer_dump) && (hic_read1) && (hic_read2)) {
         error "Hifiasm Trio-binning and Hi-C integrated should not be used at the same time"
     } else if ((paternal_kmer_dump) && !(maternal_kmer_dump)) {
@@ -55,6 +57,7 @@ process HIFIASM {
             -t $task.cpus \\
             -1 $paternal_kmer_dump \\
             -2 $maternal_kmer_dump \\
+            --primary \\
             $reads
 
         cat <<-END_VERSIONS > versions.yml
@@ -123,7 +126,27 @@ process HIFIASM {
             hifiasm: \$(hifiasm --version 2>&1)
         END_VERSIONS
         """
-    } else { 
+      
+    } else if ((nanopore_ont)&& !(hic_read1) && !(hic_read2)) {
+    """
+    hg_size_kb=\$(echo $genome_size | awk '{print \$1 /1000}')
+
+    hifiasm \\
+        $args \\
+        $ploidy_value \\
+        --hg-size \${hg_size_kb}k \\
+        -o ${prefix}.asm \\
+        -t $task.cpus \\
+        --ont $nanopore_ont \\
+        $reads
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        hifiasm: \$(hifiasm --version 2>&1)
+    END_VERSIONS
+    """ 
+   
+    }  else { 
         """
         hg_size_kb=\$(echo $genome_size | awk '{print \$1 /1000}')
 
@@ -140,5 +163,7 @@ process HIFIASM {
             hifiasm: \$(hifiasm --version 2>&1)
         END_VERSIONS
         """
+        
+
     }
 }

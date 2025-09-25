@@ -2,10 +2,10 @@ process BUSCO {
     tag "$meta.id"
     label 'process_high'
 
-    conda "bioconda::busco=5.3.2"
+//    conda "bioconda::busco=6.0.0"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/busco:5.3.2--pyhdfd78af_0':
-        'quay.io/biocontainers/busco:5.3.2--pyhdfd78af_0' }"
+        'https://depot.galaxyproject.org/singularity/busco:6.0.0--pyhdfd78af_0':
+        'quay.io/biocontainers/busco:6.0.0--pyhdfd78af_0' }"
 
     input:
     tuple val(meta), path('tmp_input/*')
@@ -67,6 +67,7 @@ process BUSCO {
         $busco_lineage \\
         $busco_lineage_dir \\
         $busco_config \\
+	--skip_bbtools \\
         $args
 
     # clean up
@@ -74,7 +75,10 @@ process BUSCO {
 
     # Move files to avoid staging/publishing issues
     mv ${prefix}-busco/batch_summary.txt ${prefix}-busco.batch_summary.txt
-    mv ${prefix}-busco/*/short_summary.*.{json,txt} . || echo "Short summaries were not available: No genes were found."
+    #mv ${prefix}-busco/*/short_summary.*.{json,txt} . || echo "Short summaries were not available: No genes were found."
+    echo "Looking for short summary files in ${prefix}-busco"
+    find ${prefix}-busco -type f -name "short_summary.*.txt" -exec mv {} . \\;
+    find ${prefix}-busco -type f -name "short_summary.*.json" -exec mv {} . \\;
 
     for f in ${prefix}-busco/${meta.id}*/run_*/full_table.tsv ;do fp=\$(dirname "\$f"); mv "\$f" "\$fp"_full_table.tsv ;done
     #find . -type f -name 'full_table.tsv' -print0 | xargs --null -I{} mv {} {}_full_table.tsv
@@ -82,8 +86,8 @@ process BUSCO {
     mv ${prefix}-busco/*/*full_table.tsv .
 
     cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        busco: \$( busco --version 2>&1 | sed 's/^BUSCO //' )
-    END_VERSIONS
+"${task.process}":
+    busco: \$(busco --version 2>&1 | sed 's/^BUSCO //')
+END_VERSIONS
     """
 }

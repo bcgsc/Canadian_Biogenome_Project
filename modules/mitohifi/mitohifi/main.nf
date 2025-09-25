@@ -1,4 +1,5 @@
 process MITOHIFI {
+    errorStrategy 'ignore'
     tag "$meta.id"
     label 'process_medium'
 
